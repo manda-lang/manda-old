@@ -1,0 +1,11 @@
+with Text.Encoding
+
+let str = 'Hello, world!'
+
+print(str.length)
+print(str.bytes)
+
+let utf16 = Utf16.encode(str)
+print(utf16)
+
+print(str.indexOf('o'))

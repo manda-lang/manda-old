@@ -1,0 +1,6 @@
+with Text
+
+let rgx = Regex('[0-9]+')
+let match = rgx.match('I have 10 cats')
+
+let catCount = Num.parse(match[0], radix: 16)
