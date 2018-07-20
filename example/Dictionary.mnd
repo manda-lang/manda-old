@@ -1,4 +1,0 @@
-let x = 23
-let dict = {x, a: 'b'}
-
-print('23 = %{dict.x}')

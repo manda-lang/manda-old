@@ -1,0 +1,7 @@
+type Species = enum { Dog, Cat, Snake }
+
+class Animal {
+  constructor(property species: Species);
+}
+
+let manda = Animal(species: Species.Snake)
