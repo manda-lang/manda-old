@@ -1,0 +1,11 @@
+class Weight {
+  operator +(pounds: Num): String {
+    return 'You just gained %pounds lbs.!'
+  }
+}
+
+let beforeMeal = Weight()
+let afterMeal = beforeMeal + 100
+
+// Prints 'You just gained 100 lbs.!'
+print(afterMeal)
