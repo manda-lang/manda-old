@@ -1,2 +1,3 @@
 *.mnd linguist-language=Manda
 docs/* linguist-documentation
+include/antlr4-runtime/* linguist-vendored
