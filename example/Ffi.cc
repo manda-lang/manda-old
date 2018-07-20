@@ -1,4 +1,4 @@
-#include <manda.h>
+#include <manda.hpp>
 #include <cstdint.h>
 
 void my_extension_init(MandaContext* ctx, MandaObject* object) {
