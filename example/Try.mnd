@@ -1,0 +1,13 @@
+func doSomething() {
+  throw Error('I made a boo-boo... :/')
+}
+
+// Syntax just like Swift's; use a `do` block for cleaner error handling.
+//
+// Use the `try` operator to handle a potential error.
+do {
+  let user = try doSomething()
+  print('User: %user')
+} catch(error) {
+  print('Uh-oh: %{error.message}')
+}

@@ -1,0 +1,15 @@
+func implicitAny(x) {
+  return 45 + x
+}
+
+func explicitTypes(x: Num): Num {
+  return 45 + x
+}
+
+
+let eighty = explicitTypes(35)
+print('Eighty: %eighty');
+
+// You can also pass parameters by name:
+let ninety = explicitTypes(x: 45)
+print('Ninety: %ninety')

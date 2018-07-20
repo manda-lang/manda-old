@@ -1,0 +1,9 @@
+import Ffi
+
+let lib = Ffi.open('my_extension')
+
+func nativeIsEven(x: Num): Bool {
+  return lib.isEven(x)
+}
+
+print(nativeIsEven(x: 45) == True)

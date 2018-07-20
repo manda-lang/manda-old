@@ -1,0 +1,6 @@
+with Curl
+
+let curl = new Curl()
+curl.get('https://github.com/thosakwe').ok(func (res) {
+  print('Status: %{res.statusCode}')
+})

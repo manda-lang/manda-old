@@ -1,0 +1,17 @@
+with Async
+
+func simpleStream(): Stream<Num> {
+  return Stream.fromList([1, 2, 3])
+}
+
+func controlledStream(): Stream<Num> {
+  let ctrl = StreamController()
+  ctrl.addAll([1, 2, 3])
+  return ctrl.stream
+}
+
+// Stream of 6 numbers: 1, 2, 3, 1, 2, 3
+let numberStream = Stream.concat([simpleStream(), controlledStream()])
+
+// Print every number that comes out of the stream.
+numberStream.listen(print)

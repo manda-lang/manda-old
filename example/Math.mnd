@@ -1,0 +1,6 @@
+import Math
+
+func curve (x: Num): Num => pow(x, 2) + 4
+
+print(curve(34))
+

@@ -1,0 +1,12 @@
+type HasFoo = {foo: String}
+type SomeType = Num | String | HasFoo
+
+func doIt(value: SomeType): void {
+  if (value is Num) {
+    print('Num: %value')
+  } else if (value is String) {
+    print('String: %value')
+  } else if (value is HasFoo) {
+    print('HasFoo; foo=%{value.foo}')
+  }
+}
