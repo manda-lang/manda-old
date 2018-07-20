@@ -1,4 +1,4 @@
-with Asymc
+with Async
 
 func fibonacci(x: Num): Num {
   if (x <= 1) {
