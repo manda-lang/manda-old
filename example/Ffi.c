@@ -11,7 +11,7 @@ manda_object_t* my_extension_init(manda_t* ctx) {
 manda_object_t* isEven(manda_arguments_t arguments) {
   int64_t x;
   manda_t *ctx = arguments.context;
-  manda_object-t* xObject = arguments.values[0];
+  manda_object_t* xObject = arguments.values[0];
   
   if (manda_num_to_int64(ctx, xObject, &x) == 0) {
     return manda_new_bool(ctx, (x % 2 == 0);
