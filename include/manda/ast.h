@@ -9,6 +9,7 @@
 
 #include "linked_list.h"
 
+typedef struct YYLTYPE *BisonLocation;
 struct _manda_expression_ast;
 struct _manda_literal_ast;
 
@@ -18,8 +19,8 @@ typedef struct _manda_literal_ast manda_literal_t;
 typedef struct
 {
     const char *source_uri;
-    size_t line;
-    size_t character;
+    int line;
+    int column;
 } manda_source_location_t;
 
 typedef enum
@@ -67,7 +68,7 @@ typedef enum
 struct _manda_literal_ast
 {
     manda_literal_type type;
-    char *text;
+    const char *text;
     manda_source_location_t source_location;
 };
 
@@ -78,6 +79,12 @@ typedef struct
     const char *source_uri;
 } manda_program_t;
 
-manda_literal_t *manda_new_literal(manda_literal_type type, const char *text);
+typedef struct
+{
+    manda_program_t *program;
+    manda_linked_list_t *errors;
+} manda_parser_context_t;
+
+manda_literal_t *manda_new_literal(manda_literal_type type, const char *text, BisonLocation location);
 
 #endif //MANDA_AST_H

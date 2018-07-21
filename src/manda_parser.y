@@ -14,6 +14,7 @@ void yyerror(const char *s);
     manda_expression_t *expression;
     manda_literal_t *literal;
     const char *text;
+    manda_source_location_t source_location;
 }
 
 %token<literal> T_DECIMAL
@@ -29,4 +30,4 @@ literal:
     decimal { $$ = $1; }
 ;
 
-decimal: T_DECIMAL { $$ = manda_new_literal(MANDA_LITERAL_DECIMAL, $1->text); };
+decimal: T_DECIMAL { $$ = manda_new_literal(MANDA_LITERAL_DECIMAL, $1->text, &@1); };
