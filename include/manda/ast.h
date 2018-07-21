@@ -85,6 +85,8 @@ typedef struct
     const char *source_uri;
 } manda_parser_context_t;
 
+manda_statement_t *manda_new_statement(manda_statement_type type);
+
 manda_expression_t *manda_new_expression(manda_expression_type type);
 
 manda_literal_t *manda_new_literal(manda_literal_type type, const char *text, BisonLocation location);
