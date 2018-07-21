@@ -8,8 +8,9 @@ manda_object_t* my_extension_init(manda_t* ctx) {
   return object;
 }
 
-manda_object_t* isEven(manda_t* ctx, manda_arguments_t arguments) {
+manda_object_t* isEven(manda_arguments_t arguments) {
   int64_t x;
+  manda_t *ctx = arguments.context;
   manda_object-t* xObject = arguments.values[0];
   
   if (manda_num_to_int64(ctx, xObject, &x) == 0) {
