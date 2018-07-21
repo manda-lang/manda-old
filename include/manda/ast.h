@@ -15,6 +15,13 @@ struct _manda_literal_ast;
 typedef struct _manda_expression_ast manda_expression_t;
 typedef struct _manda_literal_ast manda_literal_t;
 
+typedef struct
+{
+    const char *source_uri;
+    size_t line;
+    size_t character;
+} manda_source_location_t;
+
 typedef enum
 {
     MANDA_DIRECTIVE_IMPORT,
@@ -61,12 +68,16 @@ struct _manda_literal_ast
 {
     manda_literal_type type;
     char *text;
+    manda_source_location_t source_location;
 };
 
 typedef struct
 {
     manda_linked_list_t *directives;
     manda_linked_list_t *statements;
+    const char *source_uri;
 } manda_program_t;
+
+manda_literal_t *manda_new_literal(manda_literal_type type, const char *text);
 
 #endif //MANDA_AST_H
