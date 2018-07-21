@@ -3,12 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int yylex();
+extern int yylex(void* yylval, BisonLocation location, manda_parser_context_t* ctx);
 //extern int yyparse();
 extern FILE* yyin;
 
-void yyerror(const char *s);
+void yyerror(BisonLocation location, manda_parser_context_t* ctx, const char *s);
 %}
+
+%define api.pure full
+%locations
+%param {manda_parser_context_t *ctx}
 
 %union {
     manda_expression_t *expression;

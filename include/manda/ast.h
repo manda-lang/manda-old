@@ -76,13 +76,13 @@ typedef struct
 {
     manda_linked_list_t *directives;
     manda_linked_list_t *statements;
-    const char *source_uri;
 } manda_program_t;
 
 typedef struct
 {
     manda_program_t *program;
     manda_linked_list_t *errors;
+    const char *source_uri;
 } manda_parser_context_t;
 
 manda_expression_t *manda_new_expression(manda_expression_type type);
