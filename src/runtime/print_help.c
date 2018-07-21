@@ -4,10 +4,9 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_MANDA_H
-#define MANDA_MANDA_H
+#include "runtime.h"
 
-#include "memory.h"
-#include "struct.h"
-
-#endif //MANDA_MANDA_H
+void printHelp(FILE *file) {
+    // TODO: Help info, pretty-printed.
+    fprintf(file, "TODO: Help info\n");
+}

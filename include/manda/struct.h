@@ -4,10 +4,12 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_MANDA_H
-#define MANDA_MANDA_H
+#ifndef MANDA_STRUCT_H
+#define MANDA_STRUCT_H
 
-#include "memory.h"
-#include "struct.h"
+typedef struct
+{
+    const char *input_filename;
+} manda_options_t;
 
-#endif //MANDA_MANDA_H
+#endif //MANDA_STRUCT_H

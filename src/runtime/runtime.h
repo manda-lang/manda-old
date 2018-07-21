@@ -4,10 +4,11 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_MANDA_H
-#define MANDA_MANDA_H
+#ifndef MANDA_RUNTIME_H
+#define MANDA_RUNTIME_H
 
-#include "memory.h"
-#include "struct.h"
+#include <stdio.h>
 
-#endif //MANDA_MANDA_H
+void printHelp(FILE* file);
+
+#endif //MANDA_RUNTIME_H
