@@ -53,7 +53,7 @@ struct _manda_expression_ast
 
 typedef enum
 {
-    MANDA_LITERAL_NUM,
+    MANDA_LITERAL_DECIMAL,
     MANDA_LITERAL_STRING
 } manda_literal_type;
 
