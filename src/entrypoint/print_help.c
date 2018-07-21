@@ -4,9 +4,10 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "runtime.h"
+#include "entrypoint.h"
 
 void printHelp(FILE *file) {
     // TODO: Help info, pretty-printed.
     fprintf(file, "TODO: Help info\n");
 }
+

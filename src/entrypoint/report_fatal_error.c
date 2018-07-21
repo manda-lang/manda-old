@@ -4,11 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_RUNTIME_H
-#define MANDA_RUNTIME_H
+#include "entrypoint.h"
 
-#include <stdio.h>
-
-void printHelp(FILE* file);
-
-#endif //MANDA_RUNTIME_H
+void reportFatalError(const char *msg) {
+    fprintf(stderr, "fatal error: %s\n", msg);
+}

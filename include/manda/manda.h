@@ -10,4 +10,11 @@
 #include "memory.h"
 #include "struct.h"
 
+/**
+ * Create a Manda runtime environment, and execute a program.
+ * @param options The options which should be used to configure the created runtime.
+ * @return
+ */
+int manda_run(manda_options_t options);
+
 #endif //MANDA_MANDA_H

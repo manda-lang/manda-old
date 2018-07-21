@@ -7,9 +7,27 @@
 #ifndef MANDA_STRUCT_H
 #define MANDA_STRUCT_H
 
+#include <stdio.h>
+
+/**
+ * Options used to configure a Manda runtime.
+ */
 typedef struct
 {
-    const char *input_filename;
+    /**
+     * The file stream to execute text from.
+     */
+    FILE *input_file;
+
+    /**
+     * Specifies whether Manda should execute from an input_file, or from text.
+     */
+    char run_from_text;
+
+    /**
+     * The string to execute text from.
+     */
+    const char* text;
 } manda_options_t;
 
 #endif //MANDA_STRUCT_H
