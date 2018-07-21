@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 extern int yylex();
-extern int yyparse();
+//extern int yyparse();
 extern FILE* yyin;
 
 void yyerror(const char *s);
@@ -19,12 +19,17 @@ void yyerror(const char *s);
 
 %token<literal> T_DECIMAL
 
+%type <expression> expression
 %type<literal> literal
 %type<literal> decimal
 
-%start literal
+%start expression
 
 %%
+
+expression:
+    literal { $$ = manda_new_expression(MANDA_EXPRESSION_LITERAL); if ($$ != NULL) $$->literal = $1; }
+;
 
 literal:
     decimal { $$ = $1; }
