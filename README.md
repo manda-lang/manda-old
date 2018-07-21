@@ -13,7 +13,7 @@ print('Hello, Manda!')
 `Functions.mnd`:
 
 ```manda
-func fibonacci(n: Num) {
+func fibonacci(n: Num): Num {
     if (n <= 1) {
         return n
     } else {
