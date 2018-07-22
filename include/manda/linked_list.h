@@ -19,7 +19,7 @@ typedef struct
 {
     MandaAllocator allocator;
     MandaDeallocator deallocator;
-    size_t length;
+    int length;
     manda_linked_node_t *head;
 } manda_linked_list_t;
 
@@ -29,9 +29,9 @@ manda_linked_list_t *manda_new_linked_list();
 
 void manda_destroy_linked_list(manda_linked_list_t *list);
 
-void *manda_linked_list_get(manda_linked_list_t *list, size_t index);
+void *manda_linked_list_get(manda_linked_list_t *list, int index);
 
-void *manda_linked_list_push_back(manda_linked_list_t *list, void *value);
+void manda_linked_list_push_back(manda_linked_list_t *list, void *value);
 
 manda_linked_list_t *manda_linked_list_reverse(manda_linked_list_t *list);
 

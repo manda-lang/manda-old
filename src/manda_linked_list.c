@@ -38,13 +38,13 @@ void manda_destroy_linked_list(manda_linked_list_t *list) {
     }
 }
 
-void *manda_linked_list_get(manda_linked_list_t *list, size_t index) {
+void *manda_linked_list_get(manda_linked_list_t *list, int index) {
     if (list == NULL || index >= list->length) {
         return NULL;
     } else {
         manda_linked_node_t *current = list->head;
 
-        for (size_t i = 1; i < index; i++) {
+        for (int i = 1; i < index; i++) {
             current = current->next;
         }
 
@@ -52,7 +52,7 @@ void *manda_linked_list_get(manda_linked_list_t *list, size_t index) {
     }
 }
 
-void *manda_linked_list_push_back(manda_linked_list_t *list, void *value) {
+void manda_linked_list_push_back(manda_linked_list_t *list, void *value) {
     if (list != NULL) {
         manda_linked_node_t *node = (manda_linked_node_t *) list->allocator(sizeof(manda_linked_node_t));
 
@@ -82,7 +82,7 @@ manda_linked_list_t *manda_linked_list_reverse(manda_linked_list_t *list) {
         manda_linked_list_t *new_list = manda_new_linked_list();
 
         if (new_list != NULL) {
-            for (size_t i = list->length - 1; i >= 0; i--) {
+            for (int i = list->length - 1; i >= 0; i--) {
                 manda_linked_list_push_back(new_list, manda_linked_list_get(list, i));
             }
         }

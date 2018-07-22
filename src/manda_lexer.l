@@ -1,7 +1,7 @@
 %{
 #include <manda/ast.h>
-#include <string.h>
 #include "manda_parser.h"
+#include <string.h>
 %}
 
 %option noyywrap
