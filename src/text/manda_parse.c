@@ -14,27 +14,27 @@ manda_parser_context_t *manda_parse(manda_options_t options) {
 
     if (ctx != NULL) {
         yyscan_t scanner;
-        yylex_init(&scanner);
 
-        if (options.run_from_text == 1) {
-            yy_scan_string(options.text, scanner);
-        } else {
-            yyset_in(options.input_file, scanner);
+
+        if (yylex_init(&scanner) == 0) {
+            if (options.run_from_text == 1) {
+                yy_scan_string(options.text, scanner);
+            } else {
+                yyset_in(options.input_file, scanner);
+            }
+
+
+            int result = yyparse(ctx) != 0;
+
+            if (result != 0) {
+                // TODO: Better way to handle error?
+                yylex_destroy(scanner);
+                free(ctx);
+                return NULL;
+            } else {
+                yylex_destroy(scanner);
+            }
         }
-
-
-        int result = yyparse(ctx) != 0;
-
-        if (result != 0) {
-            // TODO: Better way to handle error?
-            yylex_destroy(scanner);
-            free(ctx);
-            return NULL;
-        } else {
-
-            yylex_destroy(scanner);
-        }
-
     }
 
     return ctx;

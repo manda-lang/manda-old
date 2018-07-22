@@ -5,7 +5,6 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <manda/manda.h>
-#include <stdio.h>
 #include <string.h>
 #include <manda/struct.h>
 #include "entrypoint.h"
@@ -14,6 +13,7 @@
 
 int main(int argc, const char **argv) {
     manda_options_t options;
+    options.text = NULL;
     options.run_from_text = 1;
 
     for (int i = 1; i < argc; i++) {
@@ -26,20 +26,26 @@ int main(int argc, const char **argv) {
             printf("%s\n", MANDA_VERSION);
             return 0;
         } else {
-            size_t filename_size = strlen(arg) + 4;
-            char *filename = (char*) malloc(filename_size + 1);
-            strcpy(filename, arg);
-            memcpy(filename + strlen(arg), ".mnd", 4);
-            filename[filename_size] = 0;
-            options.input_file = fopen(filename, "r");
-            options.run_from_text = 0;
-            options.source_uri = filename;
+            if (strcmp(arg, "-") == 0) {
+                options.input_file = stdin;
+                options.run_from_text = 0;
+                options.source_uri = "stdin";
+            } else {
+                options.input_file = fopen(arg, "r");
+                options.run_from_text = 0;
+                options.source_uri = arg;
 
-            if (options.input_file == NULL) {
-                reportFatalError("could not open input file");
-                return 1;
+                if (options.input_file == NULL) {
+                    reportFatalError("could not open input file");
+                    return 1;
+                }
             }
         }
+    }
+
+    if (options.run_from_text == 1 && options.text == NULL) {
+        reportFatalError("no input file provided");
+        return 2;
     }
 
     return manda_run(options);
