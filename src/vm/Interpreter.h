@@ -22,6 +22,9 @@ namespace manda
 
         antlrcpp::Any visitProgram(manda_text::MandaParser::ProgramContext *ctx) override;
 
+        antlrcpp::Any
+        visitVariableDeclarationStatement(manda_text::MandaParser::VariableDeclarationStatementContext *ctx) override;
+
         antlrcpp::Any visitExpressionStatement(manda_text::MandaParser::ExpressionStatementContext *ctx) override;
 
         antlrcpp::Any visitLiteralExpression(manda_text::MandaParser::LiteralExpressionContext *ctx) override;

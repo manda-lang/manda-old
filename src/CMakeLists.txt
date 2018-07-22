@@ -9,16 +9,24 @@ add_library(${MANDA_LIBRARY}
         manda_text/MandaParser.cpp
         manda_text/MandaParser.h
         manda_text/MandaVisitor.cpp
-        manda_text/MandaVisitor.h manda_text/manda_text.h vm/Memory.cpp vm/Memory.h vm/VM.cpp vm/VM.h vm/Fiber.cpp vm/Fiber.h vm/Interpreter.cpp vm/Interpreter.h vm/Object.cpp vm/Object.h vm/Type.cpp vm/Type.h vm/Number.cpp vm/Number.h vm/Function.cpp vm/Function.h)
+        manda_text/MandaVisitor.h manda_text/manda_text.h
+        vm/Memory.cpp vm/Memory.h
+        vm/VM.cpp vm/VM.h
+        vm/Fiber.cpp vm/Fiber.h
+        vm/Interpreter.cpp vm/Interpreter.h
+        vm/Object.cpp vm/Object.h
+        vm/Type.cpp vm/Type.h
+        vm/Number.cpp vm/Number.h
+        vm/Function.cpp vm/Function.h)
+target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)
 find_library(ANTLR4 antlr4-runtime)
 
 ExternalProject_Add(SYMBOL_TABLE
         GIT_REPOSITORY "https://github.com/thosakwe/symbol_table_cpp.git"
-        GIT_TAG "44fb7f1"
+        GIT_TAG 7ac8614
         GIT_SHALLOW 1
-        INSTALL_COMMAND ""
 )
 
 ExternalProject_Get_Property(SYMBOL_TABLE source_dir)

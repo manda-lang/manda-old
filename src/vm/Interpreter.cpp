@@ -52,3 +52,11 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
     scope = new SymbolTable<Object *>;
     scopes.push(scope);
 }
+
+Any manda::Interpreter::visitVariableDeclarationStatement(
+        manda_text::MandaParser::VariableDeclarationStatementContext *ctx) {
+    auto value = visit(ctx->expression());
+    auto *obj = value.as<Object *>();
+    scope->Add(ctx->ID()->getText(), obj);
+    return value;
+}
