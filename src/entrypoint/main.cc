@@ -5,15 +5,30 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <readline/readline.h>
-#include <antlr4-runtime.h>
 #include <fstream>
 #include <iostream>
-#include "../vm/Object.h"
-#include "../vm/VM.h"
+#include <string>
+#include "../src.h"
 
-using namespace antlr4;
 using namespace manda;
 
 int main() {
+    std::string sourceUri("<stdin>");
+    char *buf = nullptr;
+
+    while ((buf = readline(">> ")) != nullptr) {
+        if (strlen(buf) > 0) {
+            add_history(buf);
+            Lexer lexer;
+            std::string line(buf);
+            lexer.Scan(line, sourceUri);
+
+            for (auto *token : lexer.GetTokens()) {
+                std::cout << token->GetSourceSpan()->GetToolString() << std::endl;
+                std::cout << token->GetSourceSpan()->Highlight(line) << std::endl;
+            }
+        }
+    }
+
     return 0;
 }

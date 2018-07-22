@@ -7,6 +7,7 @@
 #ifndef MANDA_TOKEN_H
 #define MANDA_TOKEN_H
 
+#include <regex>
 #include <string>
 #include "SourceSpan.h"
 
@@ -20,14 +21,20 @@ namespace manda
             DECIMAL
         };
 
-        Token(TokenType type, const std::string &text, const SourceSpan *span);
+        explicit Token(TokenType type, const SourceSpan *span);
+        ~Token();
         const SourceSpan *GetSourceSpan() const;
         TokenType GetType() const;
-        const std::string& GetText() const;
 
+        bool HasMatch() const;
+
+        const std::smatch &GetMatch() const;
+
+        void SetMatch(std::smatch &match);
     private:
+        bool hasMatch;
+        std::smatch match;
         TokenType type;
-        std::string text;
         const SourceSpan *sourceSpan;
     };
 }
