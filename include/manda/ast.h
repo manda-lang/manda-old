@@ -6,13 +6,23 @@
 // MIT-style license that can be found in the LICENSE file.
 #ifndef MANDA_AST_H
 #define MANDA_AST_H
-
+#define YYLTYPE_IS_DECLARED
+//#include <manda_parser.h>
 #include "linked_list.h"
+#include "struct.h"
 
-typedef struct YYLTYPE *BisonLocation;
 struct _manda_expression_ast;
 struct _manda_literal_ast;
 
+typedef struct
+{
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+} YYLTYPE;
+
+typedef YYLTYPE *BisonLocation;
 typedef struct _manda_expression_ast manda_expression_t;
 typedef struct _manda_literal_ast manda_literal_t;
 
@@ -22,6 +32,18 @@ typedef struct
     int line;
     int column;
 } manda_source_location_t;
+
+typedef enum
+{
+    MANDA_SEVERITY_ERROR, MANDA_SEVERITY_WARNING, MANDA_SEVERITY_INFO, MANDA_SEVERITY_HINT
+} manda_error_severity;
+
+typedef struct
+{
+    manda_error_severity severity;
+    const char *message;
+    manda_source_location_t location;
+} manda_error_t;
 
 typedef enum
 {
@@ -69,7 +91,7 @@ struct _manda_literal_ast
 {
     manda_literal_type type;
     const char *text;
-    manda_source_location_t source_location;
+    manda_source_location_t location;
 };
 
 typedef struct
@@ -84,6 +106,8 @@ typedef struct
     manda_linked_list_t *errors;
     const char *source_uri;
 } manda_parser_context_t;
+
+manda_parser_context_t *manda_parse(manda_options_t options);
 
 manda_statement_t *manda_new_statement(manda_statement_type type);
 

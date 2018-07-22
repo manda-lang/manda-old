@@ -33,8 +33,8 @@ int main(int argc, const char **argv) {
             filename[filename_size] = 0;
             options.input_file = fopen(filename, "r");
             options.run_from_text = 0;
+            options.source_uri = filename;
 
-            free(filename);
             if (options.input_file == NULL) {
                 reportFatalError("could not open input file");
                 return 1;

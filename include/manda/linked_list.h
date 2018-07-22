@@ -18,15 +18,18 @@ typedef struct manda_linked_node
 typedef struct
 {
     MandaAllocator allocator;
+    MandaDeallocator deallocator;
     size_t length;
-    manda_linked_node_t *head, **tail;
+    manda_linked_node_t *head;
 } manda_linked_list_t;
 
-manda_linked_list_t *manda_new_linked_list_with_allocator(MandaAllocator allocator);
+manda_linked_list_t *manda_new_linked_list_with_allocator(MandaAllocator allocator, MandaDeallocator deallocator);
 
 manda_linked_list_t *manda_new_linked_list();
 
-manda_linked_node_t *manda_linked_list_get(manda_linked_list_t *list, size_t index);
+void manda_destroy_linked_list(manda_linked_list_t *list);
+
+void *manda_linked_list_get(manda_linked_list_t *list, size_t index);
 
 void *manda_linked_list_push_back(manda_linked_list_t *list, void *value);
 

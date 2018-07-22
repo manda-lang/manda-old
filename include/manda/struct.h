@@ -28,6 +28,8 @@ typedef struct
      * The string to execute text from.
      */
     const char* text;
+
+    const char* source_uri;
 } manda_options_t;
 
 #endif //MANDA_STRUCT_H

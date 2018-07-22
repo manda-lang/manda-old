@@ -4,14 +4,11 @@
 #include "manda_parser.h"
 %}
 
+%option noyywrap
 %option reentrant
 %option bison-bridge
 
 DECIMAL [0-9]+(\.[0-9]+)?
-
-void capture_line_info() {
-    yylval.text = strdup(yytext);
-}
 %%
 
-{DECIMAL} { capture_line_info(); return T_DECIMAL;}
+{DECIMAL} { yylval->text = strdup(yytext); return T_DECIMAL;}

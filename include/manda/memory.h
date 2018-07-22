@@ -11,4 +11,6 @@
 
 typedef void *(*MandaAllocator)(size_t size);
 
+typedef void (*MandaDeallocator)(void *ptr);
+
 #endif //MANDA_MEMORY_H
