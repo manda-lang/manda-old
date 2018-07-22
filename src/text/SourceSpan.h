@@ -8,6 +8,7 @@
 #define MANDA_SOURCESPAN_H
 
 #include <cstdint>
+#include <string>
 
 namespace manda
 {

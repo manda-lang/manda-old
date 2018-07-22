@@ -22,11 +22,10 @@ int main() {
             Lexer lexer;
             std::string line(buf);
             lexer.Scan(line, sourceUri);
+            Parser parser(&lexer);
+            auto *program = parser.ParseProgram();
 
-            for (auto *token : lexer.GetTokens()) {
-                std::cout << token->GetSourceSpan()->GetToolString() << std::endl;
-                std::cout << token->GetSourceSpan()->Highlight(line) << std::endl;
-            }
+            std::cout << program->GetStatements().size() << std::endl;
         }
     }
 

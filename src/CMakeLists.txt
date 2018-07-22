@@ -12,7 +12,7 @@ add_library(${MANDA_LIBRARY}
         vm/Symbol.cpp vm/Symbol.h
         vm/SymbolTable.cpp vm/SymbolTable.h
         text/Error.h
-        text/SourceSpan.h text/Lexer.cpp text/Lexer.h text/Parser.cpp text/Parser.h text/Token.cpp text/Token.h text/SourceSpan.cpp text/text.h src.h)
+        text/SourceSpan.h text/Lexer.cpp text/Lexer.h text/Parser.cpp text/Parser.h text/Token.cpp text/Token.h text/SourceSpan.cpp text/text.h src.h text/AstNode.cpp text/AstNode.h text/ExpressionNode.cpp text/ExpressionNode.h text/DecimalLiteralNode.cpp text/DecimalLiteralNode.h text/StatementNode.cpp text/StatementNode.h text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h text/ProgramNode.cpp text/ProgramNode.h)
 target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)
