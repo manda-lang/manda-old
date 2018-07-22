@@ -20,11 +20,15 @@ namespace manda
             DECIMAL
         };
 
-        Token(TokenType type, const std::string &text);
+        Token(TokenType type, const std::string &text, const SourceSpan *span);
+        const SourceSpan *GetSourceSpan() const;
+        TokenType GetType() const;
+        const std::string& GetText() const;
 
+    private:
         TokenType type;
         std::string text;
-        SourceSpan span;
+        const SourceSpan *sourceSpan;
     };
 }
 
