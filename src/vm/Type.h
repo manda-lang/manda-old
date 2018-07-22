@@ -4,13 +4,16 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_RUNTIME_H
-#define MANDA_RUNTIME_H
+#ifndef MANDA_TYPE_H
+#define MANDA_TYPE_H
 
-#include <stdio.h>
+namespace manda
+{
+    class Type
+    {
 
-void printHelp(FILE *file);
+    };
+}
 
-void reportFatalError(const char *msg);
 
-#endif //MANDA_RUNTIME_H
+#endif //MANDA_TYPE_H

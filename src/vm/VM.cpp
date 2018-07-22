@@ -4,7 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_MANDA_H
-#define MANDA_MANDA_H
+#include "VM.h"
 
-#endif //MANDA_MANDA_H
+manda::Fiber *manda::VM::createFiber() {
+    return new Fiber;
+}

@@ -1,24 +1,36 @@
-find_package(BISON)
-find_package(FLEX)
-
-BISON_TARGET(MandaParser manda_parser.y ${CMAKE_CURRENT_BINARY_DIR}/manda_parser.c)
-FLEX_TARGET(MandaLexer manda_lexer.l ${CMAKE_CURRENT_BINARY_DIR}/manda_lexer.c
-        COMPILE_FLAGS --header-file=${CMAKE_CURRENT_BINARY_DIR}/manda_lexer.h)
-ADD_FLEX_BISON_DEPENDENCY(MandaLexer MandaParser)
+include(ExternalProject)
+find_package(Readline)
 
 add_library(${MANDA_LIBRARY}
-    ${BISON_MandaParser_OUTPUTS}
-    ${FLEX_MandaLexer_OUTPUTS}
-    text/ast.c runtime/manda_run.c text/manda_parse.c manda_linked_list.c)
-target_include_directories(${MANDA_LIBRARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+        manda_text/MandaBaseVisitor.cpp
+        manda_text/MandaBaseVisitor.h
+        manda_text/MandaLexer.cpp
+        manda_text/MandaLexer.h
+        manda_text/MandaParser.cpp
+        manda_text/MandaParser.h
+        manda_text/MandaVisitor.cpp
+        manda_text/MandaVisitor.h manda_text/manda_text.h vm/Memory.cpp vm/Memory.h vm/VM.cpp vm/VM.h vm/Fiber.cpp vm/Fiber.h vm/Interpreter.cpp vm/Interpreter.h vm/Object.cpp vm/Object.h vm/Type.cpp vm/Type.h vm/Number.cpp vm/Number.h vm/Function.cpp vm/Function.h)
 
-add_executable(${MANDA_EXECUTABLE}
-        entrypoint/main.c
-        entrypoint/entrypoint.h
-        entrypoint/print_help.c
-        entrypoint/report_fatal_error.c)
-target_include_directories(${MANDA_EXECUTABLE} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(${MANDA_EXECUTABLE} ${MANDA_LIBRARY})
+add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)
+find_library(ANTLR4 antlr4-runtime)
+
+ExternalProject_Add(SYMBOL_TABLE
+        GIT_REPOSITORY "https://github.com/thosakwe/symbol_table_cpp.git"
+        GIT_TAG "44fb7f1"
+        GIT_SHALLOW 1
+        INSTALL_COMMAND ""
+)
+
+ExternalProject_Get_Property(SYMBOL_TABLE source_dir)
+include_directories(${source_dir})
+include_directories(${Readline_INCLUDE_DIR})
+
+ExternalProject_Get_Property(SYMBOL_TABLE binary_dir)
+link_directories(${binary_dir})
+find_library(SYMBOL_TABLE_CPP symbol_table_cpp HINTS ${binary_dir})
+
+add_dependencies(${MANDA_LIBRARY} SYMBOL_TABLE)
+target_link_libraries(${MANDA_EXECUTABLE} ${MANDA_LIBRARY} ${ANTLR4} ${SYMBOL_TABLE_CPP} ${Readline_LIBRARY})
 set_target_properties(${MANDA_EXECUTABLE} PROPERTIES OUTPUT_NAME ${MANDA_LIBRARY})
 
 install(TARGETS ${MANDA_LIBRARY} ${MANDA_EXECUTABLE}
