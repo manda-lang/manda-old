@@ -10,7 +10,9 @@ add_library(${MANDA_LIBRARY}
         vm/Number.cpp vm/Number.h
         vm/Function.cpp vm/Function.h
         vm/Symbol.cpp vm/Symbol.h
-        vm/SymbolTable.cpp vm/SymbolTable.h)
+        vm/SymbolTable.cpp vm/SymbolTable.h
+        text/Error.h
+        text/SourceSpan.h text/Lexer.cpp text/Lexer.h text/Parser.cpp text/Parser.h text/Token.cpp text/Token.h text/SourceSpan.cpp)
 target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)
