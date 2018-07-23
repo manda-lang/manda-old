@@ -31,7 +31,13 @@ int main() {
             if (object == nullptr) {
                 std::cout << "null" << std::endl;
             } else {
-                std::cout << object->GetFloatData() << std::endl;
+                Object::ObjectType type = object->GetType();
+
+                if (type == Object::NUMBER) {
+                    std::cout << "\033[0;36m" << object->GetFloatData() << "\033[0m" << std::endl;
+                } else {
+                    std::cout << "Raw: " << object->GetRaw() << std::endl;
+                }
             }
         }
     }
