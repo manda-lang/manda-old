@@ -4,6 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <iostream>
 #include "Interpreter.h"
 
 using namespace manda;
@@ -17,7 +18,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
 Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
-    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_uint, nullptr, 0, 0);
+    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_ulong, nullptr, 0, 0);
     entryPoint = jit_function_create(jit, entryPointReturnType);
     functionStack.push(entryPoint);
 
@@ -46,20 +47,21 @@ Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     jit_context_build_end(jit);
 
     // Execute it
-    jit_uint result;
+    jit_float64 result;
     jit_function_apply(entryPoint, nullptr, &result);
-    return new Object(result);
+    return new Object((double) result);
 }
 
 jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
-    // Get the raw value.
-    int value = atoi(ctx->GetSourceSpan()->GetText().c_str());
+    // Get the asUlong value.
+    long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
 
-    // Create a uint constant.
-    auto asUint = jit_value_create_nint_constant(GetCurrentFunction(), jit_type_uint, value);
-    auto zero = Zero(GetCurrentFunction());
-    auto withValue = SetValue(GetCurrentFunction(), zero, asUint);
-    return SetType(GetCurrentFunction(), withValue, Object::INTEGER);
+    // Create a NanBox object, and just place in the asUlong value.
+    Object obj;
+    obj.SetType(Object::INTEGER);
+    obj.SetFloatData((float) value);
+
+    return jit_value_create_long_constant(GetCurrentFunction(), jit_type_long, jit_ulong_to_long(obj.GetRawUlong()));
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {
@@ -81,7 +83,7 @@ jit_value_t Interpreter::SetValue(jit_function_t function, jit_value_t nan, jit_
     //  ObjectType currentType = GetType();
     jit_value_t currentType = GetType(function, nan);
 
-    // raw = data << 3;
+    // asUlong = data << 3;
     auto three = jit_value_create_nint_constant(function, jit_type_int, 3);
     auto shifted = jit_insn_shl(function, newValue, three);
 
@@ -99,12 +101,12 @@ jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_v
 }
 
 jit_value_t Interpreter::Zero(jit_function_t function) {
-    return jit_value_create_nint_constant(function, jit_type_uint, 0);
+    return jit_value_create_nint_constant(function, jit_type_float64, 0);
 }
 
 jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {
     // Get the bottom 3 bits
-    // auto bottom3 = (uint8_t) (raw & 0x7);
+    // auto bottom3 = (uint8_t) (asUlong & 0x7);
     auto seven = jit_value_create_nint_constant(function, jit_type_ubyte, 0x7);
     auto bottom3 = jit_insn_and(function, nan, seven);
     return jit_insn_convert(function, bottom3, jit_type_ubyte, 0);

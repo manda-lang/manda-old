@@ -4,38 +4,35 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#define MAX_LONG 0xFFFFFFFFFFFFFFFF
 
 #include "Object.h"
 
 manda::Object::Object() {
-    raw = 0;
-}
-
-manda::Object::Object(uint32_t raw) {
-    this->raw = raw;
+    asDouble = 0;
 }
 
 manda::Object::ObjectType manda::Object::GetType() const {
     // Get the bottom 3 bits
-    auto bottom3 = (uint8_t) (raw & 0x7);
+    auto bottom3 = (uint8_t) (asUlong & 0x7);
     return (ObjectType) bottom3;
 }
 
-uint32_t manda::Object::GetRaw() const {
-    return raw;
+double manda::Object::GetRawDouble() const {
+    return asDouble;
 }
 
 void manda::Object::SetType(manda::Object::ObjectType type) {
-    raw |= (uint32_t) type;
+    asUlong |= (uint64_t) type;
 }
 
-uint32_t manda::Object::GetData() const {
-    return raw >> 3;
+uint64_t manda::Object::GetData() const {
+    return asUlong >> 3;
 }
 
-void manda::Object::SetData(uint32_t data) {
+void manda::Object::SetData(uint64_t data) {
     ObjectType currentType = GetType();
-    raw = data << 3;
+    asUlong = data << 3;
     SetType(currentType);
 }
 
@@ -45,5 +42,17 @@ float manda::Object::GetFloatData() const {
 
 void manda::Object::SetFloatData(float data) {
     auto asDouble = (double) data;
-    SetData((uint32_t) asDouble);
+    SetData((uint64_t) asDouble);
+}
+
+manda::Object::Object(uint64_t raw) {
+    asUlong = raw;
+}
+
+manda::Object::Object(double raw) {
+    asDouble = raw;
+}
+
+uint64_t manda::Object::GetRawUlong() const {
+    return asUlong;
 }

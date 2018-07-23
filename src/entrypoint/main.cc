@@ -34,9 +34,9 @@ int main() {
                 Object::ObjectType type = object->GetType();
 
                 if (type == Object::INTEGER) {
-                    std::cout << "\033[0;36m" << object->GetFloatData() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
                 } else {
-                    std::cout << "Raw: " << object->GetRaw() << std::endl;
+                    std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;
                 }
             }
         }

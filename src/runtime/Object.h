@@ -16,29 +16,39 @@ namespace manda
     public:
         enum ObjectType : uint8_t
         {
-            POINTER = 0x0,
-            INTEGER = 0x1,
+            INTEGER = 0x0,
+            POINTER = 0x1,
         };
 
     public:
         explicit Object();
-        explicit Object(uint32_t raw);
 
-        uint32_t GetData() const;
+        explicit Object(uint64_t raw);
+
+        explicit Object(double raw);
+
+        uint64_t GetData() const;
 
         ObjectType GetType() const;
 
-        uint32_t GetRaw() const;
+        double GetRawDouble() const;
 
-        void SetData(uint32_t data);
+        uint64_t GetRawUlong() const;
+
+        void SetData(uint64_t data);
 
         void SetType(ObjectType type);
 
         float GetFloatData() const;
 
         void SetFloatData(float data);
+
     private:
-        uint32_t raw;
+        union
+        {
+            uint64_t asUlong;
+            double asDouble;
+        };
     };
 }
 
