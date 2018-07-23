@@ -22,15 +22,15 @@ namespace manda
 
     public:
         explicit Object();
-        explicit Object(uint64_t raw);
+        explicit Object(uint32_t raw);
 
-        uint64_t GetData() const;
+        uint32_t GetData() const;
 
         ObjectType GetType() const;
 
-        uint64_t GetRaw() const;
+        uint32_t GetRaw() const;
 
-        void SetData(uint64_t data);
+        void SetData(uint32_t data);
 
         void SetType(ObjectType type);
 
@@ -38,7 +38,7 @@ namespace manda
 
         void SetFloatData(float data);
     private:
-        uint64_t raw;
+        uint32_t raw;
     };
 }
 

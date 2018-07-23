@@ -17,7 +17,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
 Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
-    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_ulong, nullptr, 0, 0);
+    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_uint, nullptr, 0, 0);
     entryPoint = jit_function_create(jit, entryPointReturnType);
     functionStack.push(entryPoint);
 
@@ -46,19 +46,19 @@ Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     jit_context_build_end(jit);
 
     // Execute it
-    jit_ulong result;
+    jit_uint result;
     jit_function_apply(entryPoint, nullptr, &result);
     return new Object(result);
 }
 
 jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
     // Get the raw value.
-    long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
+    int value = atoi(ctx->GetSourceSpan()->GetText().c_str());
 
-    // Create a ulong constant.
-    auto asUlong = jit_value_create_long_constant(GetCurrentFunction(), jit_type_ulong, value);
+    // Create a uint constant.
+    auto asUint = jit_value_create_nint_constant(GetCurrentFunction(), jit_type_uint, value);
     auto zero = Zero(GetCurrentFunction());
-    auto withValue = SetValue(GetCurrentFunction(), zero, asUlong);
+    auto withValue = SetValue(GetCurrentFunction(), zero, asUint);
     return SetType(GetCurrentFunction(), withValue, Object::NUMBER);
 }
 
@@ -99,7 +99,7 @@ jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_v
 }
 
 jit_value_t Interpreter::Zero(jit_function_t function) {
-    return jit_value_create_long_constant(function, jit_type_ulong, 0);
+    return jit_value_create_nint_constant(function, jit_type_uint, 0);
 }
 
 jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {

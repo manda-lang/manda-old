@@ -51,18 +51,17 @@ print(fido.legCount)
 fido.makeSound()
 ```
 
-# Goals (for version 1)
+# Goals/Features
 Beyond all other goals, the primary focus of Manda is to
 **make it easy to write good programs**.
 
-The following are secondary goals, all of which are targets for version 1.
+The following are secondary features, all of which are targets for version 1.
 
-* Easy C interop
+* JIT compilation
 * Easy embedding
+* Easy FFI
 * Multi-threading
 * Garbage collection
-
-Future versions of Manda may feature a JIT compiler.
 
 # Why replace Python?
 Frankly, I don't feel that Python is a good enough language to be the
