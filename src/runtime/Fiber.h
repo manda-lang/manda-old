@@ -7,11 +7,24 @@
 #ifndef MANDA_FIBER_H
 #define MANDA_FIBER_H
 
+#include <stack>
+#include "SymbolTable.h"
+
 namespace manda
 {
     class Fiber
     {
+    public:
+        SymbolTable *GetScope() const;
 
+        bool HasExited() const;
+
+        void PushScope();
+
+        void PopScope();
+
+    private:
+        SymbolTable *scope;
     };
 }
 

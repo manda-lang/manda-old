@@ -7,7 +7,6 @@
 #include <readline/readline.h>
 #include <fstream>
 #include <iostream>
-#include <string>
 #include "../src.h"
 
 using namespace manda;
@@ -15,6 +14,9 @@ using namespace manda;
 int main() {
     std::string sourceUri("<stdin>");
     char *buf = nullptr;
+    auto *vm = new VM;
+    auto *fiber = vm->CreateFiber();
+    auto *interpreter = new Interpreter(vm, fiber);
 
     while ((buf = readline(">> ")) != nullptr) {
         if (strlen(buf) > 0) {
@@ -24,8 +26,13 @@ int main() {
             lexer.Scan(line, sourceUri);
             Parser parser(&lexer);
             auto *program = parser.ParseProgram();
+            auto *object = interpreter->VisitProgram(program);
 
-            std::cout << program->GetStatements().size() << std::endl;
+            if (object == nullptr) {
+                std::cout << "null" << std::endl;
+            } else {
+                std::cout << object->GetFloatData() << std::endl;
+            }
         }
     }
 

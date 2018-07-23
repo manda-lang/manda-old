@@ -85,5 +85,6 @@ void manda::Lexer::Scan(std::string &sourceText, std::string &sourceUri) {
 
 Lexer::Lexer() {
     // Patterns
-    patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::DECIMAL));
+    patterns.push_back(std::make_pair(std::regex("^[0-9]+"), Token::DECIMAL));
+    //patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::DECIMAL));
 }

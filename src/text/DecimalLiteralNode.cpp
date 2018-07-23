@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "DecimalLiteralNode.h"
+using namespace manda;
 
 manda::DecimalLiteralNode::DecimalLiteralNode(const manda::Token *token) {
     this->token = token;
@@ -25,3 +26,5 @@ const manda::SourceSpan *manda::DecimalLiteralNode::GetSourceSpan() const {
 bool manda::DecimalLiteralNode::HasConstantValue() {
     return true;
 }
+
+

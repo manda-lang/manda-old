@@ -11,7 +11,6 @@ using namespace manda;
 
 manda::Parser::Parser(manda::Lexer *lexer) {
     this->lexer = lexer;
-    this->current = nullptr;
     this->index = -1;
 
     for (auto *error : lexer->GetErrors()) {
@@ -24,7 +23,7 @@ const std::vector<Error *> &manda::Parser::GetErrors() const {
 }
 
 const manda::Token *manda::Parser::GetCurrentToken() const {
-    return current;
+    return lexer->GetTokens().at((unsigned long) index);
 }
 
 bool manda::Parser::IsDone() const {

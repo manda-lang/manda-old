@@ -45,7 +45,6 @@ namespace manda
     private:
         std::vector<Error *> errors;
         int64_t index;
-        Token *current;
         Lexer *lexer;
     };
 }

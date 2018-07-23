@@ -7,15 +7,22 @@
 #ifndef MANDA_EXPRESSION_H
 #define MANDA_EXPRESSION_H
 
+#include <jit/jit.h>
+#include "../runtime/Object.h"
 #include "AstNode.h"
 
 namespace manda
 {
+    class Interpreter;
+
     class ExpressionNode : public AstNode
     {
     public:
         virtual ~ExpressionNode();
+
         virtual bool HasConstantValue() = 0;
+
+        virtual jit_value_t acceptInterpreter(Interpreter *interpreter) = 0;
     };
 }
 

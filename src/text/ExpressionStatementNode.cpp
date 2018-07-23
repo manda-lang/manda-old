@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "ExpressionStatementNode.h"
+using namespace manda;
 
 manda::ExpressionStatementNode::ExpressionStatementNode(manda::ExpressionNode *expression) {
     this->expression = expression;
@@ -14,7 +15,7 @@ manda::ExpressionStatementNode::~ExpressionStatementNode() {
     delete expression;
 }
 
-const manda::ExpressionNode *manda::ExpressionStatementNode::GetExpression() {
+ExpressionNode * manda::ExpressionStatementNode::GetExpression() {
     return expression;
 }
 

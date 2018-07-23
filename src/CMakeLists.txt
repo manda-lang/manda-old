@@ -1,23 +1,39 @@
 include(ExternalProject)
 find_package(Readline)
+find_library(LIBJIT jit)
+find_library(LIBJIT_PLUS jitplus)
+find_path(LIBJIT_INCLUDE_DIR jit/jit-plus.h jit-plus.h)
+include_directories(${LIBJIT_INCLUDE_DIR})
 
 add_library(${MANDA_LIBRARY}
-        vm/Memory.cpp vm/Memory.h
-        vm/VM.cpp vm/VM.h
-        vm/Fiber.cpp vm/Fiber.h
-        vm/Object.cpp vm/Object.h
-        vm/Type.cpp vm/Type.h
-        vm/Number.cpp vm/Number.h
-        vm/Function.cpp vm/Function.h
-        vm/Symbol.cpp vm/Symbol.h
-        vm/SymbolTable.cpp vm/SymbolTable.h
+        runtime/Memory.cpp runtime/Memory.h
+        runtime/VM.cpp runtime/VM.h
+        runtime/Fiber.cpp runtime/Fiber.h
+        runtime/Object.cpp runtime/Object.h
+        runtime/Type.cpp runtime/Type.h
+        runtime/Function.cpp runtime/Function.h
+        runtime/Symbol.cpp runtime/Symbol.h
+        runtime/SymbolTable.cpp runtime/SymbolTable.h
         text/Error.h
-        text/SourceSpan.h text/Lexer.cpp text/Lexer.h text/Parser.cpp text/Parser.h text/Token.cpp text/Token.h text/SourceSpan.cpp text/text.h src.h text/AstNode.cpp text/AstNode.h text/ExpressionNode.cpp text/ExpressionNode.h text/DecimalLiteralNode.cpp text/DecimalLiteralNode.h text/StatementNode.cpp text/StatementNode.h text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h text/ProgramNode.cpp text/ProgramNode.h)
+        text/SourceSpan.h
+        text/Lexer.cpp text/Lexer.h
+        text/Parser.cpp text/Parser.h
+        text/Token.cpp text/Token.h
+        text/SourceSpan.cpp
+        text/text.h src.h
+        text/AstNode.cpp text/AstNode.h
+        text/ExpressionNode.cpp text/ExpressionNode.h
+        text/DecimalLiteralNode.cpp text/DecimalLiteralNode.h
+        text/StatementNode.cpp text/StatementNode.h
+        text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h
+        text/ProgramNode.cpp text/ProgramNode.h
+        runtime/runtime.h
+        runtime/Interpreter.cpp runtime/Interpreter.h)
 target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)
 
-target_link_libraries(${MANDA_EXECUTABLE} ${MANDA_LIBRARY} ${Readline_LIBRARY})
+target_link_libraries(${MANDA_EXECUTABLE} ${MANDA_LIBRARY} ${Readline_LIBRARY} ${LIBJIT} ${LIBJIT_PLUS})
 set_target_properties(${MANDA_EXECUTABLE} PROPERTIES OUTPUT_NAME ${MANDA_LIBRARY})
 
 install(TARGETS ${MANDA_LIBRARY} ${MANDA_EXECUTABLE}

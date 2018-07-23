@@ -31,7 +31,7 @@ bool manda::SymbolTable::Add(const std::string &name, manda::Object *value) {
     return true;
 }
 
-manda::Symbol *manda::SymbolTable::Resolve(const std::string &name) {
+manda::Symbol *manda::SymbolTable::Resolve(const std::string &name) const {
     for (auto symbol : symbols) {
         std::cout << symbol->name << " vs. " << name << std::endl;
         if (symbol->name == name) {
@@ -50,6 +50,14 @@ manda::SymbolTable::SymbolTable(manda::SymbolTable *parent) {
     this->parent = parent;
 }
 
-manda::SymbolTable *manda::SymbolTable::CreateChild() {
-    return new SymbolTable(this);
+manda::SymbolTable *manda::SymbolTable::CreateChild() const {
+    return new SymbolTable((SymbolTable *) this);
+}
+
+bool manda::SymbolTable::IsRoot() const {
+    return parent == nullptr;
+}
+
+manda::SymbolTable *manda::SymbolTable::GetParent() const {
+    return parent;
 }

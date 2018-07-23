@@ -15,22 +15,25 @@ namespace manda
     class SymbolTable
     {
     public:
-        std::vector<Symbol *> symbols;
-
         SymbolTable();
 
         ~SymbolTable();
 
         bool Add(const std::string &name, Object *value);
 
-        SymbolTable *CreateChild();
+        bool IsRoot() const;
 
-        Symbol *Resolve(const std::string &name);
+        SymbolTable *GetParent() const;
+
+        SymbolTable *CreateChild() const;
+
+        Symbol *Resolve(const std::string &name) const;
 
     private:
         explicit SymbolTable(SymbolTable *parent);
 
         SymbolTable *parent;
+        std::vector<Symbol *> symbols;
     };
 }
 

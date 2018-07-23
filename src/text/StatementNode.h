@@ -7,14 +7,19 @@
 #ifndef MANDA_STATEMENT_H
 #define MANDA_STATEMENT_H
 
+#include "../runtime/Object.h"
 #include "AstNode.h"
 
 namespace manda
 {
+    class Interpreter;
+
     class StatementNode : public AstNode
     {
     public:
         virtual ~StatementNode();
+
+        virtual void acceptInterpreter(Interpreter *interpreter) = 0;
     };
 }
 

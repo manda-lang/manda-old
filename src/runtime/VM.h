@@ -19,7 +19,7 @@ namespace manda
         std::vector<Fiber *> fibers;
         Memory memory;
 
-        Fiber* createFiber();
+        Fiber* CreateFiber();
     };
 }
 

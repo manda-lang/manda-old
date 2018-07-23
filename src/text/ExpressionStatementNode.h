@@ -19,9 +19,11 @@ namespace manda
 
         ~ExpressionStatementNode();
 
-        const ExpressionNode *GetExpression();
+        ExpressionNode * GetExpression();
 
         const SourceSpan *GetSourceSpan() const override;
+
+        void acceptInterpreter(Interpreter *interpreter) override;
 
     private:
         ExpressionNode *expression;
