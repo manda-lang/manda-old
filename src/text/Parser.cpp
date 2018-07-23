@@ -111,11 +111,32 @@ ExpressionStatementNode *Parser::ParseExpressionStatement() {
     return expression == nullptr ? nullptr : new ExpressionStatementNode(expression);
 }
 
-manda::ExpressionNode *manda::Parser::ParseExpression() {
+manda::ExpressionNode *manda::Parser::ParsePrefixExpression() {
     ExpressionNode *result = nullptr;
     if ((result = ParseSimpleIdentifier()) != nullptr) return result;
     if ((result = ParseNumberLiteral()) != nullptr) return result;
     return result;
+}
+
+ExpressionNode *Parser::ParseExpression(int precedence) {
+    auto *left = ParsePrefixExpression();
+
+    if (left != nullptr) {
+        while (precedence < GetPrecedence()) {
+            auto *token = Consume();
+
+            if (token != nullptr) {
+                auto it = infixParselets.find(token->GetType());
+
+                if (it != infixParselets.end()) {
+                    InfixParselet *infix = infixParselets[token->GetType()];
+                    left = infix->Parse(this, left, token);
+                }
+            }
+        }
+    }
+
+    return nullptr;
 }
 
 manda::SimpleIdentifierNode *Parser::ParseSimpleIdentifier() {
@@ -134,4 +155,19 @@ manda::NumberLiteralNode *manda::Parser::ParseNumberLiteral() {
     } else {
         return nullptr;
     }
+}
+
+int Parser::GetPrecedence() const {
+    auto *token = Peek();
+
+    if (token != nullptr) {
+        auto it = infixParselets.find(token->GetType());
+
+        if (it != infixParselets.end()) {
+            InfixParselet *infix = infixParselets[token->GetType()];
+            return infix->GetPrecedence();
+        }
+    }
+
+    return 0;
 }

@@ -7,7 +7,9 @@
 #ifndef MANDA_PARSER_H
 #define MANDA_PARSER_H
 
+#include <unordered_map>
 #include <vector>
+#include "InfixParselet.h"
 #include "Lexer.h"
 #include "NumberLiteralNode.h"
 #include "ExpressionStatementNode.h"
@@ -24,6 +26,8 @@ namespace manda
         const std::vector<Error *> &GetErrors() const;
 
         const Token *GetCurrentToken() const;
+
+        int GetPrecedence() const;
 
         bool IsDone() const;
 
@@ -43,13 +47,16 @@ namespace manda
 
         ExpressionStatementNode *ParseExpressionStatement();
 
-        ExpressionNode *ParseExpression();
+        ExpressionNode *ParseExpression(int precedence = 0);
+
+        ExpressionNode *ParsePrefixExpression();
 
         SimpleIdentifierNode *ParseSimpleIdentifier();
 
         NumberLiteralNode *ParseNumberLiteral();
 
     private:
+        std::unordered_map<Token::TokenType, InfixParselet*> infixParselets;
         std::vector<Error *> errors;
         int64_t index;
         Lexer *lexer;
