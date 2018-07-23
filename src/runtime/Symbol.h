@@ -8,7 +8,7 @@
 #define MANDA_SYMBOL_H
 
 #include <string>
-#include "Object.h"
+#include "TaggedPointer.h"
 
 namespace manda
 {
@@ -16,7 +16,7 @@ namespace manda
     {
     public:
         std::string name;
-        Object *value = nullptr;
+        TaggedPointer *value = nullptr;
     };
 }
 

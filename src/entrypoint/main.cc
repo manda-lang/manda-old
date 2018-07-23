@@ -31,9 +31,9 @@ int main() {
             if (object == nullptr) {
                 std::cout << "null" << std::endl;
             } else {
-                Object::ObjectType type = object->GetType();
+                TaggedPointer::TaggedPointerType type = object->GetType();
 
-                if (type == Object::INTEGER) {
+                if (type == TaggedPointer::INTEGER) {
                     std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
                 } else {
                     std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;

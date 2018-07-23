@@ -19,7 +19,7 @@ namespace manda
 
         ~SymbolTable();
 
-        bool Add(const std::string &name, Object *value);
+        bool Add(const std::string &name, TaggedPointer *value);
 
         bool IsRoot() const;
 

@@ -15,7 +15,7 @@ manda::SymbolTable::~SymbolTable() {
     }
 }
 
-bool manda::SymbolTable::Add(const std::string &name, manda::Object *value) {
+bool manda::SymbolTable::Add(const std::string &name, manda::TaggedPointer *value) {
     for (auto *symbol : symbols) {
         if (symbol->name == name) {
             return false;

@@ -15,7 +15,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
     jit = jit_context_create();
 }
 
-Object *Interpreter::VisitProgram(ProgramNode *ctx) {
+TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
     jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_ulong, nullptr, 0, 0);
@@ -31,7 +31,7 @@ Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     }
 
 
-//    Object *result = nullptr;
+//    TaggedPointer *result = nullptr;
 //
 //    for (auto *statement: ctx->GetStatements()) {
 //        result = statement->acceptInterpreter(this);
@@ -49,7 +49,7 @@ Object *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Execute it
     jit_float64 result;
     jit_function_apply(entryPoint, nullptr, &result);
-    return new Object((double) result);
+    return new TaggedPointer((double) result);
 }
 
 jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
@@ -57,8 +57,8 @@ jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
     long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
 
     // Create a NanBox object, and just place in the asUlong value.
-    Object obj;
-    obj.SetType(Object::INTEGER);
+    TaggedPointer obj;
+    obj.SetType(TaggedPointer::INTEGER);
     obj.SetFloatData((float) value);
 
     return jit_value_create_long_constant(GetCurrentFunction(), jit_type_long, jit_ulong_to_long(obj.GetRawUlong()));
@@ -80,7 +80,7 @@ jit_value_t Interpreter::GetValue(jit_function_t function, jit_value_t nan) {
 }
 
 jit_value_t Interpreter::SetValue(jit_function_t function, jit_value_t nan, jit_value_t newValue) {
-    //  ObjectType currentType = GetType();
+    //  TaggedPointerType currentType = GetType();
     jit_value_t currentType = GetType(function, nan);
 
     // asUlong = data << 3;
@@ -91,7 +91,7 @@ jit_value_t Interpreter::SetValue(jit_function_t function, jit_value_t nan, jit_
     return SetType(function, shifted, currentType);
 }
 
-jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, Object::ObjectType type) {
+jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type) {
     auto numberType = jit_value_create_nint_constant(function, jit_type_ubyte, type);
     return jit_insn_or(function, nan, numberType);
 }

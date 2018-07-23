@@ -11,7 +11,7 @@
 #include "Function.h"
 #include "Interpreter.h"
 #include "Memory.h"
-#include "Object.h"
+#include "TaggedPointer.h"
 #include "Symbol.h"
 #include "Type.h"
 #include "VM.h"

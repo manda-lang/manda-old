@@ -11,25 +11,25 @@
 
 namespace manda
 {
-    class Object
+    class TaggedPointer
     {
     public:
-        enum ObjectType : uint8_t
+        enum TaggedPointerType : uint8_t
         {
             INTEGER = 0x0,
             POINTER = 0x1,
         };
 
     public:
-        explicit Object();
+        explicit TaggedPointer();
 
-        explicit Object(uint64_t raw);
+        explicit TaggedPointer(uint64_t raw);
 
-        explicit Object(double raw);
+        explicit TaggedPointer(double raw);
 
         uint64_t GetData() const;
 
-        ObjectType GetType() const;
+        TaggedPointerType GetType() const;
 
         double GetRawDouble() const;
 
@@ -37,7 +37,7 @@ namespace manda
 
         void SetData(uint64_t data);
 
-        void SetType(ObjectType type);
+        void SetType(TaggedPointerType type);
 
         float GetFloatData() const;
 

@@ -23,7 +23,7 @@ namespace manda
 
         jit_function_t GetCurrentFunction();
 
-        Object *VisitProgram(ProgramNode *ctx);
+        TaggedPointer *VisitProgram(ProgramNode *ctx);
 
         jit_value_t VisitDecimalLiteral(DecimalLiteralNode *ctx);
 
@@ -37,7 +37,7 @@ namespace manda
 
         jit_value_t GetType(jit_function_t function, jit_value_t nan);
 
-        jit_value_t SetType(jit_function_t function, jit_value_t nan, Object::ObjectType type);
+        jit_value_t SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type);
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 

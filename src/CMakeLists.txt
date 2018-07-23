@@ -9,7 +9,7 @@ add_library(${MANDA_LIBRARY}
         runtime/Memory.cpp runtime/Memory.h
         runtime/VM.cpp runtime/VM.h
         runtime/Fiber.cpp runtime/Fiber.h
-        runtime/Object.cpp runtime/Object.h
+        runtime/TaggedPointer.cpp runtime/TaggedPointer.h
         runtime/Type.cpp runtime/Type.h
         runtime/Function.cpp runtime/Function.h
         runtime/Symbol.cpp runtime/Symbol.h
