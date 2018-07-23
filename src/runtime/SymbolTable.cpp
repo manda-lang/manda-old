@@ -7,34 +7,26 @@
 #include <iostream>
 #include "SymbolTable.h"
 
-manda::SymbolTable::SymbolTable() = default;
-
-manda::SymbolTable::~SymbolTable() {
+template<typename T>
+bool manda::SymbolTable<T>::Add(const std::string &name, T *value) {
     for (auto *symbol : symbols) {
-        delete symbol;
-    }
-}
-
-bool manda::SymbolTable::Add(const std::string &name, manda::TaggedPointer *value) {
-    for (auto *symbol : symbols) {
-        if (symbol->name == name) {
+        if (symbol->GetName() == name) {
             return false;
         }
     }
 
     std::cout << "alloc " << name << std::endl;
-    auto *symbol = new Symbol;
-    symbol->name += name;
-    symbol->value = value;
+    auto *symbol = new Symbol<T>(name, value);
     symbols.push_back(symbol);
-    std::cout << "made " << symbol->name << std::endl;
+    std::cout << "made " << symbol->GetName() << std::endl;
     return true;
 }
 
-manda::Symbol *manda::SymbolTable::Resolve(const std::string &name) const {
+template<typename T>
+manda::Symbol<T> *manda::SymbolTable<T>::Resolve(const std::string &name) const {
     for (auto symbol : symbols) {
-        std::cout << symbol->name << " vs. " << name << std::endl;
-        if (symbol->name == name) {
+        std::cout << symbol->GetName() << " vs. " << name << std::endl;
+        if (symbol->GetName() == name) {
             return symbol;
         }
     }
@@ -44,20 +36,4 @@ manda::Symbol *manda::SymbolTable::Resolve(const std::string &name) const {
     } else {
         return parent->Resolve(name);
     }
-}
-
-manda::SymbolTable::SymbolTable(manda::SymbolTable *parent) {
-    this->parent = parent;
-}
-
-manda::SymbolTable *manda::SymbolTable::CreateChild() const {
-    return new SymbolTable((SymbolTable *) this);
-}
-
-bool manda::SymbolTable::IsRoot() const {
-    return parent == nullptr;
-}
-
-manda::SymbolTable *manda::SymbolTable::GetParent() const {
-    return parent;
 }

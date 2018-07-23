@@ -12,28 +12,41 @@
 
 namespace manda
 {
+    template<typename T>
     class SymbolTable
     {
     public:
-        SymbolTable();
+        SymbolTable() = default;
 
-        ~SymbolTable();
+        ~SymbolTable() {
+            for (auto *symbol : symbols) {
+                delete symbol;
+            }
+        }
 
-        bool Add(const std::string &name, TaggedPointer *value);
+        bool Add(const std::string &name, T *value);
 
-        bool IsRoot() const;
+        bool IsRoot() const {
+            return parent == nullptr;
+        }
 
-        SymbolTable *GetParent() const;
+        SymbolTable<T> *GetParent() const {
+            return parent;
+        }
 
-        SymbolTable *CreateChild() const;
+        SymbolTable<T> *CreateChild() const {
+            return new SymbolTable<T>((SymbolTable<T> *) this);
+        }
 
-        Symbol *Resolve(const std::string &name) const;
+        Symbol<T> *Resolve(const std::string &name) const;
 
     private:
-        explicit SymbolTable(SymbolTable *parent);
+        explicit SymbolTable(SymbolTable<T> *parent) {
+            this->parent = parent;
+        }
 
-        SymbolTable *parent;
-        std::vector<Symbol *> symbols;
+        SymbolTable<T> *parent;
+        std::vector<Symbol<T> *> symbols;
     };
 }
 

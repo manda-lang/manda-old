@@ -12,11 +12,19 @@
 
 namespace manda
 {
+    template<typename T>
     class Symbol
     {
     public:
+        explicit Symbol(const std::string &name, T *value);
+
+        const std::string &GetName() const;
+
+        T *GetValue();
+
+    private:
         std::string name;
-        TaggedPointer *value = nullptr;
+        T *value = nullptr;
     };
 }
 

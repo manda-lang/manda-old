@@ -5,8 +5,9 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "Fiber.h"
+using namespace manda;
 
-manda::SymbolTable *manda::Fiber::GetScope() const {
+manda::SymbolTable<TaggedPointer*> *manda::Fiber::GetScope() const {
     return scope;
 }
 
@@ -23,4 +24,8 @@ void manda::Fiber::PopScope() {
 
 bool manda::Fiber::HasExited() const {
     return false;
+}
+
+manda::Fiber::Fiber() {
+    scope = new SymbolTable<TaggedPointer*>;
 }
