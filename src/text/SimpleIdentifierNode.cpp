@@ -5,8 +5,9 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "SimpleIdentifierNode.h"
+using namespace manda;
 
-manda::SimpleIdentifierNode::SimpleIdentifierNode(const Token *token) {
+manda::SimpleIdentifierNode::SimpleIdentifierNode(const manda::Token *token) {
     this->token = token;
 }
 

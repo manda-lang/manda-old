@@ -16,6 +16,14 @@ manda::SourceSpan::SourceSpan(std::string &sourceUri, std::string &text, int64_t
     this->column = column;
 }
 
+manda::SourceSpan::SourceSpan(const manda::SourceSpan *other) {
+    this->sourceUri += other->sourceUri;
+    this->text += other->text;
+    this->length = (int64_t) other->text.length();
+    this->line = other->line;
+    this->column = other->column;
+}
+
 const std::string &manda::SourceSpan::GetSourceUri() const {
     return sourceUri;
 }

@@ -28,7 +28,7 @@ namespace manda
         jit_value_t acceptInterpreter(Interpreter *interpreter) override;
 
     private:
-        Token *token;
+        const Token *token;
     };
 }
 

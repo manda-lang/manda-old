@@ -25,13 +25,19 @@ int main() {
             std::string line(buf);
             lexer.Scan(line, sourceUri);
 
-            for (auto *token : lexer.GetTokens()) {
-                std::cout << token->GetSourceSpan()->GetToolString() << std::endl;
-                std::cout << token->GetSourceSpan()->Highlight(line) << std::endl;
+            Parser parser(&lexer);
+            delete parser.ParseProgram();
+
+            // Check for errors...
+            if (!parser.GetErrors().empty()) {
+                for (auto *error : parser.GetErrors()) {
+                    std::cout << error->GetToolString() << std::endl;
+                    std::cout << error->GetSourceSpan()->Highlight(line) << std::endl;
+                }
+
+                continue;
             }
 
-//            Parser parser(&lexer);
-//            auto *program = parser.ParseProgram();
 //            auto *object = interpreter->VisitProgram(program);
 //
 //            if (object == nullptr) {

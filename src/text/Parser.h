@@ -8,10 +8,11 @@
 #define MANDA_PARSER_H
 
 #include <vector>
+#include "Lexer.h"
 #include "NumberLiteralNode.h"
 #include "ExpressionStatementNode.h"
-#include "Lexer.h"
 #include "ProgramNode.h"
+#include "SimpleIdentifierNode.h"
 
 namespace manda
 {
@@ -31,6 +32,8 @@ namespace manda
         bool Next(Token::TokenType *types, int typeCount);
 
         const Token *Peek() const;
+
+        const Token *Consume();
 
         void ParseStatements(std::vector<StatementNode *> &statements);
 

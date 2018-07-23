@@ -17,6 +17,8 @@ namespace manda
     public:
         explicit SourceSpan(std::string &sourceUri, std::string &text, int64_t line, int64_t column);
 
+        explicit SourceSpan(const SourceSpan *other);
+
         const std::string &GetSourceUri() const;
 
         const std::string &GetText() const;

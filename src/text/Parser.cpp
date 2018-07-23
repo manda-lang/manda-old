@@ -62,9 +62,34 @@ const manda::Token *manda::Parser::Peek() const {
     }
 }
 
+const manda::Token *manda::Parser::Consume() {
+    if (IsDone()) {
+        return nullptr;
+    } else {
+        return lexer->GetTokens().at((unsigned long) ++index);
+    }
+}
+
 ProgramNode *Parser::ParseProgram() {
     auto *program = new ProgramNode;
-    ParseStatements(program->GetMutableStatements());
+
+    while (!IsDone()) {
+        auto *statement = ParseStatement();
+
+        if (statement != nullptr) {
+            program->GetMutableStatements().push_back(statement);
+        } else {
+            std::ostringstream message;
+            auto *token = Consume();
+            message << "Unexpected text '";
+            message << token->GetSourceSpan()->GetText();
+            message << "'.";
+            auto *error = new Error(Error::ERROR, message.str(), new SourceSpan(token->GetSourceSpan()));
+            errors.push_back(error);
+            delete token;
+        }
+    }
+
     return program;
 }
 
