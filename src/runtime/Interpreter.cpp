@@ -57,15 +57,9 @@ jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
 
     // Create a ulong constant.
     auto asUlong = jit_value_create_long_constant(GetCurrentFunction(), jit_type_ulong, value);
-    auto three = jit_value_create_nint_constant(GetCurrentFunction(), jit_type_int, 3);
-
-    // Shift by 3.
-    auto shifted = jit_insn_shl(GetCurrentFunction(), asUlong, three);
-
-    // Set the type to number.
-    auto numberType = jit_value_create_nint_constant(GetCurrentFunction(), jit_type_ubyte, Object::NUMBER);
-    auto withType = jit_insn_or(GetCurrentFunction(), shifted, numberType);
-    return withType;
+    auto zero = Zero(GetCurrentFunction());
+    auto withValue = SetValue(GetCurrentFunction(), zero, asUlong);
+    return SetType(GetCurrentFunction(), withValue, Object::NUMBER);
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {
@@ -75,6 +69,45 @@ jit_function_t Interpreter::GetCurrentFunction() {
 void Interpreter::VisitExpressionStatement(ExpressionStatementNode *ctx) {
     auto returnValue = ctx->GetExpression()->acceptInterpreter(this);
     jit_insn_return(GetCurrentFunction(), returnValue);
+}
+
+jit_value_t Interpreter::GetValue(jit_function_t function, jit_value_t nan) {
+    // Shift right by three.
+    auto three = jit_value_create_nint_constant(function, jit_type_int, 3);
+    return jit_insn_shl(function, nan, three);
+}
+
+jit_value_t Interpreter::SetValue(jit_function_t function, jit_value_t nan, jit_value_t newValue) {
+    //  ObjectType currentType = GetType();
+    jit_value_t currentType = GetType(function, nan);
+
+    // raw = data << 3;
+    auto three = jit_value_create_nint_constant(function, jit_type_int, 3);
+    auto shifted = jit_insn_shl(function, newValue, three);
+
+    // SetType(currentType);
+    return SetType(function, shifted, currentType);
+}
+
+jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, Object::ObjectType type) {
+    auto numberType = jit_value_create_nint_constant(function, jit_type_ubyte, type);
+    return jit_insn_or(function, nan, numberType);
+}
+
+jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_value_t type) {
+    return jit_insn_or(function, nan, type);
+}
+
+jit_value_t Interpreter::Zero(jit_function_t function) {
+    return jit_value_create_long_constant(function, jit_type_ulong, 0);
+}
+
+jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {
+    // Get the bottom 3 bits
+    // auto bottom3 = (uint8_t) (raw & 0x7);
+    auto seven = jit_value_create_nint_constant(function, jit_type_ubyte, 0x7);
+    auto bottom3 = jit_insn_and(function, nan, seven);
+    return jit_insn_convert(function, bottom3, jit_type_ubyte, 0);
 }
 
 void manda::ExpressionStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {

@@ -23,11 +23,23 @@ namespace manda
 
         jit_function_t GetCurrentFunction();
 
-        Object * VisitProgram(ProgramNode *ctx);
+        Object *VisitProgram(ProgramNode *ctx);
 
         jit_value_t VisitDecimalLiteral(DecimalLiteralNode *ctx);
 
         void VisitExpressionStatement(ExpressionStatementNode *ctx);
+
+        jit_value_t Zero(jit_function_t function);
+
+        jit_value_t GetValue(jit_function_t function, jit_value_t nan);
+
+        jit_value_t SetValue(jit_function_t function, jit_value_t nan, jit_value_t newValue);
+
+        jit_value_t GetType(jit_function_t function, jit_value_t nan);
+
+        jit_value_t SetType(jit_function_t function, jit_value_t nan, Object::ObjectType type);
+
+        jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 
     private:
         std::stack<jit_function_t> functionStack;
