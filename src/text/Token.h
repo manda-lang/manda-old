@@ -18,12 +18,32 @@ namespace manda
     public:
         enum TokenType
         {
-            DECIMAL
+            // Keywords
+                    LET,
+
+            // Operators
+                    EQUALS,
+            TIMES,
+            DIV,
+            MODULO,
+            PLUS,
+            MINUS,
+
+            // Expressions
+                    FLOAT,
+            DECIMAL,
+            BINARY,
+            HEX,
+            OCTAL,
+            ID
         };
 
         explicit Token(TokenType type, const SourceSpan *span);
+
         ~Token();
+
         const SourceSpan *GetSourceSpan() const;
+
         TokenType GetType() const;
 
         bool HasMatch() const;
@@ -31,6 +51,7 @@ namespace manda
         const std::smatch &GetMatch() const;
 
         void SetMatch(std::smatch &match);
+
     private:
         bool hasMatch;
         std::smatch match;

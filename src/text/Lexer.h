@@ -8,7 +8,6 @@
 #define MANDA_LEXER_H
 
 #include <istream>
-#include <unordered_map>
 #include <regex>
 #include <string>
 #include <vector>
@@ -29,7 +28,6 @@ namespace manda
         void Scan(std::string &sourceText, std::string &sourceUri);
 
     private:
-        std::unordered_map<std::string, Token::TokenType> keywords;
         std::vector<std::pair<std::regex, Token::TokenType>> patterns;
         std::vector<Error *> errors;
         std::vector<Token *> tokens;
