@@ -85,7 +85,6 @@ Lexer::Lexer() {
     // Keywords
     patterns.push_back(std::make_pair(std::regex("^let"), Token::LET));
 
-
     // Operators
     patterns.push_back(std::make_pair(std::regex("^="), Token::EQUALS));
     patterns.push_back(std::make_pair(std::regex("^\\*"), Token::TIMES));

@@ -23,7 +23,7 @@ add_library(${MANDA_LIBRARY}
         text/text.h src.h
         text/AstNode.cpp text/AstNode.h
         text/ExpressionNode.cpp text/ExpressionNode.h
-        text/DecimalLiteralNode.cpp text/DecimalLiteralNode.h
+        text/NumberLiteralNode.cpp text/NumberLiteralNode.h
         text/StatementNode.cpp text/StatementNode.h
         text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h
         text/ProgramNode.cpp text/ProgramNode.h

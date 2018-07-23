@@ -52,8 +52,8 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     return new TaggedPointer((double) result);
 }
 
-jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
-    // Get the asUlong value.
+jit_value_t Interpreter::VisitNumberLiteral(NumberLiteralNode *ctx) {
+    // TODO: Get the asUlong value.
     long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
 
     // Create a NanBox object, and just place in the asUlong value.
@@ -116,7 +116,7 @@ void manda::ExpressionStatementNode::acceptInterpreter(manda::Interpreter *inter
     interpreter->VisitExpressionStatement(this);
 }
 
-jit_value_t DecimalLiteralNode::acceptInterpreter(Interpreter *interpreter) {
-    return interpreter->VisitDecimalLiteral(this);
+jit_value_t NumberLiteralNode::acceptInterpreter(Interpreter *interpreter) {
+    return interpreter->VisitNumberLiteral(this);
 }
 

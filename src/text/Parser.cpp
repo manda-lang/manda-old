@@ -43,6 +43,16 @@ bool manda::Parser::Next(manda::Token::TokenType type) {
     }
 }
 
+bool Parser::Next(Token::TokenType *types, int typeCount) {
+    for (int i = 0; i < typeCount; i++) {
+        if (Next(types[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const manda::Token *manda::Parser::Peek() const {
     if (IsDone()) {
         return nullptr;
@@ -76,13 +86,15 @@ ExpressionStatementNode *Parser::ParseExpressionStatement() {
 }
 
 manda::ExpressionNode *manda::Parser::ParseExpression() {
-    return ParseDecimalLiteral();
+    return ParseNumberLiteral();
 }
 
-manda::DecimalLiteralNode *manda::Parser::ParseDecimalLiteral() {
-    if (!Next(Token::DECIMAL)) {
-        return nullptr;
+manda::NumberLiteralNode *manda::Parser::ParseNumberLiteral() {
+    Token::TokenType numberTypes[5] = {Token::DECIMAL, Token::FLOAT, Token::BINARY, Token::HEX, Token::OCTAL};
+
+    if (Next(numberTypes, sizeof(numberTypes) / sizeof(Token::TokenType))) {
+        return new NumberLiteralNode(GetCurrentToken());
     } else {
-        return new DecimalLiteralNode(GetCurrentToken());
+        return nullptr;
     }
 }

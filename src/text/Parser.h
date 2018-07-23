@@ -8,7 +8,7 @@
 #define MANDA_PARSER_H
 
 #include <vector>
-#include "DecimalLiteralNode.h"
+#include "NumberLiteralNode.h"
 #include "ExpressionStatementNode.h"
 #include "Lexer.h"
 #include "ProgramNode.h"
@@ -28,6 +28,8 @@ namespace manda
 
         bool Next(Token::TokenType type);
 
+        bool Next(Token::TokenType *types, int typeCount);
+
         const Token *Peek() const;
 
         void ParseStatements(std::vector<StatementNode *> &statements);
@@ -40,7 +42,7 @@ namespace manda
 
         ExpressionNode *ParseExpression();
 
-        DecimalLiteralNode *ParseDecimalLiteral();
+        NumberLiteralNode *ParseNumberLiteral();
 
     private:
         std::vector<Error *> errors;

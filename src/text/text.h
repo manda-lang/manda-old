@@ -7,7 +7,7 @@
 #ifndef MANDA_TEXT_H
 #define MANDA_TEXT_H
 #include "AstNode.h"
-#include "DecimalLiteralNode.h"
+#include "NumberLiteralNode.h"
 #include "Error.h"
 #include "ExpressionNode.h"
 #include "ExpressionStatementNode.h"

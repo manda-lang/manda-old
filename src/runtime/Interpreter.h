@@ -25,7 +25,7 @@ namespace manda
 
         TaggedPointer *VisitProgram(ProgramNode *ctx);
 
-        jit_value_t VisitDecimalLiteral(DecimalLiteralNode *ctx);
+        jit_value_t VisitNumberLiteral(NumberLiteralNode *ctx);
 
         void VisitExpressionStatement(ExpressionStatementNode *ctx);
 

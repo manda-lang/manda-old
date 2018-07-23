@@ -12,12 +12,12 @@
 
 namespace manda
 {
-    class DecimalLiteralNode : public ExpressionNode
+    class NumberLiteralNode : public ExpressionNode
     {
     public:
-        explicit DecimalLiteralNode(const Token *token);
+        explicit NumberLiteralNode(const Token *token);
 
-        ~DecimalLiteralNode();
+        ~NumberLiteralNode();
 
         const Token *GetToken() const;
 
