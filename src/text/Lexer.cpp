@@ -23,7 +23,6 @@ void manda::Lexer::Scan(std::string &sourceText, std::string &sourceUri) {
     int64_t line = 1, column = 0;
 
     while (!txt.empty()) {
-
         // Skip whitespace.
         while (!txt.empty() && iswspace(txt.at(0))) {
             if (txt.at(0) == '\n') {
@@ -51,10 +50,18 @@ void manda::Lexer::Scan(std::string &sourceText, std::string &sourceUri) {
             }
 
             if (staging.empty()) {
-                // TODO: How to handle incorrect input?
+                if (!hasErrantText) {
+                    errantLine = line;
+                    errantColumn = column;
+                }
+
+                errantText.put(txt.at(0));
                 txt = txt.substr(1);
                 column++;
+                hasErrantText = true;
             } else {
+                FlushErrantText(sourceUri);
+
                 unsigned long longestLength = 0;
                 Token *longestToken = nullptr;
 
@@ -79,9 +86,15 @@ void manda::Lexer::Scan(std::string &sourceText, std::string &sourceUri) {
             }
         }
     }
+
+    FlushErrantText(sourceUri);
 }
 
 Lexer::Lexer() {
+    hasErrantText = false;
+    errantLine = 1;
+    errantColumn = 0;
+
     // Keywords
     patterns.push_back(std::make_pair(std::regex("^let"), Token::LET));
 
@@ -101,4 +114,19 @@ Lexer::Lexer() {
     patterns.push_back(std::make_pair(std::regex("^[0-9]+"), Token::DECIMAL));
     patterns.push_back(std::make_pair(std::regex("^[A-Za-z_][A-Za-z0-9_]*"), Token::ID));
     //patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::DECIMAL));
+}
+
+void Lexer::FlushErrantText(std::string &sourceUri) {
+    if (hasErrantText) {
+        auto text = errantText.str();
+        std::ostringstream message;
+        message << "Unexpected text '";
+        message << text;
+        message << "'.";
+        auto *span = new SourceSpan(sourceUri, text, errantLine, errantColumn);
+        auto *error = new Error(Error::ERROR, message.str(), span);
+        errors.push_back(error);
+        errantText = std::ostringstream();
+        hasErrantText = false;
+    }
 }

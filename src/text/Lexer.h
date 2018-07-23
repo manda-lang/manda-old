@@ -8,6 +8,7 @@
 #define MANDA_LEXER_H
 
 #include <istream>
+#include <sstream>
 #include <regex>
 #include <string>
 #include <vector>
@@ -19,7 +20,7 @@ namespace manda
     class Lexer
     {
     public:
-        Lexer();
+        explicit Lexer();
 
         const std::vector<Error *> &GetErrors() const;
 
@@ -28,9 +29,14 @@ namespace manda
         void Scan(std::string &sourceText, std::string &sourceUri);
 
     private:
+        bool hasErrantText;
+        int64_t errantLine, errantColumn;
+        std::ostringstream errantText;
         std::vector<std::pair<std::regex, Token::TokenType>> patterns;
         std::vector<Error *> errors;
         std::vector<Token *> tokens;
+
+        void FlushErrantText(std::string &sourceUri);
     };
 }
 
