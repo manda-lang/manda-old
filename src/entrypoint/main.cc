@@ -12,11 +12,16 @@
 using namespace manda;
 
 int main() {
+    TaggedPointer pp;
+    pp.SetFloatData(56);
+    pp.SetType(TaggedPointer::POINTER);
+    std::cout << pp.GetType() << std::endl;
+    std::cout << "0x" << std::hex << pp.GetRawUlong() << std::endl;
+
     std::string sourceUri("stdin");
     char *buf = nullptr;
     auto *vm = new VM;
     auto *fiber = vm->CreateFiber();
-    auto *interpreter = new Interpreter(vm, fiber);
 
     while ((buf = readline(">> ")) != nullptr) {
         if (strlen(buf) > 0) {
@@ -26,7 +31,7 @@ int main() {
             lexer.Scan(line, sourceUri);
 
             Parser parser(&lexer);
-            delete parser.ParseProgram();
+            auto *program = parser.ParseProgram();
 
             // Check for errors...
             if (!parser.GetErrors().empty()) {
@@ -35,22 +40,27 @@ int main() {
                     std::cout << error->GetSourceSpan()->Highlight(line) << std::endl;
                 }
 
+
                 continue;
             }
 
-//            auto *object = interpreter->VisitProgram(program);
-//
-//            if (object == nullptr) {
-//                std::cout << "null" << std::endl;
-//            } else {
-//                TaggedPointer::TaggedPointerType type = object->GetType();
-//
-//                if (type == TaggedPointer::INTEGER) {
-//                    std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
-//                } else {
-//                    std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;
-//                }
-//            }
+            auto *interpreter = new Interpreter(vm, fiber);
+            auto *object = interpreter->VisitProgram(program);
+
+            if (object == nullptr) {
+                std::cout << "null" << std::endl;
+            } else {
+                TaggedPointer::TaggedPointerType type = object->GetType();
+
+                if (type == TaggedPointer::INTEGER) {
+                    //std::cout << "\033[0;36m0x" << std::hex << object->GetRawDouble() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
+                } else {
+                    std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;
+                }
+            }
+
+            delete interpreter;
         }
     }
 

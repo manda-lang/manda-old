@@ -23,7 +23,7 @@ double manda::TaggedPointer::GetRawDouble() const {
 }
 
 void manda::TaggedPointer::SetType(manda::TaggedPointer::TaggedPointerType type) {
-    asUlong |= (uint64_t) type;
+    asDouble = (double) (asUlong | (uint64_t) type);
 }
 
 uint64_t manda::TaggedPointer::GetData() const {
@@ -32,7 +32,7 @@ uint64_t manda::TaggedPointer::GetData() const {
 
 void manda::TaggedPointer::SetData(uint64_t data) {
     TaggedPointerType currentType = GetType();
-    asUlong = data << 3;
+    asDouble = (double) (data << 3);
     SetType(currentType);
 }
 
@@ -46,7 +46,7 @@ void manda::TaggedPointer::SetFloatData(float data) {
 }
 
 manda::TaggedPointer::TaggedPointer(uint64_t raw) {
-    asUlong = raw;
+    asDouble = (double) raw;
 }
 
 manda::TaggedPointer::TaggedPointer(double raw) {

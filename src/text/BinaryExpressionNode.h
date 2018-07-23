@@ -19,6 +19,12 @@ namespace manda
 
         ~BinaryExpressionNode() override;
 
+        ExpressionNode *GetLeft() const;
+
+        ExpressionNode *GetRight() const;
+
+        const Token* GetOperator() const;
+
         const SourceSpan *GetSourceSpan() const override;
 
         bool HasConstantValue() override;

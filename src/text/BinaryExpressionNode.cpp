@@ -30,3 +30,15 @@ bool manda::BinaryExpressionNode::HasConstantValue() {
 jit_value_t manda::BinaryExpressionNode::acceptInterpreter(manda::Interpreter *interpreter) {
     return interpreter->VisitBinaryExpression(this);
 }
+
+manda::ExpressionNode *manda::BinaryExpressionNode::GetLeft() const {
+    return left;
+}
+
+manda::ExpressionNode *manda::BinaryExpressionNode::GetRight() const {
+    return right;
+}
+
+const manda::Token *manda::BinaryExpressionNode::GetOperator() const {
+    return op;
+}

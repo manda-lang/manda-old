@@ -4,6 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <jit/jit-dump.h>
 #include <iostream>
 #include "Interpreter.h"
 
@@ -18,7 +19,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
 TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
-    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_ulong, nullptr, 0, 0);
+    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_float64, nullptr, 0, 0);
     entryPoint = jit_function_create(jit, entryPointReturnType);
     functionStack.push(entryPoint);
 
@@ -29,7 +30,6 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     for (auto *statement: ctx->GetStatements()) {
         statement->acceptInterpreter(this);
     }
-
 
 //    TaggedPointer *result = nullptr;
 //
@@ -46,7 +46,9 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     jit_function_compile(entryPoint);
     jit_context_build_end(jit);
 
-    // Execute it
+    jit_dump_function(stdout, entryPoint, "entry point");
+
+    // Execute it!
     jit_float64 result;
     jit_function_apply(entryPoint, nullptr, &result);
     return new TaggedPointer((double) result);
@@ -54,14 +56,16 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
 
 jit_value_t Interpreter::VisitNumberLiteral(NumberLiteralNode *ctx) {
     // TODO: Get the asUlong value.
-    long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
+    char *pEnd;
+    jit_float32 value = strtof(ctx->GetSourceSpan()->GetText().c_str(), &pEnd);
+    auto function = GetCurrentFunction();
 
     // Create a NanBox object, and just place in the asUlong value.
     TaggedPointer obj;
     obj.SetType(TaggedPointer::INTEGER);
     obj.SetFloatData((float) value);
 
-    return jit_value_create_long_constant(GetCurrentFunction(), jit_type_long, jit_ulong_to_long(obj.GetRawUlong()));
+    return jit_value_create_float64_constant(function, jit_type_float64, obj.GetRawDouble());
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {
@@ -101,7 +105,7 @@ jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_v
 }
 
 jit_value_t Interpreter::Zero(jit_function_t function) {
-    return jit_value_create_nint_constant(function, jit_type_float64, 0);
+    return jit_value_create_float64_constant(function, jit_type_float64, 0);
 }
 
 jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {
@@ -117,6 +121,34 @@ jit_value_t Interpreter::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
 }
 
 jit_value_t Interpreter::VisitBinaryExpression(BinaryExpressionNode *ctx) {
-    return nullptr;
+    // TODO: Handle errors?
+    auto rawLeft = ctx->GetLeft()->acceptInterpreter(this);
+    auto rawRight = ctx->GetLeft()->acceptInterpreter(this);
+    auto *function = GetCurrentFunction();
+    auto left = GetValue(function, rawLeft);
+    auto right = GetValue(function, rawRight);
+    auto type = ctx->GetOperator()->GetType();
+    jit_value_t returnValue = nullptr;
+
+    // TODO: Custom operators
+    if (type == Token::TIMES) {
+        returnValue = jit_insn_mul(function, left, right);
+    } else if (type == Token::DIV) {
+        returnValue = jit_insn_div(function, left, right);
+    } else if (type == Token::MODULO) {
+        returnValue = jit_insn_rem(function, left, right);
+    } else if (type == Token::PLUS) {
+        returnValue = jit_insn_add(function, left, right);
+    } else if (type == Token::MINUS) {
+        returnValue = jit_insn_sub(function, left, right);
+    }
+
+    if (returnValue != nullptr) {
+        auto leftType = GetType(function, rawLeft);
+        auto nan = SetValue(function, Zero(function), returnValue);
+        returnValue = SetType(function, nan, leftType);
+    }
+
+    return returnValue;
 }
 
