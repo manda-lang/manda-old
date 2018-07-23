@@ -116,3 +116,7 @@ jit_value_t Interpreter::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
     return nullptr;
 }
 
+jit_value_t Interpreter::VisitBinaryExpression(BinaryExpressionNode *ctx) {
+    return nullptr;
+}
+

@@ -18,7 +18,7 @@ namespace manda
     class ExpressionNode : public AstNode
     {
     public:
-        virtual ~ExpressionNode();
+        virtual ~ExpressionNode() = 0;
 
         virtual bool HasConstantValue() = 0;
 

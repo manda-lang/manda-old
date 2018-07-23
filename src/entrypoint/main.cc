@@ -12,7 +12,7 @@
 using namespace manda;
 
 int main() {
-    std::string sourceUri("<stdin>");
+    std::string sourceUri("stdin");
     char *buf = nullptr;
     auto *vm = new VM;
     auto *fiber = vm->CreateFiber();

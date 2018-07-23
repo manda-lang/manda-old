@@ -4,7 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "ExpressionStatementNode.h"
+#include "../runtime/runtime.h"
+
 using namespace manda;
 
 manda::ExpressionStatementNode::ExpressionStatementNode(manda::ExpressionNode *expression) {
@@ -15,10 +16,15 @@ manda::ExpressionStatementNode::~ExpressionStatementNode() {
     delete expression;
 }
 
-ExpressionNode * manda::ExpressionStatementNode::GetExpression() {
+ExpressionNode *manda::ExpressionStatementNode::GetExpression() {
     return expression;
 }
 
 const manda::SourceSpan *manda::ExpressionStatementNode::GetSourceSpan() const {
     return expression->GetSourceSpan();
 }
+
+void manda::ExpressionStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {
+    interpreter->VisitExpressionStatement(this);
+}
+

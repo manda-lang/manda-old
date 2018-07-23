@@ -5,8 +5,8 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <iostream>
+#include "BinaryExpressionParselet.h"
 #include "Parser.h"
-#include "SimpleIdentifierNode.h"
 
 using namespace manda;
 
@@ -17,6 +17,17 @@ manda::Parser::Parser(manda::Lexer *lexer) {
     for (auto *error : lexer->GetErrors()) {
         errors.push_back(error);
     }
+
+    int precedence = 4;
+    infixParselets[Token::TIMES] = new BinaryExpressionParselet(precedence--);
+    infixParselets[Token::DIV] = new BinaryExpressionParselet(precedence--);
+    infixParselets[Token::MODULO] = new BinaryExpressionParselet(precedence--);
+    infixParselets[Token::PLUS] = new BinaryExpressionParselet(precedence--);
+    infixParselets[Token::MINUS] = new BinaryExpressionParselet(precedence--);
+}
+
+Parser::~Parser() {
+    // TODO: Delete all infix parselets
 }
 
 const std::vector<Error *> &manda::Parser::GetErrors() const {
@@ -81,12 +92,15 @@ ProgramNode *Parser::ParseProgram() {
         } else {
             std::ostringstream message;
             auto *token = Consume();
-            message << "Unexpected text '";
-            message << token->GetSourceSpan()->GetText();
-            message << "'.";
-            auto *error = new Error(Error::ERROR, message.str(), new SourceSpan(token->GetSourceSpan()));
-            errors.push_back(error);
-            delete token;
+
+            if (token != nullptr) {
+                message << "Unexpected text '";
+                message << token->GetSourceSpan()->GetText();
+                message << "'.";
+                auto *error = new Error(Error::ERROR, message.str(), new SourceSpan(token->GetSourceSpan()));
+                errors.push_back(error);
+                delete token;
+            }
         }
     }
 
@@ -121,22 +135,22 @@ manda::ExpressionNode *manda::Parser::ParsePrefixExpression() {
 ExpressionNode *Parser::ParseExpression(int precedence) {
     auto *left = ParsePrefixExpression();
 
-    if (left != nullptr) {
-        while (precedence < GetPrecedence()) {
-            auto *token = Consume();
+    while (left != nullptr && precedence < GetPrecedence()) {
+        auto *token = Consume();
 
-            if (token != nullptr) {
-                auto it = infixParselets.find(token->GetType());
+        if (token != nullptr) {
+            auto it = infixParselets.find(token->GetType());
 
-                if (it != infixParselets.end()) {
-                    InfixParselet *infix = infixParselets[token->GetType()];
-                    left = infix->Parse(this, left, token);
-                }
+            if (it != infixParselets.end()) {
+                InfixParselet *infix = infixParselets.at(token->GetType());
+                left = infix->Parse(this, left, token);
             }
+        } else {
+            break;
         }
     }
 
-    return nullptr;
+    return left;
 }
 
 manda::SimpleIdentifierNode *Parser::ParseSimpleIdentifier() {
@@ -164,10 +178,28 @@ int Parser::GetPrecedence() const {
         auto it = infixParselets.find(token->GetType());
 
         if (it != infixParselets.end()) {
-            InfixParselet *infix = infixParselets[token->GetType()];
+            InfixParselet *infix = infixParselets.at(token->GetType());
             return infix->GetPrecedence();
         }
     }
 
     return 0;
+}
+
+void Parser::AddError(Error::ErrorSeverity severity, const char *message, const SourceSpan *span) {
+    std::string msg(message);
+    AddError(severity, msg, span);
+}
+
+void Parser::AddError(Error::ErrorSeverity severity, const std::string &message, const SourceSpan *span) {
+    auto *error = new Error(severity, message, new SourceSpan(span));
+    errors.push_back(error);
+}
+
+void Parser::AddError(const char *message, const SourceSpan *span) {
+    AddError(Error::ERROR, message, span);
+}
+
+void Parser::AddError(const std::string &message, const SourceSpan *span) {
+    AddError(Error::ERROR, message, span);
 }

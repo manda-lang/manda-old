@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "NumberLiteralNode.h"
+#include "../runtime/runtime.h"
 using namespace manda;
 
 manda::NumberLiteralNode::NumberLiteralNode(const manda::Token *token) {
@@ -27,4 +27,6 @@ bool manda::NumberLiteralNode::HasConstantValue() {
     return true;
 }
 
-
+jit_value_t NumberLiteralNode::acceptInterpreter(Interpreter *interpreter) {
+    return interpreter->VisitNumberLiteral(this);
+}

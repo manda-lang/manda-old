@@ -23,12 +23,6 @@ namespace manda
 
         jit_function_t GetCurrentFunction();
 
-        TaggedPointer *VisitProgram(ProgramNode *ctx);
-
-        jit_value_t VisitNumberLiteral(NumberLiteralNode *ctx);
-
-        void VisitExpressionStatement(ExpressionStatementNode *ctx);
-
         jit_value_t Zero(jit_function_t function);
 
         jit_value_t GetValue(jit_function_t function, jit_value_t nan);
@@ -41,7 +35,15 @@ namespace manda
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 
+        TaggedPointer *VisitProgram(ProgramNode *ctx);
+
+        jit_value_t VisitBinaryExpression(BinaryExpressionNode *ctx);
+
         jit_value_t VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
+
+        jit_value_t VisitNumberLiteral(NumberLiteralNode *ctx);
+
+        void VisitExpressionStatement(ExpressionStatementNode *ctx);
 
     private:
         std::stack<jit_function_t> functionStack;

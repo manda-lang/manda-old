@@ -7,10 +7,13 @@
 #ifndef MANDA_TEXT_H
 #define MANDA_TEXT_H
 #include "AstNode.h"
+#include "BinaryExpressionNode.h"
+#include "BinaryExpressionParselet.h"
 #include "NumberLiteralNode.h"
 #include "Error.h"
 #include "ExpressionNode.h"
 #include "ExpressionStatementNode.h"
+#include "InfixParselet.h"
 #include "SimpleIdentifierNode.h"
 #include "Lexer.h"
 #include "Parser.h"

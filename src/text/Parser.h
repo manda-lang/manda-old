@@ -22,6 +22,7 @@ namespace manda
     {
     public:
         explicit Parser(Lexer *lexer);
+        ~Parser();
 
         const std::vector<Error *> &GetErrors() const;
 
@@ -41,6 +42,14 @@ namespace manda
 
         void ParseStatements(std::vector<StatementNode *> &statements);
 
+        void AddError(Error::ErrorSeverity severity, const char *message, const SourceSpan *span);
+
+        void AddError(Error::ErrorSeverity severity, const std::string& message, const SourceSpan *span);
+
+        void AddError(const char *message, const SourceSpan *span);
+
+        void AddError(const std::string& message, const SourceSpan *span);
+
         ProgramNode *ParseProgram();
 
         StatementNode *ParseStatement();
@@ -56,7 +65,7 @@ namespace manda
         NumberLiteralNode *ParseNumberLiteral();
 
     private:
-        std::unordered_map<Token::TokenType, InfixParselet*> infixParselets;
+        std::unordered_map<int, InfixParselet *> infixParselets;
         std::vector<Error *> errors;
         int64_t index;
         Lexer *lexer;
