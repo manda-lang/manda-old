@@ -59,7 +59,7 @@ jit_value_t Interpreter::VisitDecimalLiteral(DecimalLiteralNode *ctx) {
     auto asUint = jit_value_create_nint_constant(GetCurrentFunction(), jit_type_uint, value);
     auto zero = Zero(GetCurrentFunction());
     auto withValue = SetValue(GetCurrentFunction(), zero, asUint);
-    return SetType(GetCurrentFunction(), withValue, Object::NUMBER);
+    return SetType(GetCurrentFunction(), withValue, Object::INTEGER);
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {

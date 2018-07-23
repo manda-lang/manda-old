@@ -16,8 +16,8 @@ namespace manda
     public:
         enum ObjectType : uint8_t
         {
-            CUSTOM = 0x0,
-            NUMBER = 0x1,
+            POINTER = 0x0,
+            INTEGER = 0x1,
         };
 
     public:
