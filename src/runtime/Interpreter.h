@@ -41,6 +41,8 @@ namespace manda
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 
+        jit_value_t VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
+
     private:
         std::stack<jit_function_t> functionStack;
         jit_context_t jit;

@@ -112,11 +112,7 @@ jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {
     return jit_insn_convert(function, bottom3, jit_type_ubyte, 0);
 }
 
-void manda::ExpressionStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {
-    interpreter->VisitExpressionStatement(this);
-}
-
-jit_value_t NumberLiteralNode::acceptInterpreter(Interpreter *interpreter) {
-    return interpreter->VisitNumberLiteral(this);
+jit_value_t Interpreter::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
+    return nullptr;
 }
 

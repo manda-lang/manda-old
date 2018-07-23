@@ -42,6 +42,8 @@ namespace manda
 
         ExpressionNode *ParseExpression();
 
+        SimpleIdentifierNode *ParseSimpleIdentifier();
+
         NumberLiteralNode *ParseNumberLiteral();
 
     private:

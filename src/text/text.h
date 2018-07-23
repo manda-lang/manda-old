@@ -11,6 +11,7 @@
 #include "Error.h"
 #include "ExpressionNode.h"
 #include "ExpressionStatementNode.h"
+#include "SimpleIdentifierNode.h"
 #include "Lexer.h"
 #include "Parser.h"
 #include "ProgramNode.h"

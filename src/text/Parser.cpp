@@ -6,6 +6,7 @@
 // MIT-style license that can be found in the LICENSE file.
 #include <iostream>
 #include "Parser.h"
+#include "SimpleIdentifierNode.h"
 
 using namespace manda;
 
@@ -86,7 +87,18 @@ ExpressionStatementNode *Parser::ParseExpressionStatement() {
 }
 
 manda::ExpressionNode *manda::Parser::ParseExpression() {
-    return ParseNumberLiteral();
+    ExpressionNode *result = nullptr;
+    if ((result = ParseSimpleIdentifier()) != nullptr) return result;
+    if ((result = ParseNumberLiteral()) != nullptr) return result;
+    return result;
+}
+
+manda::SimpleIdentifierNode *Parser::ParseSimpleIdentifier() {
+    if (!Next(Token::ID)) {
+        return nullptr;
+    } else {
+        return new SimpleIdentifierNode(GetCurrentToken());
+    }
 }
 
 manda::NumberLiteralNode *manda::Parser::ParseNumberLiteral() {
