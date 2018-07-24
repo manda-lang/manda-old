@@ -46,6 +46,31 @@ void Analyzer::PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNod
 
 manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUnitNode *ctx) {
     auto *module = new Module(globalScope->CreateChild());
+
+    // First, gather all top-level symbols.
     PrecursoryVisitCompilationUnit(module, ctx);
+
+    // Next, visit every top-level statement, and load them into the implicit entry point.
+    EnterFunction(module->GetImplicitFunction());
+    ExitFunction();
+
     return module;
+}
+
+void Analyzer::EnterFunction(Function *function) {
+    functionStack.push(function);
+    EnterBlock(function->GetStartBlock());
+}
+
+void Analyzer::ExitFunction() {
+    ExitBlock();
+    functionStack.pop();
+}
+
+void Analyzer::EnterBlock(Block *block) {
+    blockStack.push(block);
+}
+
+void Analyzer::ExitBlock() {
+    blockStack.pop();
 }
