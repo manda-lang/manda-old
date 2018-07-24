@@ -23,6 +23,7 @@ Module::~Module() {
     }
 
     functions.clear();
+    delete implicitFunction;
 }
 
 Function *Module::GetImplicitFunction() {
