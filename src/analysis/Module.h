@@ -18,12 +18,24 @@ namespace manda
     {
     public:
         explicit Module(SymbolTable<Object *> *scope);
+
         ~Module();
 
         std::vector<Function *> &GetFunctions();
 
+        /**
+         * The "implicit function" refers to the top-level statements that are executed when this module is imported.
+         * @return
+         */
+        Function *GetImplicitFunction();
+
+        void SetImplicitFunction(Function *function);
+
+        SymbolTable<Object *> *GetScope();
+
     private:
         std::vector<Function *> functions;
+        Function *implicitFunction;
         SymbolTable<Object *> *scope;
     };
 }

@@ -25,6 +25,8 @@ namespace manda
 
         Block *GetStartBlock() const;
 
+        void SetStartBlock(Block *block);
+
         void PutBlock(std::string &name, Block *block);
 
     private:

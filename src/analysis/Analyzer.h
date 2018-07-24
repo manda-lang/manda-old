@@ -25,6 +25,13 @@ namespace manda
 
         Program *VisitCompilationUnit(CompilationUnitNode *ctx);
 
+        /**
+         * Forward-declares functions, types, etc. in a module, to allow circular reference.
+         * @param module
+         * @param ctx
+         */
+        void PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNode *ctx);
+
         Module *VisitSingleCompilationUnit(CompilationUnitNode *ctx);
 
     private:

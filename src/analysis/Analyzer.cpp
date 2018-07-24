@@ -34,6 +34,18 @@ manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode
     return program;
 }
 
+void Analyzer::PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNode *ctx) {
+    // Create an implicit entry function.
+    auto *entry = new Function;
+    auto *startBlock = new Block(module->GetScope()->CreateChild());
+    entry->SetStartBlock(startBlock);
+    module->SetImplicitFunction(entry);
+
+    // TODO: Look for top-level functions + types
+}
+
 manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUnitNode *ctx) {
-    return nullptr;
+    auto *module = new Module(globalScope->CreateChild());
+    PrecursoryVisitCompilationUnit(module, ctx);
+    return module;
 }

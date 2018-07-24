@@ -10,6 +10,7 @@ using namespace manda;
 
 manda::Module::Module(SymbolTable<Object *> *scope) {
     this->scope = scope;
+    implicitFunction = nullptr;
 }
 
 std::vector<Function *> &manda::Module::GetFunctions() {
@@ -22,4 +23,16 @@ Module::~Module() {
     }
 
     functions.clear();
+}
+
+Function *Module::GetImplicitFunction() {
+    return implicitFunction;
+}
+
+void Module::SetImplicitFunction(Function *function) {
+    implicitFunction = function;
+}
+
+SymbolTable<Object *> *Module::GetScope() {
+    return scope;
 }

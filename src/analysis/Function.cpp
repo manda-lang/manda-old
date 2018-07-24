@@ -29,6 +29,11 @@ manda::Block *manda::Function::GetStartBlock() const {
     return GetBlock(start);
 }
 
+void manda::Function::SetStartBlock(manda::Block *block) {
+    std::string start("start");
+    PutBlock(start, block);
+}
+
 void manda::Function::PutBlock(std::string &name, manda::Block *block) {
     blocks.insert(std::make_pair(name, block));
 }

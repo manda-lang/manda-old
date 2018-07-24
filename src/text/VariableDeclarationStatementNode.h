@@ -32,6 +32,10 @@ namespace manda
 
         const SourceSpan *GetSourceSpan() const override;
 
+        bool HasFunctionDeclaration() const override;
+
+        bool IsExpressionStatement() const override;
+
     private:
         const Token *let;
         SimpleIdentifierNode *identifier;

@@ -18,6 +18,10 @@ namespace manda
     {
     public:
         virtual ~StatementNode() = 0;
+
+        virtual bool HasFunctionDeclaration() const = 0;
+
+        virtual bool IsExpressionStatement() const = 0;
     };
 }
 

@@ -42,3 +42,11 @@ manda::ExpressionNode *manda::VariableDeclarationStatementNode::GetInitializer()
 const manda::SourceSpan *manda::VariableDeclarationStatementNode::GetSourceSpan() const {
     return identifier->GetSourceSpan();
 }
+
+bool manda::VariableDeclarationStatementNode::HasFunctionDeclaration() const {
+    return false;
+}
+
+bool manda::VariableDeclarationStatementNode::IsExpressionStatement() const {
+    return false;
+}

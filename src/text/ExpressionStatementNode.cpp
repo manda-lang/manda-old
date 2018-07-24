@@ -23,3 +23,11 @@ ExpressionNode *manda::ExpressionStatementNode::GetExpression() {
 const manda::SourceSpan *manda::ExpressionStatementNode::GetSourceSpan() const {
     return expression->GetSourceSpan();
 }
+
+bool ExpressionStatementNode::HasFunctionDeclaration() const {
+    return false;
+}
+
+bool ExpressionStatementNode::IsExpressionStatement() const {
+    return true;
+}
