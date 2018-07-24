@@ -153,7 +153,7 @@ Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
         object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 2);
     } else if (type == Token::DECIMAL) {
         auto *text = ctx->GetToken()->GetSourceSpan()->GetText().c_str();
-        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 0);
+        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 10);
     }
 
     return object;

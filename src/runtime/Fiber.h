@@ -12,20 +12,35 @@
 
 namespace manda
 {
+    class Function;
+
     class Fiber
     {
     public:
-        explicit Fiber();
+        explicit Fiber(Function *function);
 
         SymbolTable<double> *GetScope() const;
 
+        const Function *GetFunction() const;
+
+        bool IsWaiting() const;
+
         bool HasExited() const;
+
+        void Exit();
+
+        void WaitFor(void * task);
+
+        void Resume(double result);
 
         void PushScope();
 
         void PopScope();
 
     private:
+        bool exited = false;
+        bool waiting = false;
+        Function *function;
         SymbolTable<double> *scope;
     };
 }

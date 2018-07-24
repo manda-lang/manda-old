@@ -9,20 +9,28 @@
 
 #include <jit/jit.h>
 #include <stack>
+#include "../analysis/analysis.h"
 #include "../text/text.h"
 #include "VM.h"
 
 namespace manda
 {
     class Analyzer;
+
     class ExpressionNode;
+
+    class Program;
 
     class Interpreter
     {
     public:
-        explicit Interpreter(VM *vm, Fiber *fiber);
+        explicit Interpreter(VM *vm);
 
         jit_function_t GetCurrentFunction();
+
+        void LoadProgram(Program *program);
+
+        void Run();
 
         jit_value_t Zero(jit_function_t function);
 
@@ -35,12 +43,14 @@ namespace manda
         jit_value_t SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type);
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
+
     private:
         static uint8_t SymbolTableStore(Interpreter *interpreter, const char *name, double value);
 
         static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
 
         Analyzer *analyzer;
+        Program *program = nullptr;
         std::stack<jit_function_t> functionStack;
         jit_context_t jit;
         jit_function_t entryPoint;

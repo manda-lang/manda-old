@@ -22,6 +22,8 @@ int main() {
 //    std::cout << qq.GetType() << std::endl;
 //    std::cout << std::dec << qq.GetFloatData() << std::endl;
 
+    auto *vm = new VM;
+    auto *interpreter = new Interpreter(vm);
     std::string sourceUri("stdin");
     char *buf = nullptr;
 
@@ -33,7 +35,7 @@ int main() {
             lexer.Scan(line, sourceUri);
             Parser parser(&lexer);
             auto *compilationUnit = parser.ParseCompilationUnit();
-            Analyzer analyzer(&parser);
+            Analyzer analyzer(&parser, true);
             auto *program = analyzer.VisitCompilationUnit(compilationUnit);
 
             // Check for errors...
@@ -47,6 +49,18 @@ int main() {
                 delete compilationUnit;
                 continue;
             }
+
+            // Dispose of existing fibers.
+            vm->ClearFibers();
+
+            // Create a new fiber to run our code.
+            auto *fiber = vm->CreateFiber(program->GetMainModule()->GetImplicitFunction());
+            interpreter->LoadProgram(program);
+            interpreter->Run();
+
+            // Dispose of resources.
+            delete program;
+            delete compilationUnit;
         }
     }
 

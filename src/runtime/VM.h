@@ -13,13 +13,19 @@
 
 namespace manda
 {
+    class Function;
+
     class VM
     {
     public:
+        Fiber *CreateFiber(Function *function);
+
+        const std::vector<Fiber*>& GetFibers() const;
+
+        void ClearFibers();
+    private:
         std::vector<Fiber *> fibers;
         Memory memory;
-
-        Fiber* CreateFiber();
     };
 }
 

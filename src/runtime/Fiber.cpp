@@ -8,6 +8,15 @@
 
 using namespace manda;
 
+Fiber::Fiber(Function *function) {
+    this->function = function;
+    scope = new SymbolTable<double>;
+}
+
+const Function *Fiber::GetFunction() const {
+    return function;
+}
+
 manda::SymbolTable<double> *manda::Fiber::GetScope() const {
     return scope;
 }
@@ -25,9 +34,24 @@ void manda::Fiber::PopScope() {
 }
 
 bool manda::Fiber::HasExited() const {
-    return false;
+    return exited;
 }
 
-manda::Fiber::Fiber() {
-    scope = new SymbolTable<double>;
+bool Fiber::IsWaiting() const {
+    return waiting;
+}
+
+void Fiber::Exit() {
+    exited = true;
+    waiting = false;
+}
+
+void Fiber::Resume(double result) {
+    waiting = false;
+    // TODO:
+}
+
+void Fiber::WaitFor(void *task) {
+    // TODO: Change this to a task pointer, etc.
+    waiting = true;
 }

@@ -6,6 +6,22 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "VM.h"
 
-manda::Fiber *manda::VM::CreateFiber() {
-    return new Fiber;
+using namespace manda;
+
+manda::Fiber *manda::VM::CreateFiber(manda::Function *function) {
+    auto *fiber = new Fiber(function);
+    fibers.push_back(fiber);
+    return fiber;
+}
+
+const std::vector<Fiber *> &manda::VM::GetFibers() const {
+    return fibers;
+}
+
+void VM::ClearFibers() {
+    for (auto *fiber : fibers) {
+        delete fiber;
+    }
+
+    fibers.clear();
 }

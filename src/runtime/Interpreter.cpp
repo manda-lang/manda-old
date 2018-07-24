@@ -10,14 +10,29 @@
 
 using namespace manda;
 
-manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
+manda::Interpreter::Interpreter(manda::VM *vm) {
     this->vm = vm;
-    this->fiber = fiber;
     jit = jit_context_create();
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {
     return functionStack.top();
+}
+
+void Interpreter::LoadProgram(Program *program) {
+    this->program = program;
+}
+
+void Interpreter::Run() {
+   bool anyFibersAreAlive = false;
+
+    do {
+        for (auto *fiber : vm->GetFibers()) {
+            if (!fiber->HasExited()) {
+                anyFibersAreAlive = true;
+            }
+        }
+    } while (anyFibersAreAlive);
 }
 
 jit_value_t Interpreter::GetValue(jit_function_t function, jit_value_t nan) {
