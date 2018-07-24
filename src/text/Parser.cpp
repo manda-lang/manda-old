@@ -128,7 +128,8 @@ VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
         return nullptr;
     }
 
-    auto *let = GetCurrentToken(), *id = ParseSimpleIdentifier();
+    auto *let = GetCurrentToken();
+    auto *id = ParseSimpleIdentifier();
 
     if (id == nullptr) {
         AddError("Missing identifier after 'let' keyword.", let->GetSourceSpan());
@@ -143,7 +144,8 @@ VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
         return nullptr;
     }
 
-    auto *equals = GetCurrentToken(), *initializer = ParseExpression(0);
+    auto *equals = GetCurrentToken();
+    auto *initializer = ParseExpression(0);
 
     if (initializer == nullptr) {
         AddError("Missing expression after '=' in variable declaration.", equals->GetSourceSpan());

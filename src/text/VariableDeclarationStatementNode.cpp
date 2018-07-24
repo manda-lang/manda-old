@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "VariableDeclarationStatementNode.h"
+#include "../runtime/runtime.h"
 
 manda::VariableDeclarationStatementNode::VariableDeclarationStatementNode(const manda::Token *let,
                                                         manda::SimpleIdentifierNode *identifier,
@@ -44,5 +44,5 @@ const manda::SourceSpan *manda::VariableDeclarationStatementNode::GetSourceSpan(
 }
 
 void manda::VariableDeclarationStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {
-
+    interpreter->VisitVariableDeclarationStatement(this);
 }

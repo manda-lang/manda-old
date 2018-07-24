@@ -14,7 +14,7 @@
 
 namespace manda
 {
-    class VariableDeclarationStatementNode : StatementNode
+    class VariableDeclarationStatementNode : public StatementNode
     {
     public:
         explicit VariableDeclarationStatementNode(const Token *let, SimpleIdentifierNode *identifier, const Token *equals,

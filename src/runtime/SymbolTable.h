@@ -16,7 +16,9 @@ namespace manda
     class SymbolTable
     {
     public:
-        SymbolTable() = default;
+        SymbolTable() {
+            parent = nullptr;
+        }
 
         ~SymbolTable() {
             for (auto *symbol : symbols) {
@@ -24,7 +26,19 @@ namespace manda
             }
         }
 
-        bool Add(const std::string &name, T *value);
+        bool Add(const std::string &name, T value) {
+            if (!symbols.empty()) {
+                for (auto *symbol : symbols) {
+                    if (symbol != nullptr && symbol->GetName() == name) {
+                        return false;
+                    }
+                }
+            }
+
+            auto *symbol = new Symbol<T>(name, value);
+            symbols.push_back(symbol);
+            return true;
+        }
 
         bool IsRoot() const {
             return parent == nullptr;
@@ -38,7 +52,23 @@ namespace manda
             return new SymbolTable<T>((SymbolTable<T> *) this);
         }
 
-        Symbol<T> *Resolve(const std::string &name) const;
+        Symbol<T> *Resolve(const std::string &name) const {
+            if (!symbols.empty()) {
+                for (auto *symbol : symbols) {
+                    if (symbol != nullptr && symbol->GetName() == name) {
+                        return symbol;
+                    }
+                }
+            }
+
+            if (parent == nullptr) {
+                return nullptr;
+            } else {
+                return parent->Resolve(name);
+            }
+        }
+
+        bool ExistsAtThisLevel(const std::string &name) const;
 
     private:
         explicit SymbolTable(SymbolTable<T> *parent) {

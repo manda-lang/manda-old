@@ -17,7 +17,7 @@ namespace manda
     public:
         explicit Fiber();
 
-        SymbolTable<TaggedPointer*> *GetScope() const;
+        SymbolTable<double> *GetScope() const;
 
         bool HasExited() const;
 
@@ -26,7 +26,7 @@ namespace manda
         void PopScope();
 
     private:
-        SymbolTable<TaggedPointer*> *scope;
+        SymbolTable<double> *scope;
     };
 }
 

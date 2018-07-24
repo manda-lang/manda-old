@@ -16,15 +16,22 @@ namespace manda
     class Symbol
     {
     public:
-        explicit Symbol(const std::string &name, T *value);
+        explicit Symbol(const std::string &name, T value) {
+            this->name += name;
+            this->value = value;
+        }
 
-        const std::string &GetName() const;
+        const std::string &GetName() const {
+            return name;
+        }
 
-        T *GetValue();
+        T GetValue() {
+            return value;
+        }
 
     private:
         std::string name;
-        T *value = nullptr;
+        T value;
     };
 }
 

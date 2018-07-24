@@ -37,6 +37,8 @@ namespace manda
 
         TaggedPointer *VisitProgram(ProgramNode *ctx);
 
+        jit_value_t VisitExpression(ExpressionNode *ctx);
+
         jit_value_t VisitBinaryExpression(BinaryExpressionNode *ctx);
 
         jit_value_t VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
@@ -45,7 +47,13 @@ namespace manda
 
         void VisitExpressionStatement(ExpressionStatementNode *ctx);
 
+        void VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx);
+
     private:
+        static uint8_t SymbolTableStore(Interpreter *interpreter, const char *name, double value);
+
+        static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
+
         std::stack<jit_function_t> functionStack;
         jit_context_t jit;
         jit_function_t entryPoint;

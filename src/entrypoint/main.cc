@@ -57,8 +57,10 @@ int main() {
                 TaggedPointer::TaggedPointerType type = object->GetType();
 
                 if (type == TaggedPointer::ACTUAL_NUMBER) {
-                    // std::cout << "\033[0;36m0b" << object->ToBitset() << "\033[0m" << std::endl;
-                    // std::cout << "\033[0;36m0x" << std::hex << object->GetRawUlong() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36m0b" << object->ToBitset() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36m0x" << std::hex << object->GetRawUlong() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36mdec: " << std::dec << object->GetRawUlong() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36mdbl: " << std::dec << object->GetRawDouble() << "\033[0m" << std::endl;
                     std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
                 } else {
                     std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;

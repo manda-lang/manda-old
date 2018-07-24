@@ -8,32 +8,14 @@
 #include "SymbolTable.h"
 
 template<typename T>
-bool manda::SymbolTable<T>::Add(const std::string &name, T *value) {
-    for (auto *symbol : symbols) {
-        if (symbol->GetName() == name) {
-            return false;
+bool manda::SymbolTable<T>::ExistsAtThisLevel(const std::string &name) const {
+    if (!symbols.empty()) {
+        for (auto symbol : symbols) {
+            if (symbol != nullptr && symbol->GetName() == name) {
+                return true;
+            }
         }
     }
 
-    std::cout << "alloc " << name << std::endl;
-    auto *symbol = new Symbol<T>(name, value);
-    symbols.push_back(symbol);
-    std::cout << "made " << symbol->GetName() << std::endl;
-    return true;
-}
-
-template<typename T>
-manda::Symbol<T> *manda::SymbolTable<T>::Resolve(const std::string &name) const {
-    for (auto symbol : symbols) {
-        std::cout << symbol->GetName() << " vs. " << name << std::endl;
-        if (symbol->GetName() == name) {
-            return symbol;
-        }
-    }
-
-    if (parent == nullptr) {
-        return nullptr;
-    } else {
-        return parent->Resolve(name);
-    }
+    return false;
 }

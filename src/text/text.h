@@ -21,4 +21,5 @@
 #include "SourceSpan.h"
 #include "StatementNode.h"
 #include "Token.h"
+#include "VariableDeclarationStatementNode.h"
 #endif //MANDA_TEXT_H
