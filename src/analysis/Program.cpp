@@ -24,7 +24,7 @@ std::unordered_map<std::string, Module *> &manda::Program::GetModules() {
 }
 
 Module *Program::GetMainModule() {
-    mainModule;
+    return mainModule;
 }
 
 void Program::SetMainModule(Module *module) {

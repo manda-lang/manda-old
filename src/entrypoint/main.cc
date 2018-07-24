@@ -31,17 +31,20 @@ int main() {
             Lexer lexer;
             std::string line(buf);
             lexer.Scan(line, sourceUri);
-
             Parser parser(&lexer);
             auto *compilationUnit = parser.ParseCompilationUnit();
+            Analyzer analyzer(&parser);
+            auto *program = analyzer.VisitCompilationUnit(compilationUnit);
 
             // Check for errors...
-            if (!parser.GetErrors().empty()) {
-                for (auto *error : parser.GetErrors()) {
+            if (!analyzer.GetErrors().empty()) {
+                for (auto *error : analyzer.GetErrors()) {
                     std::cout << error->GetToolString() << std::endl;
                     std::cout << error->GetSourceSpan()->Highlight(line) << std::endl;
                 }
 
+                delete program;
+                delete compilationUnit;
                 continue;
             }
         }

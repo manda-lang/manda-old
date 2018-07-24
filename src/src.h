@@ -7,6 +7,7 @@
 #ifndef MANDA_SRC_H
 #define MANDA_SRC_H
 
+#include "analysis/analysis.h"
 #include "runtime/runtime.h"
 #include "text/text.h"
 

@@ -72,11 +72,13 @@ const manda::Token *manda::Parser::Peek() const {
 }
 
 const manda::Token *manda::Parser::Consume() {
-    if (IsDone()) {
-        return nullptr;
-    } else {
-        return lexer->GetTokens().at((unsigned long) ++index);
+    auto *peek = Peek();
+
+    if (peek != nullptr) {
+        index++;
     }
+
+    return peek;
 }
 
 CompilationUnitNode *Parser::ParseCompilationUnit() {

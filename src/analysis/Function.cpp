@@ -8,6 +8,14 @@
 
 manda::Function::Function() = default;
 
+manda::Function::~Function() {
+    for (auto &pair : blocks) {
+        delete pair.second;
+    }
+
+    blocks.clear();
+}
+
 bool manda::Function::HasBlock(std::string &name) const {
     return blocks.find(name) != blocks.end();
 }
