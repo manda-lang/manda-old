@@ -17,6 +17,8 @@ namespace manda
 {
     class Analyzer;
 
+    class Block;
+
     class ExpressionNode;
 
     class Program;
@@ -25,6 +27,8 @@ namespace manda
     {
     public:
         explicit Interpreter(VM *vm);
+
+        ~Interpreter();
 
         jit_function_t GetCurrentFunction();
 
@@ -44,7 +48,20 @@ namespace manda
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 
+        jit_function_t VisitFunction(const Function *ctx);
+
     private:
+        struct OnDemandCompilationOptions
+        {
+            Fiber *fiber;
+            const manda::Function *function;
+            Program *program;
+        };
+
+        static int CompileFunction(jit_function_t function);
+
+        static int CompileBlock(jit_function_t function, OnDemandCompilationOptions &options, Block *block);
+
         static uint8_t SymbolTableStore(Interpreter *interpreter, const char *name, double value);
 
         static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
@@ -55,7 +72,8 @@ namespace manda
         jit_context_t jit;
         jit_function_t entryPoint;
         VM *vm;
-        Fiber *fiber;
+        Fiber *currentFiber;
+        jit_abi_t abi;
     };
 }
 

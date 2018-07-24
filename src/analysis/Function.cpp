@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "Function.h"
+using namespace manda;
 
 manda::Function::Function() = default;
 
@@ -36,4 +37,8 @@ void manda::Function::SetStartBlock(manda::Block *block) {
 
 void manda::Function::PutBlock(std::string &name, manda::Block *block) {
     blocks.insert(std::make_pair(name, block));
+}
+
+const std::unordered_map<std::string, Block *> &manda::Function::GetBlocks() const {
+    return blocks;
 }

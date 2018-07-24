@@ -19,6 +19,8 @@ namespace manda
         explicit Function();
         ~Function();
 
+        const std::unordered_map<std::string, Block *>& GetBlocks() const;
+
         bool HasBlock(std::string &name) const;
 
         Block *GetBlock(std::string &name) const;

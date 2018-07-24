@@ -54,7 +54,9 @@ int main() {
             vm->ClearFibers();
 
             // Create a new fiber to run our code.
-            auto *fiber = vm->CreateFiber(program->GetMainModule()->GetImplicitFunction());
+            vm->CreateFiber(program->GetMainModule()->GetImplicitFunction());
+
+            // Load the program into the intepreter, and start JIT-ing!
             interpreter->LoadProgram(program);
             interpreter->Run();
 
