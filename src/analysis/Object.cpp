@@ -8,7 +8,7 @@
 
 using namespace manda;
 
-manda::Object::Object(manda::Type *type, manda::SourceSpan *span) {
+manda::Object::Object(const Type *type, const SourceSpan *span) {
     this->type = type;
     this->sourceSpan = new SourceSpan(span);
 }
@@ -16,6 +16,10 @@ manda::Object::Object(manda::Type *type, manda::SourceSpan *span) {
 Object::Object() = default;
 
 manda::Object::~Object() {
+    if (rawObject.type == STRING) {
+        delete rawObject.asString;
+    }
+
     delete sourceSpan;
 }
 

@@ -17,13 +17,26 @@ namespace manda
     class Object
     {
     public:
-        explicit Object(Type *type, SourceSpan *span);
+        explicit Object(const Type *type, const SourceSpan *span);
 
         ~Object();
 
         const Type *GetType() const;
 
         const SourceSpan *GetSourceSpan() const;
+
+        enum RawObjectType
+        {
+            NONE, STRING, DOUBLE
+        };
+
+        union
+        {
+            RawObjectType type = NONE;
+            const char *asString;
+            uint64_t asUint64;
+            double asDouble;
+        } rawObject;
 
     protected:
         explicit Object();

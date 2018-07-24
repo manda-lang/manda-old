@@ -55,6 +55,8 @@ namespace manda
         Module *coreModule = nullptr;
         SymbolTable<Object *> *globalScope;
 
+        const Type * GetCoreType(const char *name);
+
         void CreateCoreModule();
 
         void EnterFunction(Function *function);

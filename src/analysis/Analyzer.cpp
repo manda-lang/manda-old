@@ -4,7 +4,9 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <iostream>
 #include "analysis.h"
+#include "Object.h"
 
 using namespace manda;
 
@@ -47,6 +49,13 @@ void Analyzer::CreateCoreModule() {
         coreModule = new Module(name, globalScope->CreateChild());
         coreModule->GetScope()->Add("Num", new TypeObject(new NumType(coreModule)));
     }
+}
+
+const Type *Analyzer::GetCoreType(const char *name) {
+    std::string n(name);
+    auto *symbol = coreModule->GetScope()->Resolve(n);
+    auto *typeObject = (TypeObject *) symbol->GetValue();
+    return typeObject->GetReferencedType();
 }
 
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
@@ -127,7 +136,28 @@ Object *Analyzer::VisitBinaryExpression(BinaryExpressionNode *ctx) {
 }
 
 Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
-    return nullptr;
+    auto *object = new Object(GetCoreType("Num"), ctx->GetSourceSpan());
+    auto type = ctx->GetToken()->GetType();
+
+    if (type == Token::FLOAT) {
+        auto *text = ctx->GetToken()->GetSourceSpan()->GetText().c_str();
+        object->rawObject.asDouble = strtod(text, nullptr);
+    } else if (type == Token::OCTAL) {
+        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 8);
+    } else if (type == Token::HEX) {
+        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 16);
+    } else if (type == Token::BINARY) {
+        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 2);
+    } else if (type == Token::DECIMAL) {
+        auto *text = ctx->GetToken()->GetSourceSpan()->GetText().c_str();
+        object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 0);
+    }
+
+    std::cout << object->rawObject.asUint64 << std::endl;
+    return object;
 }
 
 Object *Analyzer::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
