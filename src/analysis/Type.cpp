@@ -18,3 +18,5 @@ std::string manda::Type::GetQualifiedName() const {
 bool manda::Type::IsExactly(const manda::Type *other) const {
     return other != nullptr && other->GetQualifiedName() == GetQualifiedName();
 }
+
+manda::Type::~Type() = default;

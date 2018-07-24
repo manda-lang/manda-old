@@ -37,10 +37,11 @@ void manda::Lexer::Scan(std::string &sourceText, std::string &sourceUri) {
                 std::smatch match;
 
                 if (std::regex_search(txt, match, pair.first)) {
-                    auto str = match[0].str();
+                    auto str = match.str(0);
+                    auto s1 = match.str(1);
                     auto *span = new SourceSpan(sourceUri, str, line, column);
                     auto *token = new Token(pair.second, span);
-                    token->SetMatch(match);
+                    token->SetMatch(s1);
                     staging.push_back(token);
                 }
             }
@@ -103,9 +104,9 @@ Lexer::Lexer() {
     patterns.push_back(std::make_pair(std::regex("^\\-"), Token::MINUS));
 
     // Expressions
-    patterns.push_back(std::make_pair(std::regex("^0b[0-1]+"), Token::BINARY));
-    patterns.push_back(std::make_pair(std::regex("^0x[A-Fa-f0-9]+"), Token::HEX));
-    patterns.push_back(std::make_pair(std::regex("^0o[0-7]+"), Token::OCTAL));
+    patterns.push_back(std::make_pair(std::regex("^0b([0-1]+)"), Token::BINARY));
+    patterns.push_back(std::make_pair(std::regex("^0x([A-Fa-f0-9]+)"), Token::HEX));
+    patterns.push_back(std::make_pair(std::regex("^0o([0-7]+)"), Token::OCTAL));
     patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::FLOAT));
     patterns.push_back(std::make_pair(std::regex("^[0-9]+"), Token::DECIMAL));
     patterns.push_back(std::make_pair(std::regex("^[A-Za-z_][A-Za-z0-9_]*"), Token::ID));

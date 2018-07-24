@@ -19,6 +19,8 @@ namespace manda
     public:
         virtual const Module *GetModule() const = 0;
 
+        virtual ~Type();
+
         virtual std::string GetName() const = 0;
 
         virtual const Type* GetParent() const = 0;

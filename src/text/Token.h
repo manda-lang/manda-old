@@ -7,7 +7,6 @@
 #ifndef MANDA_TOKEN_H
 #define MANDA_TOKEN_H
 
-#include <regex>
 #include <string>
 #include "SourceSpan.h"
 
@@ -48,13 +47,13 @@ namespace manda
 
         bool HasMatch() const;
 
-        const std::smatch &GetMatch() const;
+        const std::string &GetMatch() const;
 
-        void SetMatch(std::smatch &match);
+        void SetMatch(std::string &match);
 
     private:
         bool hasMatch;
-        std::smatch match;
+        std::string match;
         TokenType type;
         const SourceSpan *sourceSpan;
     };

@@ -32,10 +32,10 @@ namespace manda
 
         union
         {
-            RawObjectType type = NONE;
+            RawObjectType type;
             const char *asString;
             uint64_t asUint64;
-            double asDouble;
+            double asDouble = 0.0;
         } rawObject;
 
     protected:

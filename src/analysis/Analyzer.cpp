@@ -143,20 +143,19 @@ Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
         auto *text = ctx->GetToken()->GetSourceSpan()->GetText().c_str();
         object->rawObject.asDouble = strtod(text, nullptr);
     } else if (type == Token::OCTAL) {
-        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        auto *text = ctx->GetToken()->GetMatch().c_str();
         object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 8);
     } else if (type == Token::HEX) {
-        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        auto *text = ctx->GetToken()->GetMatch().c_str();
         object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 16);
     } else if (type == Token::BINARY) {
-        auto *text = ctx->GetToken()->GetMatch()[1].str().c_str();
+        auto *text = ctx->GetToken()->GetMatch().c_str();
         object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 2);
     } else if (type == Token::DECIMAL) {
         auto *text = ctx->GetToken()->GetSourceSpan()->GetText().c_str();
         object->rawObject.asUint64 = (uint64_t) strtol(text, nullptr, 0);
     }
 
-    std::cout << object->rawObject.asUint64 << std::endl;
     return object;
 }
 

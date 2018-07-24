@@ -24,12 +24,12 @@ bool manda::Token::HasMatch() const {
     return hasMatch;
 }
 
-const std::smatch &manda::Token::GetMatch() const {
+const std::string &manda::Token::GetMatch() const {
     return match;
 }
 
-void manda::Token::SetMatch(std::smatch &match) {
-    this->match = match;
+void manda::Token::SetMatch(std::string &match) {
+    this->match += match;
 }
 
 manda::Token::~Token() {
