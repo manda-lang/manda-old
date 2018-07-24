@@ -7,6 +7,7 @@
 #ifndef MANDA_MODULE_H
 #define MANDA_MODULE_H
 
+#include <string>
 #include <vector>
 #include "../runtime/SymbolTable.h"
 #include "Function.h"
@@ -17,11 +18,17 @@ namespace manda
     class Module
     {
     public:
-        explicit Module(SymbolTable<Object *> *scope);
+        explicit Module(const std::string &name, SymbolTable<Object *> *scope);
 
         ~Module();
 
         std::vector<Function *> &GetFunctions();
+
+        const std::string &GetName() const;
+
+        std::string &GetQualifiedName() const;
+
+        Module *GetParent() const;
 
         /**
          * The "implicit function" refers to the top-level statements that are executed when this module is imported.
@@ -34,6 +41,10 @@ namespace manda
         SymbolTable<Object *> *GetScope();
 
     private:
+        explicit Module(const std::string &name, Module *parent);
+
+        std::string name;
+        Module *parent;
         std::vector<Function *> functions;
         Function *implicitFunction;
         SymbolTable<Object *> *scope;
