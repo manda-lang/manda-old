@@ -9,23 +9,23 @@
 
 #include <unordered_map>
 #include <vector>
+#include "CompilationUnitNode.h"
+#include "ExpressionStatementNode.h"
 #include "InfixParselet.h"
 #include "Lexer.h"
 #include "NumberLiteralNode.h"
-#include "ExpressionStatementNode.h"
-#include "CompilationUnitNode.h"
 #include "SimpleIdentifierNode.h"
+#include "TracksErrors.h"
 #include "VariableDeclarationStatementNode.h"
 
 namespace manda
 {
-    class Parser
+    class Parser : public TracksErrors
     {
     public:
         explicit Parser(Lexer *lexer);
-        ~Parser();
 
-        std::vector<Error *> &GetErrors();
+        ~Parser();
 
         const Token *GetCurrentToken() const;
 
@@ -42,14 +42,6 @@ namespace manda
         const Token *Consume();
 
         void ParseStatements(std::vector<StatementNode *> &statements);
-
-        void AddError(Error::ErrorSeverity severity, const char *message, const SourceSpan *span);
-
-        void AddError(Error::ErrorSeverity severity, const std::string& message, const SourceSpan *span);
-
-        void AddError(const char *message, const SourceSpan *span);
-
-        void AddError(const std::string& message, const SourceSpan *span);
 
         CompilationUnitNode *ParseCompilationUnit();
 
@@ -69,7 +61,6 @@ namespace manda
 
     private:
         std::unordered_map<int, InfixParselet *> infixParselets;
-        std::vector<Error *> errors;
         int64_t index;
         Lexer *lexer;
     };

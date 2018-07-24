@@ -10,10 +10,6 @@
 
 using namespace manda;
 
-std::vector<Error *> &manda::Lexer::GetErrors() {
-    return errors;
-}
-
 const std::vector<Token *> &manda::Lexer::GetTokens() const {
     return tokens;
 }

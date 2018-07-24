@@ -32,10 +32,6 @@ Parser::~Parser() {
     // TODO: Delete all infix parselets
 }
 
-std::vector<Error *> &manda::Parser::GetErrors() {
-    return errors;
-}
-
 const manda::Token *manda::Parser::GetCurrentToken() const {
     return lexer->GetTokens().at((unsigned long) index);
 }
@@ -224,22 +220,4 @@ int Parser::GetPrecedence() const {
     }
 
     return 0;
-}
-
-void Parser::AddError(Error::ErrorSeverity severity, const char *message, const SourceSpan *span) {
-    std::string msg(message);
-    AddError(severity, msg, span);
-}
-
-void Parser::AddError(Error::ErrorSeverity severity, const std::string &message, const SourceSpan *span) {
-    auto *error = new Error(severity, message, new SourceSpan(span));
-    errors.push_back(error);
-}
-
-void Parser::AddError(const char *message, const SourceSpan *span) {
-    AddError(Error::ERROR, message, span);
-}
-
-void Parser::AddError(const std::string &message, const SourceSpan *span) {
-    AddError(Error::ERROR, message, span);
 }

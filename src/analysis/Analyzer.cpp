@@ -22,10 +22,6 @@ manda::Analyzer::~Analyzer() {
     delete globalScope;
 }
 
-const std::vector<Error *> &Analyzer::GetErrors() const {
-    return errors;
-}
-
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
     auto *program = new Program;
 

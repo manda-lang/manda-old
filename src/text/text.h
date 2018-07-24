@@ -9,6 +9,7 @@
 #include "AstNode.h"
 #include "BinaryExpressionNode.h"
 #include "BinaryExpressionParselet.h"
+#include "CompilationUnitNode.h"
 #include "NumberLiteralNode.h"
 #include "Error.h"
 #include "ExpressionNode.h"
@@ -17,9 +18,9 @@
 #include "SimpleIdentifierNode.h"
 #include "Lexer.h"
 #include "Parser.h"
-#include "CompilationUnitNode.h"
 #include "SourceSpan.h"
 #include "StatementNode.h"
+#include "TracksErrors.h"
 #include "Token.h"
 #include "VariableDeclarationStatementNode.h"
 #endif //MANDA_TEXT_H

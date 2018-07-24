@@ -14,15 +14,14 @@
 #include <vector>
 #include "Error.h"
 #include "Token.h"
+#include "TracksErrors.h"
 
 namespace manda
 {
-    class Lexer
+    class Lexer : public TracksErrors
     {
     public:
         explicit Lexer();
-
-        std::vector<Error *> &GetErrors();
 
         const std::vector<Token *> &GetTokens() const;
 
