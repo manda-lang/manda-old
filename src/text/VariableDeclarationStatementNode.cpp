@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../runtime/runtime.h"
+#include "../src.h"
 
 manda::VariableDeclarationStatementNode::VariableDeclarationStatementNode(const manda::Token *let,
                                                         manda::SimpleIdentifierNode *identifier,
@@ -49,4 +49,8 @@ bool manda::VariableDeclarationStatementNode::HasFunctionDeclaration() const {
 
 bool manda::VariableDeclarationStatementNode::IsExpressionStatement() const {
     return false;
+}
+
+void manda::VariableDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) {
+    analyzer->VisitVariableDeclarationStatement(this);
 }

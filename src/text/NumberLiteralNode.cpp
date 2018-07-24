@@ -4,7 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../runtime/runtime.h"
+#include "../src.h"
+
 using namespace manda;
 
 manda::NumberLiteralNode::NumberLiteralNode(const manda::Token *token) {
@@ -25,4 +26,8 @@ const manda::SourceSpan *manda::NumberLiteralNode::GetSourceSpan() const {
 
 bool manda::NumberLiteralNode::HasConstantValue() {
     return true;
+}
+
+Object *NumberLiteralNode::AcceptAnalyzer(Analyzer *analyzer) {
+    return analyzer->VisitNumberLiteral(this);
 }

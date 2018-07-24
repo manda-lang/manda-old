@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../runtime/runtime.h"
+#include "../src.h"
 
 using namespace manda;
 
@@ -30,4 +30,8 @@ bool ExpressionStatementNode::HasFunctionDeclaration() const {
 
 bool ExpressionStatementNode::IsExpressionStatement() const {
     return true;
+}
+
+void ExpressionStatementNode::AcceptAnalyzer(Analyzer *analyzer) {
+    analyzer->VisitExpressionStatement(this);
 }

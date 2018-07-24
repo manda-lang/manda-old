@@ -13,7 +13,9 @@
 
 namespace manda
 {
-    class Interpreter;
+    class Analyzer;
+
+    class Object;
 
     class ExpressionNode : public AstNode
     {
@@ -21,6 +23,8 @@ namespace manda
         virtual ~ExpressionNode() = 0;
 
         virtual bool HasConstantValue() = 0;
+
+        virtual Object *AcceptAnalyzer(Analyzer *analyzer) = 0;
     };
 }
 

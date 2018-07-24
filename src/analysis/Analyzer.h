@@ -36,6 +36,18 @@ namespace manda
 
         void VisitStatement(StatementNode *ctx);
 
+        void VisitExpressionStatement(ExpressionStatementNode *ctx);
+
+        void VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx);
+
+        Object *VisitExpression(ExpressionNode *ctx);
+
+        Object *VisitBinaryExpression(BinaryExpressionNode *ctx);
+
+        Object *VisitNumberLiteral(NumberLiteralNode *ctx);
+
+        Object *VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
+
     private:
         std::stack<Block *> blockStack;
         std::stack<Function *> functionStack;

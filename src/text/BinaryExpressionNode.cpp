@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../runtime/runtime.h"
+#include "../src.h"
 
 manda::BinaryExpressionNode::BinaryExpressionNode(manda::ExpressionNode *left, const manda::Token *op,
                                                   manda::ExpressionNode *right) {
@@ -37,4 +37,8 @@ manda::ExpressionNode *manda::BinaryExpressionNode::GetRight() const {
 
 const manda::Token *manda::BinaryExpressionNode::GetOperator() const {
     return op;
+}
+
+manda::Object *manda::BinaryExpressionNode::AcceptAnalyzer(manda::Analyzer *analyzer) {
+    return analyzer->VisitBinaryExpression(this);
 }

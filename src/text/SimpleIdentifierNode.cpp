@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../runtime/runtime.h"
+#include "../src.h"
 using namespace manda;
 
 manda::SimpleIdentifierNode::SimpleIdentifierNode(const manda::Token *token) {
@@ -25,4 +25,8 @@ bool manda::SimpleIdentifierNode::HasConstantValue() {
 
 const std::string &manda::SimpleIdentifierNode::GetName() const {
     return token->GetSourceSpan()->GetText();
+}
+
+Object *SimpleIdentifierNode::AcceptAnalyzer(Analyzer *analyzer) {
+    return analyzer->VisitSimpleIdentifier(this);
 }

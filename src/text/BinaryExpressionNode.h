@@ -29,6 +29,8 @@ namespace manda
 
         bool HasConstantValue() override;
 
+        Object *AcceptAnalyzer(Analyzer *analyzer) override;
+
     private:
         ExpressionNode *left;
         ExpressionNode *right;

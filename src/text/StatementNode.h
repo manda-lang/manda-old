@@ -12,7 +12,7 @@
 
 namespace manda
 {
-    class Interpreter;
+    class Analyzer;
 
     class StatementNode : public AstNode
     {
@@ -22,6 +22,8 @@ namespace manda
         virtual bool HasFunctionDeclaration() const = 0;
 
         virtual bool IsExpressionStatement() const = 0;
+
+        virtual void AcceptAnalyzer(Analyzer *analyzer) = 0;
     };
 }
 

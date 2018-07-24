@@ -22,6 +22,24 @@ manda::Analyzer::~Analyzer() {
     delete globalScope;
 }
 
+void Analyzer::EnterFunction(Function *function) {
+    functionStack.push(function);
+    EnterBlock(function->GetStartBlock());
+}
+
+void Analyzer::ExitFunction() {
+    ExitBlock();
+    functionStack.pop();
+}
+
+void Analyzer::EnterBlock(Block *block) {
+    blockStack.push(block);
+}
+
+void Analyzer::ExitBlock() {
+    blockStack.pop();
+}
+
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
     auto *program = new Program;
 
@@ -65,23 +83,29 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUni
 }
 
 void Analyzer::VisitStatement(StatementNode *ctx) {
+    ctx->AcceptAnalyzer(this);
+}
+
+void Analyzer::VisitExpressionStatement(ExpressionStatementNode *ctx) {
 
 }
 
-void Analyzer::EnterFunction(Function *function) {
-    functionStack.push(function);
-    EnterBlock(function->GetStartBlock());
+void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx) {
+
 }
 
-void Analyzer::ExitFunction() {
-    ExitBlock();
-    functionStack.pop();
+Object *Analyzer::VisitExpression(ExpressionNode *ctx) {
+    return ctx->AcceptAnalyzer(this);
 }
 
-void Analyzer::EnterBlock(Block *block) {
-    blockStack.push(block);
+Object *Analyzer::VisitBinaryExpression(BinaryExpressionNode *ctx) {
+    return nullptr;
 }
 
-void Analyzer::ExitBlock() {
-    blockStack.pop();
+Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
+    return nullptr;
+}
+
+Object *Analyzer::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
+    return nullptr;
 }

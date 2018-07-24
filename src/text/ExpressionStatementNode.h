@@ -27,6 +27,8 @@ namespace manda
 
         bool IsExpressionStatement() const override;
 
+        void AcceptAnalyzer(Analyzer *analyzer) override;
+
     private:
         ExpressionNode *expression;
     };
