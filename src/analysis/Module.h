@@ -26,9 +26,11 @@ namespace manda
 
         const std::string &GetName() const;
 
-        std::string &GetQualifiedName() const;
+        std::string GetQualifiedName() const;
 
-        Module *GetParent() const;
+        const Module *GetParent() const;
+
+        Module *CreateChild(const std::string &name) const;
 
         /**
          * The "implicit function" refers to the top-level statements that are executed when this module is imported.
@@ -41,10 +43,10 @@ namespace manda
         SymbolTable<Object *> *GetScope();
 
     private:
-        explicit Module(const std::string &name, Module *parent);
+        explicit Module(const std::string &name, const Module *parent);
 
         std::string name;
-        Module *parent;
+        const Module *parent;
         std::vector<Function *> functions;
         Function *implicitFunction;
         SymbolTable<Object *> *scope;

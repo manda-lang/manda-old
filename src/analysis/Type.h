@@ -19,11 +19,11 @@ namespace manda
     public:
         virtual const Module *GetModule() const = 0;
 
-        virtual const std::string& GetName() const = 0;
+        virtual std::string GetName() const = 0;
 
         virtual const Type* GetParent() const = 0;
 
-        virtual std::string& GetQualifiedName() const;
+        virtual std::string GetQualifiedName() const;
 
         virtual bool IsExactly(const Type* other) const;
     };

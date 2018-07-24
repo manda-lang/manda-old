@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "Analyzer.h"
+#include "analysis.h"
 
 using namespace manda;
 
@@ -40,8 +40,20 @@ void Analyzer::ExitBlock() {
     blockStack.pop();
 }
 
+void Analyzer::CreateCoreModule() {
+    if (coreModule == nullptr) {
+        std::string name("Core");
+        coreModule = new Module(name, globalScope->CreateChild());
+        coreModule->GetScope()->Add("Num", new TypeObject(new NumType(coreModule)));
+    }
+}
+
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
     auto *program = new Program;
+
+    // Create the Core module.
+    CreateCoreModule();
+    program->GetModules().insert(std::make_pair(coreModule->GetName(), coreModule));
 
     // TODO: Actual names for modules
     auto *module = VisitSingleCompilationUnit(ctx);
@@ -63,7 +75,8 @@ void Analyzer::PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNod
 }
 
 manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUnitNode *ctx) {
-    auto *module = new Module(globalScope->CreateChild());
+    std::string moduleName("Main");
+    auto *module = new Module(moduleName, globalScope->CreateChild());
 
     // First, gather all top-level symbols.
     PrecursoryVisitCompilationUnit(module, ctx);

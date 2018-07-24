@@ -40,6 +40,11 @@ namespace manda
             return true;
         }
 
+        bool Add(const char *name, T value) {
+            std::string n(name);
+            return Add(n, value);
+        }
+
         bool IsRoot() const {
             return parent == nullptr;
         }

@@ -7,7 +7,7 @@
 #include <sstream>
 #include "Type.h"
 
-std::string &manda::Type::GetQualifiedName() const {
+std::string manda::Type::GetQualifiedName() const {
     std::ostringstream ss;
 
     ss << GetModule()->GetQualifiedName() << "::" << GetName();

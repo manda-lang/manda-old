@@ -18,7 +18,7 @@ namespace manda
 
         const Module *GetModule() const override;
 
-        const std::string &GetName() const override;
+        std::string GetName() const override;
 
         const Type *GetParent() const override;
 

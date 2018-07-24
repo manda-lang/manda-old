@@ -12,7 +12,10 @@
 #include "Function.h"
 #include "Instruction.h"
 #include "Module.h"
+#include "NumType.h"
 #include "Object.h"
+#include "ObjectInstruction.h"
 #include "Program.h"
 #include "Type.h"
+#include "TypeObject.h"
 #endif //MANDA_ANALYSIS_H

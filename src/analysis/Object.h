@@ -12,6 +12,8 @@
 
 namespace manda
 {
+    class Type;
+
     class Object
     {
     public:
@@ -21,11 +23,13 @@ namespace manda
 
         const Type *GetType() const;
 
-        const SourceSpan *GetSourceSpan();
+        const SourceSpan *GetSourceSpan() const;
 
-    private:
-        Type *type;
-        SourceSpan *sourceSpan;
+    protected:
+        explicit Object();
+
+        const Type *type;
+        const SourceSpan *sourceSpan;
     };
 }
 

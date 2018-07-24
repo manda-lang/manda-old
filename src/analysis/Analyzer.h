@@ -51,7 +51,10 @@ namespace manda
     private:
         std::stack<Block *> blockStack;
         std::stack<Function *> functionStack;
+        Module *coreModule = nullptr;
         SymbolTable<Object *> *globalScope;
+
+        void CreateCoreModule();
 
         void EnterFunction(Function *function);
 

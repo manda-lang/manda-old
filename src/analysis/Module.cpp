@@ -45,7 +45,7 @@ const std::string &Module::GetName() const {
     return name;
 }
 
-std::string &Module::GetQualifiedName() const {
+std::string Module::GetQualifiedName() const {
     std::ostringstream ss;
 
     if (parent != nullptr) {
@@ -53,18 +53,20 @@ std::string &Module::GetQualifiedName() const {
     }
 
     ss << name;
-
-    auto s = ss.str();
-    return s;
+    return ss.str();
 }
 
-Module *Module::GetParent() const {
+const Module *Module::GetParent() const {
     return parent;
 }
 
-Module::Module(const std::string &name, Module *parent) {
+Module::Module(const std::string &name, const Module *parent) {
     this->name += name;
     this->scope = parent->scope->CreateChild();
     implicitFunction = nullptr;
     this->parent = parent;
+}
+
+Module *Module::CreateChild(const std::string &name) const {
+    return new Module(name, this);
 }

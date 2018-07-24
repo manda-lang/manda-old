@@ -10,7 +10,7 @@ const manda::Module *manda::NumType::GetModule() const {
     return module;
 }
 
-const std::string &manda::NumType::GetName() const {
+std::string manda::NumType::GetName() const {
     return std::string("Num");
 }
 

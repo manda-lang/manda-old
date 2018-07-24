@@ -10,10 +10,11 @@
 #include <vector>
 #include "../runtime/SymbolTable.h"
 #include "Instruction.h"
-#include "Object.h"
 
 namespace manda
 {
+    class Object;
+
     class Block
     {
     public:
