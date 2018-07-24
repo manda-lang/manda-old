@@ -4,16 +4,4 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_TYPE_H
-#define MANDA_TYPE_H
-
-namespace manda
-{
-    class Type
-    {
-
-    };
-}
-
-
-#endif //MANDA_TYPE_H
+#include "Object.h"

@@ -14,6 +14,8 @@ manda::CompilationUnitNode::~CompilationUnitNode() {
     for (auto *statement : statements) {
         delete statement;
     }
+
+    statements.clear();
 }
 
 const std::vector<StatementNode *> &manda::CompilationUnitNode::GetStatements() const {

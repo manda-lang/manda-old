@@ -10,8 +10,6 @@ add_library(${MANDA_LIBRARY}
         runtime/VM.cpp runtime/VM.h
         runtime/Fiber.cpp runtime/Fiber.h
         runtime/TaggedPointer.cpp runtime/TaggedPointer.h
-        runtime/Type.cpp runtime/Type.h
-        runtime/Function.cpp runtime/Function.h
         runtime/Symbol.cpp runtime/Symbol.h
         runtime/SymbolTable.cpp runtime/SymbolTable.h
         text/Error.h
@@ -28,7 +26,7 @@ add_library(${MANDA_LIBRARY}
         text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h
         text/CompilationUnitNode.cpp text/CompilationUnitNode.h
         runtime/runtime.h
-        runtime/Interpreter.cpp runtime/Interpreter.h text/SimpleIdentifierNode.cpp text/SimpleIdentifierNode.h text/InfixParselet.cpp text/InfixParselet.h text/BinaryExpressionParselet.cpp text/BinaryExpressionParselet.h text/BinaryExpressionNode.cpp text/BinaryExpressionNode.h text/VariableDeclarationStatementNode.cpp text/VariableDeclarationStatementNode.h analysis/Analyzer.cpp analysis/Analyzer.h)
+        runtime/Interpreter.cpp runtime/Interpreter.h text/SimpleIdentifierNode.cpp text/SimpleIdentifierNode.h text/InfixParselet.cpp text/InfixParselet.h text/BinaryExpressionParselet.cpp text/BinaryExpressionParselet.h text/BinaryExpressionNode.cpp text/BinaryExpressionNode.h text/VariableDeclarationStatementNode.cpp text/VariableDeclarationStatementNode.h analysis/Analyzer.cpp analysis/Analyzer.h analysis/Module.cpp analysis/Module.h analysis/Function.cpp analysis/Function.h analysis/Block.cpp analysis/Block.h analysis/Instruction.cpp analysis/Instruction.h analysis/Type.cpp analysis/Type.h analysis/Expression.cpp analysis/Expression.h analysis/Object.cpp analysis/Object.h)
 target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)

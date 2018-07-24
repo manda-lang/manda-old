@@ -8,12 +8,10 @@
 #define MANDA_RUNTIME_H
 
 #include "Fiber.h"
-#include "Function.h"
 #include "Interpreter.h"
 #include "Memory.h"
 #include "TaggedPointer.h"
 #include "Symbol.h"
-#include "Type.h"
 #include "VM.h"
 
 #endif //MANDA_RUNTIME_H

@@ -35,21 +35,6 @@ namespace manda
         jit_value_t SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type);
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
-
-        TaggedPointer *VisitCompilationUnit(CompilationUnitNode *ctx);
-
-        jit_value_t VisitExpression(ExpressionNode *ctx);
-
-        jit_value_t VisitBinaryExpression(BinaryExpressionNode *ctx);
-
-        jit_value_t VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
-
-        jit_value_t VisitNumberLiteral(NumberLiteralNode *ctx);
-
-        void VisitExpressionStatement(ExpressionStatementNode *ctx);
-
-        void VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx);
-
     private:
         static uint8_t SymbolTableStore(Interpreter *interpreter, const char *name, double value);
 
