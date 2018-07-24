@@ -7,3 +7,7 @@
 #include "ExpressionNode.h"
 
 manda::ExpressionNode::~ExpressionNode() = default;
+
+bool manda::ExpressionNode::CanStandAlone() {
+    return false;
+}

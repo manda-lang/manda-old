@@ -8,7 +8,8 @@
 
 using namespace manda;
 
-manda::Analyzer::Analyzer(Parser *parser) {
+manda::Analyzer::Analyzer(Parser *parser, bool isRepl) {
+    this->isRepl = isRepl;
     globalScope = new SymbolTable<Object *>;
 
     for (auto *error: parser->GetErrors()) {
@@ -100,7 +101,17 @@ void Analyzer::VisitStatement(StatementNode *ctx) {
 }
 
 void Analyzer::VisitExpressionStatement(ExpressionStatementNode *ctx) {
+    if (!isRepl && ctx->GetExpression()->CanStandAlone()) {
+        AddError("Expression must be a call or assignment, otherwise, its value will be discarded.",
+                 ctx->GetExpression()->GetSourceSpan());
+    } else {
+        auto *object = VisitExpression(ctx->GetExpression());
 
+        // If the object is nullptr, then presumably an error has already been thrown.
+        if (object != nullptr) {
+            blockStack.top()->GetInstructions().push_back(new ObjectInstruction(object));
+        }
+    }
 }
 
 void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx) {

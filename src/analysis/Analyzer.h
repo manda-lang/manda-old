@@ -19,7 +19,7 @@ namespace manda
     class Analyzer : public TracksErrors
     {
     public:
-        explicit Analyzer(Parser *parser);
+        explicit Analyzer(Parser *parser, bool isRepl = false);
 
         ~Analyzer();
 
@@ -51,6 +51,7 @@ namespace manda
     private:
         std::stack<Block *> blockStack;
         std::stack<Function *> functionStack;
+        bool isRepl = false;
         Module *coreModule = nullptr;
         SymbolTable<Object *> *globalScope;
 
