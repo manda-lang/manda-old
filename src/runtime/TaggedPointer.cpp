@@ -14,13 +14,19 @@ typedef union
     float asFloat;
 } Bits32;
 
+typedef union
+{
+    uint64_t asUlong;
+    double asDouble;
+} Bits64;
+
 manda::TaggedPointer::TaggedPointer() {
     asDouble = 0;
 }
 
-manda::TaggedPointer::TaggedPointer(uint64_t raw) {
-    asDouble = (double) raw;
-}
+//manda::TaggedPointer::TaggedPointer(uint64_t raw) {
+//    asDouble = (double) raw;
+//}
 
 manda::TaggedPointer::TaggedPointer(double raw) {
     asDouble = raw;
@@ -44,8 +50,10 @@ void manda::TaggedPointer::SetType(manda::TaggedPointer::TaggedPointerType type)
     asDouble = (double) (GetRawUlong() | (uint64_t) type);
 }
 
-uint64_t manda::TaggedPointer::GetData() const {
-    return GetRawUlong() >> 3;
+double manda::TaggedPointer::GetData() const {
+    Bits64 bits {};
+    bits.asUlong = GetRawUlong() >> 3;
+    return bits.asDouble;
 }
 
 void manda::TaggedPointer::SetData(uint64_t data) {

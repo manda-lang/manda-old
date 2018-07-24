@@ -61,6 +61,7 @@ int main() {
                     std::cout << "\033[0;36m0x" << std::hex << object->GetRawUlong() << "\033[0m" << std::endl;
                     std::cout << "\033[0;36mdec: " << std::dec << object->GetRawUlong() << "\033[0m" << std::endl;
                     std::cout << "\033[0;36mdbl: " << std::dec << object->GetRawDouble() << "\033[0m" << std::endl;
+                    std::cout << "\033[0;36mdata: " << std::dec << object->GetData() << "\033[0m" << std::endl;
                     std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
                 } else {
                     std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;

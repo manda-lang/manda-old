@@ -50,6 +50,7 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Execute it!
     jit_float64 result;
     jit_function_apply(entryPoint, nullptr, &result);
+    std::cout << "Out: " << result << std::endl;
     return new TaggedPointer((double) result);
 }
 

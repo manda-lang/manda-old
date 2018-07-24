@@ -24,11 +24,11 @@ namespace manda
     public:
         explicit TaggedPointer();
 
-        explicit TaggedPointer(uint64_t raw);
+//        explicit TaggedPointer(uint64_t raw);
 
         explicit TaggedPointer(double raw);
 
-        uint64_t GetData() const;
+        double GetData() const;
 
         TaggedPointerType GetType() const;
 
