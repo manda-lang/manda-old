@@ -81,8 +81,8 @@ const manda::Token *manda::Parser::Consume() {
     }
 }
 
-ProgramNode *Parser::ParseProgram() {
-    auto *program = new ProgramNode;
+CompilationUnitNode *Parser::ParseCompilationUnit() {
+    auto *program = new CompilationUnitNode;
 
     while (!IsDone()) {
         auto *statement = ParseStatement();

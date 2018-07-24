@@ -14,6 +14,7 @@
 
 namespace manda
 {
+    class Analyzer;
     class ExpressionNode;
 
     class Interpreter
@@ -35,7 +36,7 @@ namespace manda
 
         jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
 
-        TaggedPointer *VisitProgram(ProgramNode *ctx);
+        TaggedPointer *VisitCompilationUnit(CompilationUnitNode *ctx);
 
         jit_value_t VisitExpression(ExpressionNode *ctx);
 
@@ -54,6 +55,7 @@ namespace manda
 
         static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
 
+        Analyzer *analyzer;
         std::stack<jit_function_t> functionStack;
         jit_context_t jit;
         jit_function_t entryPoint;

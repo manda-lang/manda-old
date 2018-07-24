@@ -35,7 +35,7 @@ int main() {
             lexer.Scan(line, sourceUri);
 
             Parser parser(&lexer);
-            auto *program = parser.ParseProgram();
+            auto *program = parser.ParseCompilationUnit();
 
             // Check for errors...
             if (!parser.GetErrors().empty()) {
@@ -49,7 +49,7 @@ int main() {
             }
 
             auto *interpreter = new Interpreter(vm, fiber);
-            auto *object = interpreter->VisitProgram(program);
+            auto *object = interpreter->VisitCompilationUnit(program);
 
             if (object == nullptr) {
                 std::cout << "null" << std::endl;

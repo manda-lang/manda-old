@@ -4,22 +4,22 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "ProgramNode.h"
+#include "CompilationUnitNode.h"
 
 using namespace manda;
 
-manda::ProgramNode::ProgramNode() = default;
+manda::CompilationUnitNode::CompilationUnitNode() = default;
 
-manda::ProgramNode::~ProgramNode() {
+manda::CompilationUnitNode::~CompilationUnitNode() {
     for (auto *statement : statements) {
         delete statement;
     }
 }
 
-const std::vector<StatementNode *> &manda::ProgramNode::GetStatements() const {
+const std::vector<StatementNode *> &manda::CompilationUnitNode::GetStatements() const {
     return statements;
 }
 
-std::vector<StatementNode *> &manda::ProgramNode::GetMutableStatements() {
+std::vector<StatementNode *> &manda::CompilationUnitNode::GetMutableStatements() {
     return statements;
 }

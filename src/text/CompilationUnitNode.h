@@ -12,11 +12,11 @@
 
 namespace manda
 {
-    class ProgramNode
+    class CompilationUnitNode
     {
     public:
-        explicit ProgramNode();
-        ~ProgramNode();
+        explicit CompilationUnitNode();
+        ~CompilationUnitNode();
 
         const std::vector<StatementNode *> &GetStatements() const;
 

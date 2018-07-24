@@ -13,7 +13,7 @@
 #include "Lexer.h"
 #include "NumberLiteralNode.h"
 #include "ExpressionStatementNode.h"
-#include "ProgramNode.h"
+#include "CompilationUnitNode.h"
 #include "SimpleIdentifierNode.h"
 #include "VariableDeclarationStatementNode.h"
 
@@ -51,7 +51,7 @@ namespace manda
 
         void AddError(const std::string& message, const SourceSpan *span);
 
-        ProgramNode *ParseProgram();
+        CompilationUnitNode *ParseCompilationUnit();
 
         StatementNode *ParseStatement();
 

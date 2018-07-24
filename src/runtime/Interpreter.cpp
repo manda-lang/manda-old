@@ -16,7 +16,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
     jit = jit_context_create();
 }
 
-TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
+TaggedPointer *Interpreter::VisitCompilationUnit(CompilationUnitNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
     jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_float64, nullptr, 0, 0);

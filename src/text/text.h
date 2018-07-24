@@ -17,7 +17,7 @@
 #include "SimpleIdentifierNode.h"
 #include "Lexer.h"
 #include "Parser.h"
-#include "ProgramNode.h"
+#include "CompilationUnitNode.h"
 #include "SourceSpan.h"
 #include "StatementNode.h"
 #include "Token.h"
