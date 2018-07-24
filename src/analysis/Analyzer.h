@@ -7,11 +7,28 @@
 #ifndef MANDA_ANALYZER_H
 #define MANDA_ANALYZER_H
 
+#include <stack>
+#include <vector>
+#include "../runtime/runtime.h"
+#include "../text/text.h"
+#include "Object.h"
+#include "Program.h"
+
 namespace manda
 {
     class Analyzer
     {
+    public:
+        explicit Analyzer();
 
+        ~Analyzer();
+
+        Program *VisitCompilationUnit(CompilationUnitNode *ctx);
+
+        Module *VisitSingleCompilationUnit(CompilationUnitNode *ctx);
+
+    private:
+        SymbolTable<Object *> *globalScope;
     };
 }
 

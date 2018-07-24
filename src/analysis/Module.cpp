@@ -8,7 +8,9 @@
 
 using namespace manda;
 
-manda::Module::Module() = default;
+manda::Module::Module(SymbolTable<Object *> *scope) {
+    this->scope = scope;
+}
 
 std::vector<Function *> &manda::Module::GetFunctions() {
     return functions;

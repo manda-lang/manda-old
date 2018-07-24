@@ -18,6 +18,7 @@ manda::Block::~Block() {
     }
 
     instructions.clear();
+    delete scope;
 }
 
 std::vector<Instruction *> &manda::Block::GetInstructions() {

@@ -4,25 +4,28 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_PROGRAM_H
-#define MANDA_PROGRAM_H
+#ifndef MANDA_MODULE_H
+#define MANDA_MODULE_H
 
 #include <vector>
+#include "../runtime/SymbolTable.h"
 #include "Function.h"
+#include "Object.h"
 
 namespace manda
 {
     class Module
     {
     public:
-        explicit Module();
+        explicit Module(SymbolTable<Object *> *scope);
         ~Module();
 
         std::vector<Function *> &GetFunctions();
 
     private:
         std::vector<Function *> functions;
+        SymbolTable<Object *> *scope;
     };
 }
 
-#endif //MANDA_PROGRAM_H
+#endif //MANDA_MODULE_H
