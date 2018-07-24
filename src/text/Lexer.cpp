@@ -10,7 +10,7 @@
 
 using namespace manda;
 
-const std::vector<Error *> &manda::Lexer::GetErrors() const {
+std::vector<Error *> &manda::Lexer::GetErrors() {
     return errors;
 }
 

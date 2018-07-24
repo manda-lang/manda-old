@@ -25,7 +25,7 @@ namespace manda
         explicit Parser(Lexer *lexer);
         ~Parser();
 
-        const std::vector<Error *> &GetErrors() const;
+        std::vector<Error *> &GetErrors();
 
         const Token *GetCurrentToken() const;
 

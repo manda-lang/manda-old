@@ -22,7 +22,7 @@ namespace manda
     public:
         explicit Lexer();
 
-        const std::vector<Error *> &GetErrors() const;
+        std::vector<Error *> &GetErrors();
 
         const std::vector<Token *> &GetTokens() const;
 

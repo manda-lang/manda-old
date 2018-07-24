@@ -19,15 +19,18 @@ namespace manda
     class Analyzer
     {
     public:
-        explicit Analyzer();
+        explicit Analyzer(Parser *parser);
 
         ~Analyzer();
+
+        const std::vector<Error *> &GetErrors() const;
 
         Program *VisitCompilationUnit(CompilationUnitNode *ctx);
 
         Module *VisitSingleCompilationUnit(CompilationUnitNode *ctx);
 
     private:
+        std::vector<Error *> errors;
         SymbolTable<Object *> *globalScope;
     };
 }

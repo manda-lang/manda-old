@@ -8,12 +8,22 @@
 
 using namespace manda;
 
-manda::Analyzer::Analyzer() {
+manda::Analyzer::Analyzer(Parser *parser) {
     globalScope = new SymbolTable<Object *>;
+
+    for (auto *error: parser->GetErrors()) {
+        errors.push_back(error);
+    }
+
+    parser->GetErrors().clear();
 }
 
 manda::Analyzer::~Analyzer() {
     delete globalScope;
+}
+
+const std::vector<Error *> &Analyzer::GetErrors() const {
+    return errors;
 }
 
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {

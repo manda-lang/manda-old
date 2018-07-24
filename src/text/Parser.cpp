@@ -18,6 +18,8 @@ manda::Parser::Parser(manda::Lexer *lexer) {
         errors.push_back(error);
     }
 
+    lexer->GetErrors().clear();
+
     int precedence = 4;
     infixParselets[Token::TIMES] = new BinaryExpressionParselet(precedence--);
     infixParselets[Token::DIV] = new BinaryExpressionParselet(precedence--);
@@ -30,7 +32,7 @@ Parser::~Parser() {
     // TODO: Delete all infix parselets
 }
 
-const std::vector<Error *> &manda::Parser::GetErrors() const {
+std::vector<Error *> &manda::Parser::GetErrors() {
     return errors;
 }
 
