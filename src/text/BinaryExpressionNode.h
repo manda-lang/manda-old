@@ -29,8 +29,6 @@ namespace manda
 
         bool HasConstantValue() override;
 
-        jit_value_t acceptInterpreter(Interpreter *interpreter) override;
-
     private:
         ExpressionNode *left;
         ExpressionNode *right;

@@ -10,7 +10,7 @@ using namespace manda;
 
 manda::Module::Module() = default;
 
-std::vector<Function *> &manda::Module::GetFunctions() const {
+std::vector<Function *> &manda::Module::GetFunctions() {
     return functions;
 }
 

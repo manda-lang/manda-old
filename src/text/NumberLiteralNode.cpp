@@ -26,7 +26,3 @@ const manda::SourceSpan *manda::NumberLiteralNode::GetSourceSpan() const {
 bool manda::NumberLiteralNode::HasConstantValue() {
     return true;
 }
-
-jit_value_t NumberLiteralNode::acceptInterpreter(Interpreter *interpreter) {
-    return interpreter->VisitNumberLiteral(this);
-}

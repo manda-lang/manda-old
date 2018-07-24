@@ -6,7 +6,11 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "Block.h"
 
-manda::Block::Block() = default;
+using namespace manda;
+
+manda::Block::Block(manda::SymbolTable<Object *>* scope) {
+    this->scope = scope;
+}
 
 manda::Block::~Block() {
     for (auto *instruction : instructions) {
@@ -16,6 +20,10 @@ manda::Block::~Block() {
     instructions.clear();
 }
 
-std::vector<Instruction *> &manda::Block::GetInstructions() const {
+std::vector<Instruction *> &manda::Block::GetInstructions() {
     return instructions;
+}
+
+manda::SymbolTable<Object *> *manda::Block::GetScope() {
+    return scope;
 }

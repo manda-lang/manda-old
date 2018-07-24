@@ -23,8 +23,6 @@ namespace manda
 
         const SourceSpan *GetSourceSpan() const override;
 
-        void acceptInterpreter(Interpreter *interpreter) override;
-
     private:
         ExpressionNode *expression;
     };

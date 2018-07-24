@@ -21,8 +21,6 @@ namespace manda
         virtual ~ExpressionNode() = 0;
 
         virtual bool HasConstantValue() = 0;
-
-        virtual jit_value_t acceptInterpreter(Interpreter *interpreter) = 0;
     };
 }
 

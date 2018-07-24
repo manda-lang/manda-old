@@ -27,10 +27,6 @@ bool manda::BinaryExpressionNode::HasConstantValue() {
     return left->HasConstantValue() && right->HasConstantValue();
 }
 
-jit_value_t manda::BinaryExpressionNode::acceptInterpreter(manda::Interpreter *interpreter) {
-    return interpreter->VisitBinaryExpression(this);
-}
-
 manda::ExpressionNode *manda::BinaryExpressionNode::GetLeft() const {
     return left;
 }

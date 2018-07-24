@@ -42,7 +42,3 @@ manda::ExpressionNode *manda::VariableDeclarationStatementNode::GetInitializer()
 const manda::SourceSpan *manda::VariableDeclarationStatementNode::GetSourceSpan() const {
     return identifier->GetSourceSpan();
 }
-
-void manda::VariableDeclarationStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {
-    interpreter->VisitVariableDeclarationStatement(this);
-}

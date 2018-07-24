@@ -23,8 +23,3 @@ ExpressionNode *manda::ExpressionStatementNode::GetExpression() {
 const manda::SourceSpan *manda::ExpressionStatementNode::GetSourceSpan() const {
     return expression->GetSourceSpan();
 }
-
-void manda::ExpressionStatementNode::acceptInterpreter(manda::Interpreter *interpreter) {
-    interpreter->VisitExpressionStatement(this);
-}
-

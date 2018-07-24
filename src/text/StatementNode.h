@@ -18,8 +18,6 @@ namespace manda
     {
     public:
         virtual ~StatementNode() = 0;
-
-        virtual void acceptInterpreter(Interpreter *interpreter) = 0;
     };
 }
 

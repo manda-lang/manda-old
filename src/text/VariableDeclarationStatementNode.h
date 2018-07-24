@@ -30,8 +30,6 @@ namespace manda
 
         ExpressionNode *GetInitializer() const;
 
-        void acceptInterpreter(Interpreter *interpreter) override;
-
         const SourceSpan *GetSourceSpan() const override;
 
     private:

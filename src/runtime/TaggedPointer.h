@@ -4,8 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_OBJECT_H
-#define MANDA_OBJECT_H
+#ifndef MANDA_TAGGED_POINTER_H
+#define MANDA_TAGGED_POINTER_H
 
 #include <bitset>
 #include <cstdint>
@@ -57,4 +57,4 @@ namespace manda
 }
 
 
-#endif //MANDA_OBJECT_H
+#endif //MANDA_TAGGED_POINTER_H

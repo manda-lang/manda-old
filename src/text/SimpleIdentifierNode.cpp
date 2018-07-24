@@ -26,7 +26,3 @@ bool manda::SimpleIdentifierNode::HasConstantValue() {
 const std::string &manda::SimpleIdentifierNode::GetName() const {
     return token->GetSourceSpan()->GetText();
 }
-
-jit_value_t manda::SimpleIdentifierNode::acceptInterpreter(manda::Interpreter *interpreter) {
-    return interpreter->VisitSimpleIdentifier(this);
-}

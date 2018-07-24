@@ -8,21 +8,26 @@
 #define MANDA_BLOCK_H
 
 #include <vector>
+#include "../runtime/SymbolTable.h"
 #include "Instruction.h"
+#include "Object.h"
 
 namespace manda
 {
     class Block
     {
     public:
-        explicit Block();
+        explicit Block(SymbolTable<Object *> *scope);
 
         ~Block();
 
-        std::vector<Instruction *> &GetInstructions() const;
+        std::vector<Instruction *> &GetInstructions();
+
+        SymbolTable<Object *> *GetScope();
 
     private:
         std::vector<Instruction *> instructions;
+        SymbolTable<Object *> *scope;
     };
 }
 

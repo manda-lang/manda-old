@@ -18,7 +18,7 @@ namespace manda
         explicit Module();
         ~Module();
 
-        std::vector<Function *> &GetFunctions() const;
+        std::vector<Function *> &GetFunctions();
 
     private:
         std::vector<Function *> functions;
