@@ -34,12 +34,14 @@ namespace manda
 
         Module *VisitSingleCompilationUnit(CompilationUnitNode *ctx);
 
+        void VisitStatement(StatementNode *ctx);
+
     private:
-        std::stack<Block*> blockStack;
-        std::stack<Function*> functionStack;
+        std::stack<Block *> blockStack;
+        std::stack<Function *> functionStack;
         SymbolTable<Object *> *globalScope;
 
-        void EnterFunction(Function* function);
+        void EnterFunction(Function *function);
 
         void ExitFunction();
 

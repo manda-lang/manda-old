@@ -52,9 +52,20 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUni
 
     // Next, visit every top-level statement, and load them into the implicit entry point.
     EnterFunction(module->GetImplicitFunction());
+
+    for (auto *statement : ctx->GetStatements()) {
+        if (!statement->HasFunctionDeclaration()) {
+            VisitStatement(statement);
+        }
+    }
+
     ExitFunction();
 
     return module;
+}
+
+void Analyzer::VisitStatement(StatementNode *ctx) {
+
 }
 
 void Analyzer::EnterFunction(Function *function) {
