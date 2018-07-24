@@ -12,11 +12,15 @@
 using namespace manda;
 
 int main() {
-    TaggedPointer pp;
-    pp.SetFloatData(56);
-    pp.SetType(TaggedPointer::POINTER);
-    std::cout << pp.GetType() << std::endl;
-    std::cout << "0x" << std::hex << pp.GetRawUlong() << std::endl;
+//    TaggedPointer pp;
+//    pp.SetFloatData(56.3);
+//    pp.SetType(TaggedPointer::POINTER);
+//    std::cout << pp.GetType() << std::endl;
+//    std::cout << "0b" << std::hex << pp.ToBitset() << std::endl;
+//
+//    TaggedPointer qq(pp.GetRawDouble());
+//    std::cout << qq.GetType() << std::endl;
+//    std::cout << std::dec << qq.GetFloatData() << std::endl;
 
     std::string sourceUri("stdin");
     char *buf = nullptr;
@@ -52,8 +56,9 @@ int main() {
             } else {
                 TaggedPointer::TaggedPointerType type = object->GetType();
 
-                if (type == TaggedPointer::INTEGER) {
-                    //std::cout << "\033[0;36m0x" << std::hex << object->GetRawDouble() << "\033[0m" << std::endl;
+                if (type == TaggedPointer::ACTUAL_NUMBER) {
+                    // std::cout << "\033[0;36m0b" << object->ToBitset() << "\033[0m" << std::endl;
+                    // std::cout << "\033[0;36m0x" << std::hex << object->GetRawUlong() << "\033[0m" << std::endl;
                     std::cout << "\033[0;36m" << std::dec << object->GetFloatData() << "\033[0m" << std::endl;
                 } else {
                     std::cout << "Raw: 0x" << std::hex << object->GetType() << std::endl;

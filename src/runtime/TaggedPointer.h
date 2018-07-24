@@ -7,6 +7,7 @@
 #ifndef MANDA_OBJECT_H
 #define MANDA_OBJECT_H
 
+#include <bitset>
 #include <cstdint>
 
 namespace manda
@@ -16,7 +17,7 @@ namespace manda
     public:
         enum TaggedPointerType : uint8_t
         {
-            INTEGER = 0x0,
+            ACTUAL_NUMBER = 0x0,
             POINTER = 0x1,
         };
 
@@ -43,10 +44,13 @@ namespace manda
 
         void SetFloatData(float data);
 
+        std::bitset<16> ToBitset() const;
+
     private:
         union
         {
             uint64_t asUlong;
+            uint32_t asUint;
             double asDouble;
         };
     };

@@ -117,7 +117,43 @@ void Parser::ParseStatements(std::vector<StatementNode *> &statements) {
 }
 
 StatementNode *Parser::ParseStatement() {
-    return ParseExpressionStatement();
+    StatementNode *result = nullptr;
+    if ((result = ParseVariableDeclarationStatement()) != nullptr) return result;
+    if ((result = ParseExpressionStatement()) != nullptr) return result;
+    return result;
+}
+
+VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
+    if (!Next(Token::LET)) {
+        return nullptr;
+    }
+
+    auto *let = GetCurrentToken(), *id = ParseSimpleIdentifier();
+
+    if (id == nullptr) {
+        AddError("Missing identifier after 'let' keyword.", let->GetSourceSpan());
+        delete let;
+        return nullptr;
+    }
+
+    if (!Next(Token::EQUALS)) {
+        AddError("Missing '=' in variable declaration.", id->GetSourceSpan());
+        delete let;
+        delete id;
+        return nullptr;
+    }
+
+    auto *equals = GetCurrentToken(), *initializer = ParseExpression(0);
+
+    if (initializer == nullptr) {
+        AddError("Missing expression after '=' in variable declaration.", equals->GetSourceSpan());
+        delete let;
+        delete id;
+        delete equals;
+        return nullptr;
+    }
+
+    return new VariableDeclarationStatementNode(let, id, equals, initializer);
 }
 
 ExpressionStatementNode *Parser::ParseExpressionStatement() {

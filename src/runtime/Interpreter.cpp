@@ -19,7 +19,7 @@ manda::Interpreter::Interpreter(manda::VM *vm, manda::Fiber *fiber) {
 TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     // Create the entry point.
     jit_context_build_start(jit);
-    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_float64, nullptr, 0, 0);
+    jit_type_t entryPointReturnType = jit_type_create_signature(jit_abi_cdecl, jit_type_ulong, nullptr, 0, 0);
     entryPoint = jit_function_create(jit, entryPointReturnType);
     functionStack.push(entryPoint);
 
@@ -49,23 +49,30 @@ TaggedPointer *Interpreter::VisitProgram(ProgramNode *ctx) {
     jit_dump_function(stdout, entryPoint, "entry point");
 
     // Execute it!
-    jit_float64 result;
+    jit_ulong result;
     jit_function_apply(entryPoint, nullptr, &result);
-    return new TaggedPointer((double) result);
+    return new TaggedPointer((uint64_t) result);
 }
 
 jit_value_t Interpreter::VisitNumberLiteral(NumberLiteralNode *ctx) {
-    // TODO: Get the asUlong value.
-    char *pEnd;
-    jit_float32 value = strtof(ctx->GetSourceSpan()->GetText().c_str(), &pEnd);
-    auto function = GetCurrentFunction();
-
     // Create a NanBox object, and just place in the asUlong value.
     TaggedPointer obj;
-    obj.SetType(TaggedPointer::INTEGER);
-    obj.SetFloatData((float) value);
+    auto type = ctx->GetToken()->GetType();
+    auto function = GetCurrentFunction();
 
-    return jit_value_create_float64_constant(function, jit_type_float64, obj.GetRawDouble());
+    if (type == Token::FLOAT) {
+        char *pEnd;
+        jit_float32 value = strtof(ctx->GetSourceSpan()->GetText().c_str(), &pEnd);
+        obj.SetFloatData(value);
+        obj.SetType(TaggedPointer::ACTUAL_NUMBER);
+
+    } else {
+        //char *pEnd;
+        jit_long value = strtol(ctx->GetSourceSpan()->GetText().c_str(), nullptr, 0);
+        obj.SetFloatData(value);
+    }
+
+    return jit_value_create_long_constant(function, jit_type_long, jit_ulong_to_long(obj.GetRawUlong()));
 }
 
 jit_function_t Interpreter::GetCurrentFunction() {
@@ -105,7 +112,7 @@ jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_v
 }
 
 jit_value_t Interpreter::Zero(jit_function_t function) {
-    return jit_value_create_float64_constant(function, jit_type_float64, 0);
+    return jit_value_create_long_constant(function, jit_type_ulong, 0);
 }
 
 jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {

@@ -17,7 +17,7 @@ namespace manda
     class StatementNode : public AstNode
     {
     public:
-        virtual ~StatementNode();
+        virtual ~StatementNode() = 0;
 
         virtual void acceptInterpreter(Interpreter *interpreter) = 0;
     };

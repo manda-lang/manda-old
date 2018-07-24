@@ -28,7 +28,7 @@ add_library(${MANDA_LIBRARY}
         text/ExpressionStatementNode.cpp text/ExpressionStatementNode.h
         text/ProgramNode.cpp text/ProgramNode.h
         runtime/runtime.h
-        runtime/Interpreter.cpp runtime/Interpreter.h text/SimpleIdentifierNode.cpp text/SimpleIdentifierNode.h text/InfixParselet.cpp text/InfixParselet.h text/BinaryExpressionParselet.cpp text/BinaryExpressionParselet.h text/BinaryExpressionNode.cpp text/BinaryExpressionNode.h)
+        runtime/Interpreter.cpp runtime/Interpreter.h text/SimpleIdentifierNode.cpp text/SimpleIdentifierNode.h text/InfixParselet.cpp text/InfixParselet.h text/BinaryExpressionParselet.cpp text/BinaryExpressionParselet.h text/BinaryExpressionNode.cpp text/BinaryExpressionNode.h text/VariableDeclarationStatementNode.cpp text/VariableDeclarationStatementNode.h)
 target_link_libraries(${MANDA_LIBRARY} ${SYMBOL_TABLE_CPP})
 
 add_executable(${MANDA_EXECUTABLE} entrypoint/main.cc)

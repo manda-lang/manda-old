@@ -15,6 +15,7 @@
 #include "ExpressionStatementNode.h"
 #include "ProgramNode.h"
 #include "SimpleIdentifierNode.h"
+#include "VariableDeclarationStatementNode.h"
 
 namespace manda
 {
@@ -53,6 +54,8 @@ namespace manda
         ProgramNode *ParseProgram();
 
         StatementNode *ParseStatement();
+
+        VariableDeclarationStatementNode *ParseVariableDeclarationStatement();
 
         ExpressionStatementNode *ParseExpressionStatement();
 
