@@ -7,11 +7,25 @@
 #ifndef MANDA_OBJECT_H
 #define MANDA_OBJECT_H
 
+#include "../text/text.h"
+#include "Type.h"
+
 namespace manda
 {
     class Object
     {
+    public:
+        explicit Object(Type *type, SourceSpan *span);
 
+        ~Object();
+
+        const Type *GetType() const;
+
+        const SourceSpan *GetSourceSpan();
+
+    private:
+        Type *type;
+        SourceSpan *sourceSpan;
     };
 }
 
