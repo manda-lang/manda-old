@@ -25,17 +25,24 @@ namespace manda
 
         const SourceSpan *GetSourceSpan() const;
 
+        virtual bool IsReference() const {
+            return false;
+        }
+
         enum RawObjectType
         {
             NONE, STRING, DOUBLE
         };
 
-        union
+        struct
         {
-            RawObjectType type;
-            const char *asString;
-            uint64_t asUint64;
-            double asDouble = 0.0;
+            RawObjectType type = NONE;
+            union
+            {
+                const char *asString;
+                uint64_t asUint64;
+                double asDouble = 0.0;
+            } value;
         } rawObject;
 
     protected:
