@@ -25,30 +25,32 @@ let fib = fibonacci(n: 13)
 print('Result: %fib')
 ```
 
-`Classes.mnd`:
+`Interface.mnd`:
 
 ```manda
-class Animal {
-    virtual get legCount: Num
-
-    virtual makeSound(): Void
+type Animal = interface {
+    get legCount: Num
+    
+    makeSound(): Void
 }
 
-class Dog : Animal {
+type Dog = class {
     constructor(property name: String)
 
-    // `override` keyword is optional; it's more for
-    // code readability than anything.
-    override get legCount => 4
+    get legCount => 4
 
-    override makeSound() {
+    makeSound() {
         print('Woof! I am %name.')
     }
 }
 
+func helloAnimal(animal: Animal) {
+    print(animal.legCount)
+    animal.makeSound()
+}
+
 let fido = Dog(name: 'Fido')
-print(fido.legCount)
-fido.makeSound()
+helloAnimal(fido)
 ```
 
 # Goals/Features
@@ -57,11 +59,12 @@ Beyond all other goals, the primary focus of Manda is to
 
 The following are secondary features, all of which are targets for version 1.
 
-* JIT compilation
+* JIT compilation - for fast startup, without the slowness of a regular interpreter
 * Easy embedding
-* Easy FFI
-* Multi-threading
-* Garbage collection
+* Easy FFI - to make it less of a headache to use existing code
+* Fibers for asynchrony - Pain free async without having to deal with memory access issues
+* Lightweight, isolated threads - for tasks that require preemptive multi-tasking
+* Garbage collection - To prevent hard-to-debug memory leaks
 
 # Why replace Python?
 Frankly, I don't feel that Python is a good enough language to be the
