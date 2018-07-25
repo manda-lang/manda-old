@@ -31,7 +31,7 @@ namespace manda
 
         enum RawObjectType
         {
-            NONE, STRING, DOUBLE
+            NONE, STRING, DOUBLE, LONG
         };
 
         struct
