@@ -9,7 +9,7 @@
 manda::Reference::Reference(const std::string &name, const Type *type, const SourceSpan *sourceSpan) {
     this->name += name;
     this->type = type;
-    this->sourceSpan = sourceSpan;
+    this->sourceSpan = new SourceSpan(sourceSpan);
 }
 
 const std::string &manda::Reference::GetName() const {

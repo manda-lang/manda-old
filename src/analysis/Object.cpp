@@ -17,7 +17,7 @@ Object::Object() = default;
 
 manda::Object::~Object() {
     if (rawObject.type == STRING) {
-        delete rawObject.asString;
+        delete rawObject.value.asString;
     }
 
     delete sourceSpan;

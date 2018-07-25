@@ -84,7 +84,7 @@ namespace manda
 
             if (it != ssaNames.end()) {
                 *found = true;
-                return it.at(name);
+                return ssaNames.at(name);
             } else if (parent != nullptr) {
                 return parent->GetSsaName(name, found);
             } else {

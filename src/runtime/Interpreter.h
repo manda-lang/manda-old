@@ -30,6 +30,8 @@ namespace manda
 
     class Program;
 
+    class Reference;
+
     class Interpreter
     {
     public:
@@ -65,6 +67,8 @@ namespace manda
 
         jit_value_t VisitObject(const Object *ctx);
 
+        jit_value_t VisitReference(const Reference *ctx);
+
     private:
         struct OnDemandCompilationOptions
         {
@@ -84,7 +88,7 @@ namespace manda
         std::unordered_map<std::string, unsigned long> variableIndices;
         jit_context_t jit;
         jit_function_t entryPoint;
-        double *allocatedVariables;
+        double *allocatedVariables = nullptr;
         VM *vm;
         Fiber *currentFiber;
         jit_abi_t abi;

@@ -47,9 +47,8 @@ namespace manda
 
     protected:
         explicit Object();
-
-        const Type *type;
-        const SourceSpan *sourceSpan;
+        const Type *type = nullptr;
+        const SourceSpan *sourceSpan = nullptr;
     };
 }
 

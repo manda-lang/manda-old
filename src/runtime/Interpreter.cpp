@@ -110,7 +110,7 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     // TODO: What if it's already been compiled???
     // TODO: Return value
     // TODO: Parameters
-    // TODO: Ref counting
+    // TODO: Ref cowunting
     auto signature = jit_type_create_signature(abi, jit_type_void, nullptr, 0, 0);
     auto function = jit_function_create(jit, signature);
 
@@ -159,16 +159,37 @@ void Interpreter::VisitAssignmentInstruction(const AssignmentInstruction *ctx) {
 
 void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
     auto value = VisitObject(ctx->GetObject());
-    jit_insn_throw(jit_value_get_function(value), value);
+    jit_insn_return(jit_value_get_function(value), value);
 }
 
 jit_value_t Interpreter::VisitObject(const Object *ctx) {
+    if (ctx->IsReference()) {
+        return VisitReference((const Reference *) ctx);
+    }
+
     // TODO: Polymorphism
     auto function = functionStack.top();
     TaggedPointer p;
     p.SetType(TaggedPointer::ACTUAL_NUMBER);
-    p.SetFloatData(ctx->rawObject.asUint64);
+    p.SetFloatData(ctx->rawObject.value.asUint64);
     return jit_value_create_float64_constant(function, jit_type_float64, p.GetRawDouble());
+}
+
+jit_value_t Interpreter::VisitReference(const Reference *ctx) {
+    auto function = functionStack.top();
+
+    // We have a single array in memory that holds all of our variables (hooray, SSA!)
+    // Load whatever value we received into a pointer.
+    //
+    // Instead of having the JIT compute the pointer, compute it NOW.
+    auto basePtr = (jit_ulong) allocatedVariables;
+    auto index = variableIndices.at(ctx->GetName());
+    auto ptr = basePtr + (index * sizeof(double));
+
+    // JIT it
+    auto doublePointerType = jit_type_create_pointer(jit_type_float64, 0);
+    auto ptrConstant = jit_value_create_long_constant(function, doublePointerType, jit_ulong_to_long(ptr));
+    return jit_insn_load(function, ptrConstant);
 }
 
 int Interpreter::CompileFunction(jit_function_t function) {
