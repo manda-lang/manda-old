@@ -65,6 +65,15 @@ The following are secondary features, all of which are targets for version 1.
 * Fibers for asynchrony - Pain free async without having to deal with memory access issues
 * Lightweight, isolated threads - for tasks that require preemptive multi-tasking
 * Garbage collection - To prevent hard-to-debug memory leaks
+* Standard library
+    * Prevent you from requiring thousands of dependencies (think `node_modules`)
+    * I/O utilities, including sockets, HTTP, SSL, and more
+* Great tooling
+    * Descriptive error messages
+    * A [language server](https://microsoft.github.io/language-server-protocol/) that can be used in multiple editors out-of-the-box
+    * `gdb` integration for debugging
+    * `scales`, a fast, secure package manager
+    * Deployment utilities
 
 # Why replace Python?
 Frankly, I don't feel that Python is a good enough language to be the
