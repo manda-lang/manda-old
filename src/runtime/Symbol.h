@@ -29,7 +29,16 @@ namespace manda
             return value;
         }
 
+        bool IsImmutable() const {
+            return immutable;
+        }
+
+        void MarkAsImmutable() {
+            immutable = true;
+        }
+
     private:
+        bool immutable = false;
         std::string name;
         T value;
     };

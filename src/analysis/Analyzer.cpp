@@ -179,5 +179,27 @@ Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
 }
 
 Object *Analyzer::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
-    return nullptr;
+    // Find the corresponding symbol.
+    const auto &name = ctx->GetName();
+    auto *symbol = blockStack.top()->GetScope()->Resolve(name);
+
+    if (symbol == nullptr) {
+        std::ostringstream ss;
+        ss << "The name '" << name << "' does not exist in this context.";
+        AddError(ss.str(), ctx->GetSourceSpan());
+        return nullptr;
+    } else {
+        auto *obj = symbol->GetValue();
+
+        // If this is a constant symbol WITH a constant value, just return that
+        // object.
+        if (symbol->IsImmutable() && obj->rawObject.type != Object::NONE) {
+            return obj;
+        } else {
+            // Otherwise, the value can potentially change at runtime, so return
+            // a reference to it.
+            // TODO: Get SSA name
+            return new Reference(name, obj->GetType(), obj->GetSourceSpan());
+        }
+    }
 }
