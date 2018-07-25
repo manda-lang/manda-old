@@ -75,18 +75,47 @@ namespace manda
             }
         }
 
-        std::string UniqueName(const std::string &name) {
-            auto it = nameCounts.find(name);
-            long result;
+        std::unordered_map<std::string, std::string> &GetSsaNames() {
+            return ssaNames;
+        };
 
-            if (it == nameCounts.end()) {
-                result = nameCounts[name] = 0;
+        std::string GetSsaName(const std::string &name, bool *found) {
+            auto it = ssaNames.find(name);
+
+            if (it != ssaNames.end()) {
+                *found = true;
+                return it.at(name);
+            } else if (parent != nullptr) {
+                return parent->GetSsaName(name, found);
             } else {
-                result = nameCounts[name]++;
+                *found = false;
+                return std::string("");
+            }
+        }
+
+        std::string UniqueName(const std::string &name) {
+            long count = 0;
+            SymbolTable *search = this;
+
+            while (search != nullptr) {
+                auto it = search->nameCounts.find(name);
+
+                if (it != search->nameCounts.end()) {
+                    count += search->nameCounts.at(name);
+                }
+
+                search = search->parent;
             }
 
+            auto it = nameCounts.find(name);
+
+            if (it == nameCounts.end()) {
+                nameCounts[name] = 0;
+            }
+
+            nameCounts[name]++;
             std::ostringstream oss;
-            oss << name << result;
+            oss << name << count;
             return oss.str();
         }
 
@@ -98,7 +127,8 @@ namespace manda
         }
 
         SymbolTable<T> *parent;
-        std::unordered_map<std::string, long> nameCounts;
+        std::unordered_map<std::string, std::string> ssaNames;
+        std::unordered_map<std::string, unsigned long> nameCounts;
         std::vector<Symbol<T> *> symbols;
     };
 }

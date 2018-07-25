@@ -135,6 +135,8 @@ void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNod
             delete initializer;
         } else {
             auto ssaName = blockStack.top()->GetScope()->UniqueName(ctx->GetIdentifier()->GetName());
+            blockStack.top()->GetScope()->GetSsaNames().insert(
+                    std::make_pair(ctx->GetIdentifier()->GetName(), ssaName));
             programStack.top()->RegisterVariable(ssaName);
             blockStack.top()->GetInstructions().push_back(new AssignmentInstruction(ssaName, initializer));
         }
@@ -198,8 +200,17 @@ Object *Analyzer::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
         } else {
             // Otherwise, the value can potentially change at runtime, so return
             // a reference to it.
-            // TODO: Get SSA name
-            return new Reference(name, obj->GetType(), obj->GetSourceSpan());
+            bool found;
+            auto ssaName = blockStack.top()->GetScope()->GetSsaName(name, &found);
+
+            if (!found) {
+                std::ostringstream ss;
+                ss << "The name '" << name << "' does not exist in this context.";
+                AddError(ss.str(), ctx->GetSourceSpan());
+                return nullptr;
+            } else {
+                return new Reference(ssaName, obj->GetType(), obj->GetSourceSpan());
+            }
         }
     }
 }
