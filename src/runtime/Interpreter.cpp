@@ -18,17 +18,6 @@ manda::Interpreter::Interpreter(manda::VM *vm) {
     this->currentFiber = nullptr;
     this->vm = vm;
     jit = jit_context_create();
-
-    // Create cstring type
-    cStringType = jit_type_create_pointer(jit_type_sys_char, 1);
-
-    // Create symbol table store type
-    // Interpreter *interpreter, const char *name, double value
-    jit_type_t symbolTableParams[3];
-    symbolTableParams[0] = jit_type_void_ptr;
-    symbolTableParams[1] = cStringType;
-    symbolTableParams[2] = jit_type_float64;
-    symbolTableStoreType = jit_type_create_signature(abi, jit_type_void, symbolTableParams, 3, 1);
 }
 
 Interpreter::~Interpreter() {
@@ -41,6 +30,14 @@ jit_function_t Interpreter::GetCurrentFunction() {
 
 void Interpreter::LoadProgram(Program *program) {
     this->program = program;
+
+    variableIndices.clear();
+    allocatedVariables = new double[program->GetTotalVariableCount()];
+
+    for (unsigned long i = 0; i < program->GetSsaVariables().size(); i++) {
+        auto name = program->GetSsaVariables().at(i);
+        variableIndices.insert(std::make_pair(name, i));
+    }
 }
 
 void Interpreter::Run() {
@@ -64,6 +61,10 @@ void Interpreter::Run() {
             }
         }
     } while (anyFibersAreAlive);
+
+    // Clean up!
+    delete allocatedVariables;
+    allocatedVariables = nullptr;
 }
 
 jit_value_t Interpreter::GetValue(jit_function_t function, jit_value_t nan) {
@@ -140,14 +141,20 @@ void Interpreter::VisitInstruction(const Instruction *ctx) {
 
 void Interpreter::VisitAssignmentInstruction(const AssignmentInstruction *ctx) {
     auto function = functionStack.top();
-    jit_value_t arguments[3];
-    arguments[0] = jit_value_create_long_constant(function, jit_type_void_ptr, jit_ulong_to_long((jit_ulong) this));
-    arguments[1] = CreateJitString(ctx->GetName());
-    arguments[2] = VisitObject(ctx->GetObject());
+    auto value = VisitObject(ctx->GetObject());
 
-    // TODO: More efficient storage method
-    jit_insn_call_native(function, "SymbolTableStore", (void *) &SymbolTableStore, symbolTableStoreType, arguments, 3,
-                         0);
+    // We have a single array in memory that holds all of our variables (hooray, SSA!)
+    // Load whatever value we received into a pointer.
+    //
+    // Instead of having the JIT compute the pointer, compute it NOW.
+    auto basePtr = (jit_ulong) allocatedVariables;
+    auto index = variableIndices.at(ctx->GetName());
+    auto ptr = basePtr + (index * sizeof(double));
+
+    // JIT it
+    auto doublePointerType = jit_type_create_pointer(jit_type_float64, 0);
+    auto ptrConstant = jit_value_create_long_constant(function, doublePointerType, jit_ulong_to_long(ptr));
+    jit_insn_store(function, ptrConstant, value);
 }
 
 void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
@@ -190,30 +197,4 @@ int Interpreter::CompileBlock(jit_function_t function, Interpreter::OnDemandComp
     }
 
     return 0;
-}
-
-uint8_t Interpreter::SymbolTableStore(Interpreter *interpreter, const char *name, double value) {
-    std::string n(name);
-    interpreter->currentFiber->GetScope()->Add(n, value);
-    return 1;
-}
-
-uint8_t Interpreter::SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value) {
-    std::string n(name);
-    auto *symbol = interpreter->currentFiber->GetScope()->Resolve(n);
-
-    if (symbol == nullptr) {
-        return 0;
-    } else {
-        *value = symbol->GetValue();
-        return 1;
-    }
-}
-
-jit_value_t Interpreter::CreateJitString(const std::string &name) {
-    auto function = functionStack.top();
-    auto *str = jit_strdup(name.c_str());
-    // TODO: Free str eventually
-    auto strPtr = jit_ulong_to_long((jit_ulong) str);
-    return jit_value_create_long_constant(function, cStringType, strPtr);
 }

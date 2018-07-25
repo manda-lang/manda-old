@@ -9,6 +9,7 @@
 
 #include <jit/jit.h>
 #include <stack>
+#include <unordered_map>
 #include "../analysis/analysis.h"
 #include "../text/text.h"
 #include "VM.h"
@@ -77,19 +78,13 @@ namespace manda
 
         static int CompileBlock(jit_function_t function, OnDemandCompilationOptions &options, Block *block);
 
-        static uint8_t SymbolTableStore(Interpreter *interpreter, const char *name, double value);
-
-        static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
-
-        jit_value_t CreateJitString(const std::string& name);
-
         Analyzer *analyzer;
         Program *program = nullptr;
         std::stack<jit_function_t> functionStack;
+        std::unordered_map<std::string, unsigned long> variableIndices;
         jit_context_t jit;
         jit_function_t entryPoint;
-        jit_type_t cStringType;
-        jit_type_t symbolTableStoreType;
+        double *allocatedVariables;
         VM *vm;
         Fiber *currentFiber;
         jit_abi_t abi;

@@ -32,7 +32,7 @@ void Program::SetMainModule(Module *module) {
     mainModule = module;
 }
 
-long Program::GetTotalVariableCount() const {
+unsigned long Program::GetTotalVariableCount() const {
     return totalVariableCount;
 }
 
@@ -45,4 +45,8 @@ void Program::RegisterVariable(const std::string &name) {
 
     ssaVariables.push_back(name);
     totalVariableCount++;
+}
+
+const std::vector<std::string> &Program::GetSsaVariables() const {
+    return ssaVariables;
 }
