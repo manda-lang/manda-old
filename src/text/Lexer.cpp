@@ -107,8 +107,8 @@ Lexer::Lexer() {
     patterns.push_back(std::make_pair(std::regex("^0b([0-1]+)"), Token::BINARY));
     patterns.push_back(std::make_pair(std::regex("^0x([A-Fa-f0-9]+)"), Token::HEX));
     patterns.push_back(std::make_pair(std::regex("^0o([0-7]+)"), Token::OCTAL));
-    patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::FLOAT));
     patterns.push_back(std::make_pair(std::regex("^[0-9]+"), Token::DECIMAL));
+    patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9]+)"), Token::FLOAT));
     patterns.push_back(std::make_pair(std::regex("^[A-Za-z_][A-Za-z0-9_]*"), Token::ID));
     //patterns.push_back(std::make_pair(std::regex("^[0-9]+(\\.[0-9])?"), Token::DECIMAL));
 }

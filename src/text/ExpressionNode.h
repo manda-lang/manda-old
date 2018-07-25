@@ -8,7 +8,6 @@
 #define MANDA_EXPRESSION_H
 
 #include <jit/jit.h>
-#include "../runtime/TaggedPointer.h"
 #include "AstNode.h"
 
 namespace manda

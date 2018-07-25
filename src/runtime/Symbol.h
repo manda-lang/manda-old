@@ -8,7 +8,6 @@
 #define MANDA_SYMBOL_H
 
 #include <string>
-#include "TaggedPointer.h"
 
 namespace manda
 {

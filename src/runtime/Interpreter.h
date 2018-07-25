@@ -45,18 +45,6 @@ namespace manda
 
         void Run();
 
-        jit_value_t Zero(jit_function_t function);
-
-        jit_value_t GetValue(jit_function_t function, jit_value_t nan);
-
-        jit_value_t SetValue(jit_function_t function, jit_value_t nan, jit_value_t newValue);
-
-        jit_value_t GetType(jit_function_t function, jit_value_t nan);
-
-        jit_value_t SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type);
-
-        jit_value_t SetType(jit_function_t function, jit_value_t nan, jit_value_t type);
-
         jit_function_t VisitFunction(const Function *ctx);
 
         void VisitInstruction(const Instruction *ctx);
@@ -88,7 +76,7 @@ namespace manda
         std::unordered_map<std::string, unsigned long> variableIndices;
         jit_context_t jit;
         jit_function_t entryPoint;
-        double *allocatedVariables = nullptr;
+        uint64_t *allocatedVariables = nullptr;
         VM *vm;
         Fiber *currentFiber;
         jit_abi_t abi;

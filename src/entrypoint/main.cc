@@ -54,11 +54,40 @@ int main() {
             vm->ClearFibers();
 
             // Create a new fiber to run our code.
-            vm->CreateFiber(program->GetMainModule()->GetImplicitFunction());
+            auto *fiber = vm->CreateFiber(program->GetMainModule()->GetImplicitFunction());
 
             // Load the program into the intepreter, and start JIT-ing!
             interpreter->LoadProgram(program);
             interpreter->Run();
+
+            auto result = fiber->GetResult();
+
+            if (nanbox_is_undefined_or_null(result)) {
+                std::cout << "\033[0;37m" << "undefined";
+            } else if (nanbox_is_empty(result)) {
+                std::cout << "\033[0;37m" << "(empty)";
+            } else if (nanbox_is_boolean(result)) {
+                std::cout << "\033[0;37m" << "(boolean)";
+            } else if (nanbox_is_deleted(result)) {
+                std::cout << "\033[0;37m" << "(deleted)";
+            } else if (nanbox_is_aux(result)) {
+                std::cout << "\033[0;37m" << "(aux)";
+            } else if (nanbox_is_pointer(result)) {
+                std::cout << "\033[0;37m" << "(ptr)";
+            } else if (nanbox_is_number(result)) {
+                std::cout << "\033[0;36m";
+
+                if (nanbox_is_double(result)) {
+                    std::cout << nanbox_to_double(result);
+                } else {
+                    std::cout << nanbox_to_int(result);
+                }
+            } else {
+                assert(false);
+            }
+
+            // Reset ANSI
+            std::cout << "\033[0m" << std::endl;
 
             // Dispose of resources.
             delete program;

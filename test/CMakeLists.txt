@@ -8,5 +8,3 @@ macro(add_manda_test NAME)
     target_link_libraries(${NAME}Tests ${GTEST_BOTH_LIBRARIES} ${MANDA_LIBRARY})
     add_test(${NAME}Tests ${NAME})
 endmacro()
-
-add_manda_test(TaggedPointer)

@@ -10,6 +10,7 @@
 #include <jit/jit-dump.h>
 #include <iostream>
 #include "../manda_src.h"
+#include "../analysis/Object.h"
 
 using namespace manda;
 
@@ -32,7 +33,7 @@ void Interpreter::LoadProgram(Program *program) {
     this->program = program;
 
     variableIndices.clear();
-    allocatedVariables = new double[program->GetTotalVariableCount()];
+    allocatedVariables = new uint64_t[program->GetTotalVariableCount()];
 
     for (unsigned long i = 0; i < program->GetSsaVariables().size(); i++) {
         auto name = program->GetSsaVariables().at(i);
@@ -54,8 +55,13 @@ void Interpreter::Run() {
 
                 // TODO: Won't always have to lock the context
                 jit_context_build_start(jit);
-                VisitFunction(fiber->GetFunction());
+                auto function = VisitFunction(fiber->GetFunction());
+                jit_function_compile(function);
                 jit_context_build_end(jit);
+                jit_ulong result;
+                // jit_dump_function(stdout, function, "JIT [compiled]");
+                jit_function_apply(function, nullptr, &result);
+                currentFiber->SetResult((uint64_t) result);
                 currentFiber = nullptr;
                 fiber->Exit();
             }
@@ -67,51 +73,12 @@ void Interpreter::Run() {
     allocatedVariables = nullptr;
 }
 
-jit_value_t Interpreter::GetValue(jit_function_t function, jit_value_t nan) {
-    // Shift right by three.
-    auto three = jit_value_create_nint_constant(function, jit_type_int, 3);
-    return jit_insn_shl(function, nan, three);
-}
-
-jit_value_t Interpreter::SetValue(jit_function_t function, jit_value_t nan, jit_value_t newValue) {
-    //  TaggedPointerType currentType = GetType();
-    jit_value_t currentType = GetType(function, nan);
-
-    // asUlong = data << 3;
-    auto three = jit_value_create_nint_constant(function, jit_type_int, 3);
-    auto shifted = jit_insn_shl(function, newValue, three);
-
-    // SetType(currentType);
-    return SetType(function, shifted, currentType);
-}
-
-jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, TaggedPointer::TaggedPointerType type) {
-    auto numberType = jit_value_create_nint_constant(function, jit_type_ubyte, type);
-    return jit_insn_or(function, nan, numberType);
-}
-
-jit_value_t Interpreter::SetType(jit_function_t function, jit_value_t nan, jit_value_t type) {
-    return jit_insn_or(function, nan, type);
-}
-
-jit_value_t Interpreter::Zero(jit_function_t function) {
-    return jit_value_create_float64_constant(function, jit_type_float64, 0);
-}
-
-jit_value_t Interpreter::GetType(jit_function_t function, jit_value_t nan) {
-    // Get the bottom 3 bits
-    // auto bottom3 = (uint8_t) (asUlong & 0x7);
-    auto seven = jit_value_create_nint_constant(function, jit_type_ubyte, 0x7);
-    auto bottom3 = jit_insn_and(function, nan, seven);
-    return jit_insn_convert(function, bottom3, jit_type_ubyte, 0);
-}
-
 jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     // TODO: What if it's already been compiled???
     // TODO: Return value
     // TODO: Parameters
-    // TODO: Ref cowunting
-    auto signature = jit_type_create_signature(abi, jit_type_void, nullptr, 0, 0);
+    // TODO: Ref counting
+    auto signature = jit_type_create_signature(abi, jit_type_ulong, nullptr, 0, 0);
     auto function = jit_function_create(jit, signature);
 
     // TODO: Declare that we will on-demand compile this function.
@@ -130,8 +97,7 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     }
 
     CompileFunction(function);
-
-    jit_dump_function(stdout, function, "JIT");
+    jit_dump_function(stdout, function, "JIT [uncompiled]");
     return function;
 }
 
@@ -149,17 +115,26 @@ void Interpreter::VisitAssignmentInstruction(const AssignmentInstruction *ctx) {
     // Instead of having the JIT compute the pointer, compute it NOW.
     auto basePtr = (jit_ulong) allocatedVariables;
     auto index = variableIndices.at(ctx->GetName());
-    auto ptr = basePtr + (index * sizeof(double));
+    auto ptr = basePtr + (index * sizeof(uint64_t));
 
     // JIT it
-    auto doublePointerType = jit_type_create_pointer(jit_type_float64, 0);
-    auto ptrConstant = jit_value_create_long_constant(function, doublePointerType, jit_ulong_to_long(ptr));
-    jit_insn_store(function, ptrConstant, value);
+    auto ulongPointerType = jit_type_create_pointer(jit_type_ulong, 0);
+    auto ptrConstant = jit_value_create_long_constant(function, ulongPointerType, jit_ulong_to_long(ptr));
+    jit_insn_store_relative(function, ptrConstant, 0, value);
 }
 
 void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
+    auto function = functionStack.top();
     auto value = VisitObject(ctx->GetObject());
-    jit_insn_return(jit_value_get_function(value), value);
+    jit_insn_return(function, value);
+
+//    // TODO: Actually do a real return
+//    // Instead of returning, store the result in &result
+//
+//    auto ptr = (jit_ulong) currentFiber->GetNanboxPointer();
+//    auto ulongPointerType = jit_type_create_pointer(jit_type_ulong, 0);
+//    auto ptrConstant = jit_value_create_long_constant(function, ulongPointerType, jit_ulong_to_long(ptr));
+//    jit_insn_store(function, ptrConstant, value);
 }
 
 jit_value_t Interpreter::VisitObject(const Object *ctx) {
@@ -169,10 +144,16 @@ jit_value_t Interpreter::VisitObject(const Object *ctx) {
 
     // TODO: Polymorphism
     auto function = functionStack.top();
-    TaggedPointer p;
-    p.SetType(TaggedPointer::ACTUAL_NUMBER);
-    p.SetFloatData(ctx->rawObject.value.asUint64);
-    return jit_value_create_float64_constant(function, jit_type_float64, p.GetRawDouble());
+
+    nanbox_t box = nanbox_empty();
+
+    if (ctx->rawObject.type == Object::DOUBLE) {
+        box = nanbox_from_double(ctx->rawObject.value.asDouble);
+    } else {
+        box = nanbox_from_double(ctx->rawObject.value.asUint64);
+    }
+
+    return jit_value_create_long_constant(function, jit_type_ulong, jit_ulong_to_long(box.as_int64));
 }
 
 jit_value_t Interpreter::VisitReference(const Reference *ctx) {
@@ -184,12 +165,12 @@ jit_value_t Interpreter::VisitReference(const Reference *ctx) {
     // Instead of having the JIT compute the pointer, compute it NOW.
     auto basePtr = (jit_ulong) allocatedVariables;
     auto index = variableIndices.at(ctx->GetName());
-    auto ptr = basePtr + (index * sizeof(double));
+    auto ptr = basePtr + (index * sizeof(uint64_t));
 
     // JIT it
-    auto doublePointerType = jit_type_create_pointer(jit_type_float64, 0);
-    auto ptrConstant = jit_value_create_long_constant(function, doublePointerType, jit_ulong_to_long(ptr));
-    return jit_insn_load(function, ptrConstant);
+    auto ulongPointerType = jit_type_create_pointer(jit_type_ulong, 0);
+    auto ptrConstant = jit_value_create_long_constant(function, ulongPointerType, jit_ulong_to_long(ptr));
+    return jit_insn_load_relative(function, ptrConstant, 0, jit_type_ulong);
 }
 
 int Interpreter::CompileFunction(jit_function_t function) {

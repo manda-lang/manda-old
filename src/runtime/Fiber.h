@@ -8,6 +8,7 @@
 #define MANDA_FIBER_H
 
 #include <stack>
+#include "nanbox.h"
 #include "SymbolTable.h"
 
 namespace manda
@@ -23,13 +24,17 @@ namespace manda
 
         const Function *GetFunction() const;
 
+        const uint64_t * GetNanboxPointer() const;
+
+        const nanbox_t& GetResult() const;
+
         bool IsWaiting() const;
 
         bool HasExited() const;
 
         void Exit();
 
-        void WaitFor(void * task);
+        void WaitFor(void *task);
 
         void Resume(double result);
 
@@ -37,7 +42,10 @@ namespace manda
 
         void PopScope();
 
+        void SetResult(uint64_t value);
+
     private:
+        nanbox_t result = nanbox_empty();
         bool exited = false;
         bool waiting = false;
         Function *function;

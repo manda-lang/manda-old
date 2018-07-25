@@ -55,3 +55,15 @@ void Fiber::WaitFor(void *task) {
     // TODO: Change this to a task pointer, etc.
     waiting = true;
 }
+
+const uint64_t *Fiber::GetNanboxPointer() const {
+    return &result.as_int64;
+}
+
+const nanbox_t &Fiber::GetResult() const {
+    return result;
+}
+
+void Fiber::SetResult(uint64_t value) {
+    result.as_int64 = value;
+}

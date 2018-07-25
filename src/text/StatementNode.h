@@ -7,7 +7,6 @@
 #ifndef MANDA_STATEMENT_H
 #define MANDA_STATEMENT_H
 
-#include "../runtime/TaggedPointer.h"
 #include "AstNode.h"
 
 namespace manda

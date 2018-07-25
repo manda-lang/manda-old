@@ -10,7 +10,7 @@
 #include "Fiber.h"
 #include "Interpreter.h"
 #include "Memory.h"
-#include "TaggedPointer.h"
+#include "nanbox.h"
 #include "Symbol.h"
 #include "VM.h"
 
