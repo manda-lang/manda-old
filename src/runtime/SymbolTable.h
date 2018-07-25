@@ -7,6 +7,8 @@
 #ifndef MANDA_SYMBOLTABLE_H
 #define MANDA_SYMBOLTABLE_H
 
+#include <sstream>
+#include <unordered_map>
 #include <vector>
 #include "Symbol.h"
 
@@ -73,6 +75,21 @@ namespace manda
             }
         }
 
+        std::string UniqueName(const std::string &name) {
+            auto it = nameCounts.find(name);
+            long result;
+
+            if (it == nameCounts.end()) {
+                result = nameCounts[name] = 0;
+            } else {
+                result = nameCounts[name]++;
+            }
+
+            std::ostringstream oss;
+            oss << name << result;
+            return oss.str();
+        }
+
         bool ExistsAtThisLevel(const std::string &name) const;
 
     private:
@@ -81,6 +98,7 @@ namespace manda
         }
 
         SymbolTable<T> *parent;
+        std::unordered_map<std::string, long> nameCounts;
         std::vector<Symbol<T> *> symbols;
     };
 }

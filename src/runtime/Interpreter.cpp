@@ -4,11 +4,12 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <cstdint>
+#include <cstdio>
 #include <unordered_map>
 #include <jit/jit-dump.h>
 #include <iostream>
-#include "Interpreter.h"
-#include "../analysis/Object.h"
+#include "../src.h"
 
 using namespace manda;
 
@@ -17,6 +18,17 @@ manda::Interpreter::Interpreter(manda::VM *vm) {
     this->currentFiber = nullptr;
     this->vm = vm;
     jit = jit_context_create();
+
+    // Create cstring type
+    cStringType = jit_type_create_pointer(jit_type_sys_char, 1);
+
+    // Create symbol table store type
+    // Interpreter *interpreter, const char *name, double value
+    jit_type_t symbolTableParams[3];
+    symbolTableParams[0] = jit_type_void_ptr;
+    symbolTableParams[1] = cStringType;
+    symbolTableParams[2] = jit_type_float64;
+    symbolTableStoreType = jit_type_create_signature(abi, jit_type_void, symbolTableParams, 3, 1);
 }
 
 Interpreter::~Interpreter() {
@@ -106,6 +118,7 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
 
     // Attach a pointer to the fiber, the program, and the function itself.
     auto *opts = new OnDemandCompilationOptions;
+    opts->interpreter = this;
     opts->function = ctx;
     opts->program = program;
     opts->fiber = currentFiber;
@@ -121,6 +134,36 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     return function;
 }
 
+void Interpreter::VisitInstruction(const Instruction *ctx) {
+    ctx->AcceptInterpreter(this);
+}
+
+void Interpreter::VisitAssignmentInstruction(const AssignmentInstruction *ctx) {
+    auto function = functionStack.top();
+    jit_value_t arguments[3];
+    arguments[0] = jit_value_create_long_constant(function, jit_type_void_ptr, jit_ulong_to_long((jit_ulong) this));
+    arguments[1] = CreateJitString(ctx->GetName());
+    arguments[2] = VisitObject(ctx->GetObject());
+
+    // TODO: More efficient storage method
+    jit_insn_call_native(function, "SymbolTableStore", (void *) &SymbolTableStore, symbolTableStoreType, arguments, 3,
+                         0);
+}
+
+void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
+    auto value = VisitObject(ctx->GetObject());
+    jit_insn_throw(jit_value_get_function(value), value);
+}
+
+jit_value_t Interpreter::VisitObject(const Object *ctx) {
+    // TODO: Polymorphism
+    auto function = functionStack.top();
+    TaggedPointer p;
+    p.SetType(TaggedPointer::ACTUAL_NUMBER);
+    p.SetFloatData(ctx->rawObject.asUint64);
+    return jit_value_create_float64_constant(function, jit_type_float64, p.GetRawDouble());
+}
+
 int Interpreter::CompileFunction(jit_function_t function) {
     // Retrieve the compilation options;
     auto *optsPtr = (OnDemandCompilationOptions *) jit_function_get_meta(function, 0);
@@ -131,7 +174,9 @@ int Interpreter::CompileFunction(jit_function_t function) {
 
     // Crawl through all the blocks.
     OnDemandCompilationOptions opts(*optsPtr);
+    opts.interpreter->functionStack.push(function);
     CompileBlock(function, opts, opts.function->GetStartBlock());
+    opts.interpreter->functionStack.pop();
 
     // TODO: Compile all other labels
     // std::unordered_map<Block *, jit_label_t> labels;
@@ -141,14 +186,7 @@ int Interpreter::CompileFunction(jit_function_t function) {
 int Interpreter::CompileBlock(jit_function_t function, Interpreter::OnDemandCompilationOptions &options,
                               Block *block) {
     for (auto *instruction : block->GetInstructions()) {
-        // TODO: Polymorphism
-        auto *os = (ObjectInstruction *) instruction;
-        auto *obj = os->GetObject();
-        TaggedPointer p;
-        p.SetType(TaggedPointer::ACTUAL_NUMBER);
-        p.SetFloatData(obj->rawObject.asUint64);
-        auto constant = jit_value_create_float64_constant(function, jit_type_float64, p.GetRawDouble());
-        jit_insn_throw(function, constant);
+        options.interpreter->VisitInstruction(instruction);
     }
 
     return 0;
@@ -170,4 +208,12 @@ uint8_t Interpreter::SymbolTableRetrieve(Interpreter *interpreter, const char *n
         *value = symbol->GetValue();
         return 1;
     }
+}
+
+jit_value_t Interpreter::CreateJitString(const std::string &name) {
+    auto function = functionStack.top();
+    auto *str = jit_strdup(name.c_str());
+    // TODO: Free str eventually
+    auto strPtr = jit_ulong_to_long((jit_ulong) str);
+    return jit_value_create_long_constant(function, cStringType, strPtr);
 }

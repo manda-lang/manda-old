@@ -9,9 +9,13 @@
 
 namespace manda
 {
+    class Interpreter;
+
     class Instruction
     {
-
+    public:
+        virtual ~Instruction();
+        virtual void AcceptInterpreter(Interpreter *interpreter) const = 0;
     };
 }
 

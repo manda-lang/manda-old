@@ -51,11 +51,12 @@ namespace manda
     private:
         std::stack<Block *> blockStack;
         std::stack<Function *> functionStack;
+        std::stack<Program *> programStack;
         bool isRepl = false;
         Module *coreModule = nullptr;
         SymbolTable<Object *> *globalScope;
 
-        const Type * GetCoreType(const char *name);
+        const Type *GetCoreType(const char *name);
 
         void CreateCoreModule();
 

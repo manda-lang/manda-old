@@ -8,6 +8,7 @@
 #define MANDA_ANALYSIS_H
 
 #include "Analyzer.h"
+#include "AssignmentInstruction.h"
 #include "Block.h"
 #include "Function.h"
 #include "Instruction.h"

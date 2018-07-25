@@ -5,8 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <iostream>
-#include "analysis.h"
-#include "Object.h"
+#include "../src.h"
 
 using namespace manda;
 
@@ -60,6 +59,7 @@ const Type *Analyzer::GetCoreType(const char *name) {
 
 manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
     auto *program = new Program;
+    programStack.push(program);
 
     // Create the Core module.
     CreateCoreModule();
@@ -70,7 +70,7 @@ manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode
     std::string name("Main");
     program->GetModules().insert(std::make_pair(name, module));
     program->SetMainModule(module);
-
+    programStack.pop();
     return program;
 }
 
@@ -124,7 +124,20 @@ void Analyzer::VisitExpressionStatement(ExpressionStatementNode *ctx) {
 }
 
 void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx) {
+    auto *initializer = VisitExpression(ctx->GetInitializer());
 
+    if (initializer != nullptr) {
+        if (!blockStack.top()->GetScope()->Add(ctx->GetIdentifier()->GetName(), initializer)) {
+            std::ostringstream oss;
+            oss << "The name '" << ctx->GetIdentifier()->GetName() << "' already exists in this context.";
+            AddError(oss.str(), ctx->GetIdentifier()->GetSourceSpan());
+            delete initializer;
+        } else {
+            auto ssaName = blockStack.top()->GetScope()->UniqueName(ctx->GetIdentifier()->GetName());
+            programStack.top()->RegisterVariable(ssaName);
+            blockStack.top()->GetInstructions().push_back(new AssignmentInstruction(ssaName, initializer));
+        }
+    }
 }
 
 Object *Analyzer::VisitExpression(ExpressionNode *ctx) {

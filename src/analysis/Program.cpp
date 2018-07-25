@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "Program.h"
+
 using namespace manda;
 
 manda::Program::Program() {
@@ -29,4 +30,19 @@ Module *Program::GetMainModule() {
 
 void Program::SetMainModule(Module *module) {
     mainModule = module;
+}
+
+long Program::GetTotalVariableCount() const {
+    return totalVariableCount;
+}
+
+void Program::RegisterVariable(const std::string &name) {
+    for (auto &str : ssaVariables) {
+        if (str == name) {
+            return;
+        }
+    }
+
+    ssaVariables.push_back(name);
+    totalVariableCount++;
 }

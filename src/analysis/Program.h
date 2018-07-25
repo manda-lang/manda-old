@@ -22,11 +22,17 @@ namespace manda
 
         std::unordered_map<std::string, Module *> &GetModules();
 
+        long GetTotalVariableCount() const;
+
         Module *GetMainModule();
 
         void SetMainModule(Module *module);
 
+        void RegisterVariable(const std::string& name);
+
     private:
+        long totalVariableCount = 0;
+        std::vector<std::string> ssaVariables;
         std::unordered_map<std::string, Module *> modules;
         Module *mainModule;
     };

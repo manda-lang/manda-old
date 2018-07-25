@@ -4,31 +4,32 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#ifndef MANDA_EXPRESSIONINSTRUCTION_H
-#define MANDA_EXPRESSIONINSTRUCTION_H
+#ifndef MANDA_ASSIGNMENTINSTRUCTION_H
+#define MANDA_ASSIGNMENTINSTRUCTION_H
 
+#include <string>
 #include "Instruction.h"
 #include "Object.h"
 
 namespace manda
 {
-    /**
-     * Analogous to an expression statement; represents a standalone expression, the
-     * result of which is not stored in memory.
-     */
-    class ObjectInstruction : public Instruction
+    class AssignmentInstruction : public Instruction
     {
     public:
-        explicit ObjectInstruction(const Object *object);
-        ~ObjectInstruction();
+        explicit AssignmentInstruction(const std::string &name, const Object *object);
+
+        ~AssignmentInstruction();
+
+        const std::string &GetName() const;
 
         const Object *GetObject() const;
 
         void AcceptInterpreter(Interpreter *interpreter) const override;
 
     private:
+        std::string name;
         const Object *object;
     };
 }
 
-#endif //MANDA_EXPRESSIONINSTRUCTION_H
+#endif //MANDA_ASSIGNMENTINSTRUCTION_H

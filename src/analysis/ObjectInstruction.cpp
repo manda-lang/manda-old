@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "ObjectInstruction.h"
+#include "../src.h"
 
 manda::ObjectInstruction::ObjectInstruction(const manda::Object *object) {
     this->object = object;
@@ -18,4 +18,8 @@ manda::ObjectInstruction::~ObjectInstruction() {
     // We CAN delete the underlying object, because its result is not stored
     // ex. a function call
     delete object;
+}
+
+void manda::ObjectInstruction::AcceptInterpreter(manda::Interpreter *interpreter) const {
+    interpreter->VisitObjectInstruction(this);
 }

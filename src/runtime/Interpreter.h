@@ -17,9 +17,15 @@ namespace manda
 {
     class Analyzer;
 
+    class AssignmentInstruction;
+
     class Block;
 
     class ExpressionNode;
+
+    class Instruction;
+
+    class ObjectInstruction;
 
     class Program;
 
@@ -50,9 +56,18 @@ namespace manda
 
         jit_function_t VisitFunction(const Function *ctx);
 
+        void VisitInstruction(const Instruction *ctx);
+
+        void VisitAssignmentInstruction(const AssignmentInstruction *ctx);
+
+        void VisitObjectInstruction(const ObjectInstruction *ctx);
+
+        jit_value_t VisitObject(const Object *ctx);
+
     private:
         struct OnDemandCompilationOptions
         {
+            Interpreter *interpreter;
             Fiber *fiber;
             const manda::Function *function;
             Program *program;
@@ -66,11 +81,15 @@ namespace manda
 
         static uint8_t SymbolTableRetrieve(Interpreter *interpreter, const char *name, double *value);
 
+        jit_value_t CreateJitString(const std::string& name);
+
         Analyzer *analyzer;
         Program *program = nullptr;
         std::stack<jit_function_t> functionStack;
         jit_context_t jit;
         jit_function_t entryPoint;
+        jit_type_t cStringType;
+        jit_type_t symbolTableStoreType;
         VM *vm;
         Fiber *currentFiber;
         jit_abi_t abi;
