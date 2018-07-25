@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "../src.h"
+#include "../manda_src.h"
 
 manda::VariableDeclarationStatementNode::VariableDeclarationStatementNode(const manda::Token *let,
                                                         manda::SimpleIdentifierNode *identifier,

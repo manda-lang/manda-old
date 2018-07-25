@@ -18,7 +18,7 @@ add_library(${MANDA_LIBRARY}
         text/Parser.cpp text/Parser.h
         text/Token.cpp text/Token.h
         text/SourceSpan.cpp
-        text/text.h src.h
+        text/text.h manda_src.h
         text/AstNode.cpp text/AstNode.h
         text/ExpressionNode.cpp text/ExpressionNode.h
         text/NumberLiteralNode.cpp text/NumberLiteralNode.h

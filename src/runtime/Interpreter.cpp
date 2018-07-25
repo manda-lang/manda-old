@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <jit/jit-dump.h>
 #include <iostream>
-#include "../src.h"
+#include "../manda_src.h"
 
 using namespace manda;
 

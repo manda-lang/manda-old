@@ -7,7 +7,7 @@
 #include <readline/readline.h>
 #include <fstream>
 #include <iostream>
-#include "../src.h"
+#include "../manda_src.h"
 
 using namespace manda;
 

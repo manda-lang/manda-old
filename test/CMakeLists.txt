@@ -1,0 +1,12 @@
+enable_testing()
+find_package(GTest REQUIRED)
+
+macro(add_manda_test NAME)
+    add_executable(${NAME}Tests EXCLUDE_FROM_ALL ${NAME}.cpp)
+    target_include_directories(${NAME}Tests PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../src)
+    target_include_directories(${NAME}Tests PUBLIC ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${NAME}Tests ${GTEST_BOTH_LIBRARIES} ${MANDA_LIBRARY})
+    add_test(${NAME}Tests ${NAME})
+endmacro()
+
+add_manda_test(TaggedPointer)

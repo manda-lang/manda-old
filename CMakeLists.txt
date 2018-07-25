@@ -10,3 +10,7 @@ include_directories(include)
 add_subdirectory(src)
 
 install(DIRECTORY include DESTINATION include)
+
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    add_subdirectory(test)
+endif ()
