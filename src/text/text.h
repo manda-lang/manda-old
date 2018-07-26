@@ -17,10 +17,13 @@
 #include "InfixParselet.h"
 #include "SimpleIdentifierNode.h"
 #include "Lexer.h"
+#include "ParameterNode.h"
 #include "Parser.h"
 #include "SourceSpan.h"
 #include "StatementNode.h"
 #include "TracksErrors.h"
+#include "TypeNode.h"
+#include "TypeReferenceNode.h"
 #include "Token.h"
 #include "VariableDeclarationStatementNode.h"
 #endif //MANDA_TEXT_H

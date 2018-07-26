@@ -10,14 +10,36 @@
 #include <string>
 #include "AstNode.h"
 #include "ExpressionNode.h"
+#include "SimpleIdentifierNode.h"
+#include "TypeNode.h"
 
 namespace manda
 {
     class ParameterNode : public AstNode
     {
+    public:
+        explicit ParameterNode(const SimpleIdentifierNode* name, const ExpressionNode *defaultValue, const TypeNode *type);
+
+        explicit ParameterNode(const SimpleIdentifierNode* name);
+
+        explicit ParameterNode(const SimpleIdentifierNode* name, const TypeNode *type);
+
+        explicit ParameterNode(const SimpleIdentifierNode* name, const ExpressionNode *defaultValue);
+        
+        ~ParameterNode();
+
+        const SimpleIdentifierNode *GetIdentifier() const;
+
+        const ExpressionNode *GetDefaultValue() const;
+
+        const TypeNode *GetType() const;
+
+        const SourceSpan *GetSourceSpan() const override;
+
     private:
-        std::string name;
-        ExpressionNode *defaultValue;
+        const SimpleIdentifierNode *identifier;
+        const ExpressionNode *defaultValue;
+        const TypeNode *type;
     };
 }
 
