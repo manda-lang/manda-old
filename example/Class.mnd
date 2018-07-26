@@ -1,11 +1,11 @@
-class Snake {
+type Snake = {
   var name: String
   
   get title: String {
     return '%name the Legendary Snake'
   }
   
-  set age (value: Num) {
+  set age (value: Num): Void {
     
   }
 }
@@ -16,4 +16,4 @@ manda.name = 'Manda'
 print('Hello, %{manda.title}!');
 
 // You can construct a class with initial values for fields.
-let orochimaru = Snake { name: 'Orochimaru' }
+let orochimaru = Snake of { name: 'Orochimaru' }
