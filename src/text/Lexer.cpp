@@ -93,15 +93,55 @@ Lexer::Lexer() {
     errantColumn = 0;
 
     // Keywords
+    patterns.push_back(std::make_pair(std::regex("^async"), Token::ASYNC));
+    patterns.push_back(std::make_pair(std::regex("^await"), Token::AWAIT));
+    patterns.push_back(std::make_pair(std::regex("^catch"), Token::CATCH));
+    patterns.push_back(std::make_pair(std::regex("^constructor"), Token::CONSTRUCTOR));
+    patterns.push_back(std::make_pair(std::regex("^do"), Token::DO));
+    patterns.push_back(std::make_pair(std::regex("^enum"), Token::ENUM));
+    patterns.push_back(std::make_pair(std::regex("^for"), Token::FOR));
+    patterns.push_back(std::make_pair(std::regex("^func"), Token::FUNC));
+    patterns.push_back(std::make_pair(std::regex("^import"), Token::IMPORT));
+    patterns.push_back(std::make_pair(std::regex("^in"), Token::IN));
+    patterns.push_back(std::make_pair(std::regex("^interface"), Token::INTERFACE));
     patterns.push_back(std::make_pair(std::regex("^let"), Token::LET));
+    patterns.push_back(std::make_pair(std::regex("^property"), Token::PROPERTY));
+    patterns.push_back(std::make_pair(std::regex("^return"), Token::RETURN));
+    patterns.push_back(std::make_pair(std::regex("^throw"), Token::THROW));
+    patterns.push_back(std::make_pair(std::regex("^try"), Token::TRY));
+    patterns.push_back(std::make_pair(std::regex("^type"), Token::TYPE));
+    patterns.push_back(std::make_pair(std::regex("^var"), Token::VAR));
+    patterns.push_back(std::make_pair(std::regex("^while"), Token::WHILE));
+    patterns.push_back(std::make_pair(std::regex("^with"), Token::WITH));
+
+    // Kw-operators
+    patterns.push_back(std::make_pair(std::regex("^as"), Token::AS));
+    patterns.push_back(std::make_pair(std::regex("^is"), Token::IS));
+
+    // Misc.
+    patterns.push_back(std::make_pair(std::regex("^:"), Token::COLON));
+    patterns.push_back(std::make_pair(std::regex("^,"), Token::COMMA));
+    patterns.push_back(std::make_pair(std::regex("^;"), Token::SEMICOLON));
 
     // Operators
-    patterns.push_back(std::make_pair(std::regex("^="), Token::EQUALS));
+    patterns.push_back(std::make_pair(std::regex("^\\("), Token::LPAREN));
+    patterns.push_back(std::make_pair(std::regex("^\\)"), Token::RPAREN));
+    patterns.push_back(std::make_pair(std::regex("^\\["), Token::LBRACKET));
+    patterns.push_back(std::make_pair(std::regex("^\\]"), Token::RBRACKET));
+    patterns.push_back(std::make_pair(std::regex("^{"), Token::LCURLY));
+    patterns.push_back(std::make_pair(std::regex("^}"), Token::RCURLY));
+    patterns.push_back(std::make_pair(std::regex("^\\."), Token::DOT));
+    patterns.push_back(std::make_pair(std::regex("^="), Token::EQUALS));\
     patterns.push_back(std::make_pair(std::regex("^\\*"), Token::TIMES));
     patterns.push_back(std::make_pair(std::regex("^/"), Token::DIV));
     patterns.push_back(std::make_pair(std::regex("^%"), Token::MODULO));
     patterns.push_back(std::make_pair(std::regex("^\\+"), Token::PLUS));
     patterns.push_back(std::make_pair(std::regex("^\\-"), Token::MINUS));
+    patterns.push_back(std::make_pair(std::regex("^<"), Token::LT));
+    patterns.push_back(std::make_pair(std::regex("^<="), Token::LTE));
+    patterns.push_back(std::make_pair(std::regex("^>"), Token::RT));
+    patterns.push_back(std::make_pair(std::regex("^>="), Token::RTE));
+    patterns.push_back(std::make_pair(std::regex("^|"), Token::PIPE));
 
     // Expressions
     patterns.push_back(std::make_pair(std::regex("^0b([0-1]+)"), Token::BINARY));

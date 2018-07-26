@@ -18,15 +18,55 @@ namespace manda
         enum TokenType
         {
             // Keywords
-                    LET,
+                    ASYNC,
+            AWAIT,
+            CATCH,
+            CONSTRUCTOR,
+            DO,
+            ENUM,
+            FOR,
+            FUNC,
+            IMPORT,
+            IN,
+            INTERFACE,
+            LET,
+            PROPERTY,
+            RETURN,
+            THROW,
+            TRY,
+            TYPE,
+            VAR,
+            WHILE,
+            WITH,
+
+            // Kw-operators
+                    AS,
+            IS,
+
+            // Misc.
+                    COLON,
+            COMMA,
+            SEMICOLON,
 
             // Operators
-                    EQUALS,
+                    LPAREN,
+            RPAREN,
+            LBRACKET,
+            RBRACKET,
+            LCURLY,
+            RCURLY,
+            DOT,
+            EQUALS,
             TIMES,
             DIV,
             MODULO,
             PLUS,
             MINUS,
+            LT,
+            LTE,
+            RT,
+            RTE,
+            PIPE,
 
             // Expressions
                     FLOAT,
