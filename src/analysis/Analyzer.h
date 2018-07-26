@@ -19,9 +19,11 @@ namespace manda
     class Analyzer : public TracksErrors
     {
     public:
-        explicit Analyzer(Parser *parser, bool isRepl = false);
+        explicit Analyzer(bool isRepl = false);
 
         ~Analyzer();
+
+        void LoadParser(Parser *parser);
 
         Program *VisitCompilationUnit(CompilationUnitNode *ctx);
 

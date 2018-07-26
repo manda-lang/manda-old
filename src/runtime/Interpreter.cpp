@@ -139,6 +139,7 @@ void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
 
 jit_value_t Interpreter::VisitObject(const Object *ctx) {
     if (ctx->IsReference()) {
+
         return VisitReference((const Reference *) ctx);
     }
 

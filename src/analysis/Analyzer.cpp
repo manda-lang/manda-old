@@ -10,19 +10,21 @@
 
 using namespace manda;
 
-manda::Analyzer::Analyzer(Parser *parser, bool isRepl) {
+manda::Analyzer::Analyzer(bool isRepl) {
     this->isRepl = isRepl;
     globalScope = new SymbolTable<Object *>;
+}
 
+manda::Analyzer::~Analyzer() {
+    delete globalScope;
+}
+
+void Analyzer::LoadParser(Parser *parser) {
     for (auto *error: parser->GetErrors()) {
         errors.push_back(error);
     }
 
     parser->GetErrors().clear();
-}
-
-manda::Analyzer::~Analyzer() {
-    delete globalScope;
 }
 
 void Analyzer::EnterFunction(Function *function) {
