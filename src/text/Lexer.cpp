@@ -117,6 +117,7 @@ Lexer::Lexer() {
     // Kw-operators
     patterns.push_back(std::make_pair(std::regex("^as"), Token::AS));
     patterns.push_back(std::make_pair(std::regex("^is"), Token::IS));
+    patterns.push_back(std::make_pair(std::regex("^is!"), Token::IS_NOT));
 
     // Misc.
     patterns.push_back(std::make_pair(std::regex("^=>"), Token::ARROW));

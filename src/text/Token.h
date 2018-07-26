@@ -42,6 +42,7 @@ namespace manda
             // Kw-operators
                     AS,
             IS,
+            IS_NOT,
 
             // Misc.
             ARROW,
