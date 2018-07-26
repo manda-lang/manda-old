@@ -119,6 +119,7 @@ Lexer::Lexer() {
     patterns.push_back(std::make_pair(std::regex("^is"), Token::IS));
 
     // Misc.
+    patterns.push_back(std::make_pair(std::regex("^=>"), Token::ARROW));
     patterns.push_back(std::make_pair(std::regex("^:"), Token::COLON));
     patterns.push_back(std::make_pair(std::regex("^,"), Token::COMMA));
     patterns.push_back(std::make_pair(std::regex("^;"), Token::SEMICOLON));
@@ -128,8 +129,8 @@ Lexer::Lexer() {
     patterns.push_back(std::make_pair(std::regex("^\\)"), Token::RPAREN));
     patterns.push_back(std::make_pair(std::regex("^\\["), Token::LBRACKET));
     patterns.push_back(std::make_pair(std::regex("^\\]"), Token::RBRACKET));
-    patterns.push_back(std::make_pair(std::regex("^{"), Token::LCURLY));
-    patterns.push_back(std::make_pair(std::regex("^}"), Token::RCURLY));
+    patterns.push_back(std::make_pair(std::regex("^\\{"), Token::LCURLY));
+    patterns.push_back(std::make_pair(std::regex("^\\}"), Token::RCURLY));
     patterns.push_back(std::make_pair(std::regex("^\\."), Token::DOT));
     patterns.push_back(std::make_pair(std::regex("^="), Token::EQUALS));\
     patterns.push_back(std::make_pair(std::regex("^\\*"), Token::TIMES));

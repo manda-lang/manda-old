@@ -44,6 +44,7 @@ namespace manda
             IS,
 
             // Misc.
+            ARROW,
                     COLON,
             COMMA,
             SEMICOLON,
