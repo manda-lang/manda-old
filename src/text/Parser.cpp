@@ -123,6 +123,27 @@ StatementNode *Parser::ParseStatement() {
     return result;
 }
 
+FunctionBodyNode *Parser::ParseFunctionBody() {
+    return ParseArrowFunctionBody();
+}
+
+ArrowFunctionBodyNode *Parser::ParseArrowFunctionBody() {
+    if (!Next(Token::ARROW)) {
+        return nullptr;
+    }
+
+    auto *arrow = GetCurrentToken();
+    auto *expr = ParseExpression(0);
+    AddError("Missing expression after '=>' in arrow function body.", arrow->GetSourceSpan());
+    if (expr == nullptr) {
+        delete arrow;
+        return nullptr;
+    } else {
+        delete arrow;
+        return new ArrowFunctionBodyNode(expr);
+    }
+}
+
 VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
     if (!Next(Token::LET)) {
         return nullptr;

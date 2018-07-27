@@ -9,8 +9,10 @@
 
 #include <unordered_map>
 #include <vector>
+#include "ArrowFunctionBodyNode.h"
 #include "CompilationUnitNode.h"
 #include "ExpressionStatementNode.h"
+#include "FunctionSignatureNode.h"
 #include "InfixParselet.h"
 #include "Lexer.h"
 #include "NumberLiteralNode.h"
@@ -46,6 +48,10 @@ namespace manda
         CompilationUnitNode *ParseCompilationUnit();
 
         StatementNode *ParseStatement();
+
+        FunctionBodyNode *ParseFunctionBody();
+
+        ArrowFunctionBodyNode *ParseArrowFunctionBody();
 
         VariableDeclarationStatementNode *ParseVariableDeclarationStatement();
 
