@@ -15,11 +15,11 @@ namespace manda
     class ExpressionStatementNode : public StatementNode
     {
     public:
-        explicit ExpressionStatementNode(ExpressionNode *expression);
+        explicit ExpressionStatementNode(const ExpressionNode *expression);
 
         ~ExpressionStatementNode();
 
-        ExpressionNode * GetExpression();
+        const ExpressionNode * GetExpression();
 
         const SourceSpan *GetSourceSpan() const override;
 
@@ -30,7 +30,7 @@ namespace manda
         void AcceptAnalyzer(Analyzer *analyzer) override;
 
     private:
-        ExpressionNode *expression;
+        const ExpressionNode *expression;
     };
 }
 

@@ -8,7 +8,7 @@
 
 using namespace manda;
 
-manda::ExpressionStatementNode::ExpressionStatementNode(manda::ExpressionNode *expression) {
+manda::ExpressionStatementNode::ExpressionStatementNode(const ExpressionNode *expression) {
     this->expression = expression;
 }
 
@@ -16,7 +16,7 @@ manda::ExpressionStatementNode::~ExpressionStatementNode() {
     delete expression;
 }
 
-ExpressionNode *manda::ExpressionStatementNode::GetExpression() {
+const ExpressionNode * manda::ExpressionStatementNode::GetExpression() {
     return expression;
 }
 
