@@ -18,6 +18,7 @@
 #include "NumberLiteralNode.h"
 #include "SimpleIdentifierNode.h"
 #include "TracksErrors.h"
+#include "TypeReferenceNode.h"
 #include "VariableDeclarationStatementNode.h"
 
 namespace manda
@@ -53,7 +54,17 @@ namespace manda
 
         ArrowFunctionBodyNode *ParseArrowFunctionBody();
 
+        FunctionSignatureNode *ParseFunctionSignature();
+
+        ParameterListNode *ParseParameterList();
+
+        ParameterNode *ParseParameter();
+
         VariableDeclarationStatementNode *ParseVariableDeclarationStatement();
+
+        TypeNode *ParseType();
+
+        TypeReferenceNode *ParseTypeReference();
 
         ExpressionStatementNode *ParseExpressionStatement();
 
