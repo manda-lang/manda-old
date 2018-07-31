@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "FunctionDeclarationStatementNode.h"
+#include "../manda_src.h"
 
 manda::FunctionDeclarationStatementNode::FunctionDeclarationStatementNode(manda::SimpleIdentifierNode *identifier,
                                                                           manda::FunctionSignatureNode *signature,
@@ -48,5 +48,5 @@ bool manda::FunctionDeclarationStatementNode::IsExpressionStatement() const {
 }
 
 void manda::FunctionDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) const {
-    
+    analyzer->VisitFunctionDeclarationStatement(this);
 }

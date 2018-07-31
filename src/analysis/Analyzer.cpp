@@ -49,6 +49,7 @@ void Analyzer::CreateCoreModule() {
     if (coreModule == nullptr) {
         std::string name("Core");
         coreModule = new Module(name, globalScope->CreateChild());
+        coreModule->GetScope()->Add("Function", new TypeObject(new BaseFunctionType(coreModule)));
         coreModule->GetScope()->Add("Num", new TypeObject(new NumType(coreModule)));
     }
 }
@@ -84,7 +85,7 @@ void Analyzer::PrecursoryVisitCompilationUnit(Module *module, const CompilationU
     entry->SetStartBlock(startBlock);
     module->SetImplicitFunction(entry);
 
-    // TODO: Look for top-level functions + types
+    // TODO: Look for top-level types
 }
 
 manda::Module *manda::Analyzer::VisitSingleCompilationUnit(const manda::CompilationUnitNode *ctx) {
@@ -97,6 +98,14 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(const manda::Compilat
     // Next, visit every top-level statement, and load them into the implicit entry point.
     EnterFunction(module->GetImplicitFunction());
 
+    // Hoist up all function declarations
+    for (auto *statement : ctx->GetStatements()) {
+        if (statement->HasFunctionDeclaration()) {
+            VisitStatement(statement);
+        }
+    }
+
+    // Visit all other statements
     for (auto *statement : ctx->GetStatements()) {
         if (!statement->HasFunctionDeclaration()) {
             VisitStatement(statement);
@@ -124,6 +133,31 @@ void Analyzer::VisitExpressionStatement(const ExpressionStatementNode *ctx) {
             blockStack.top()->GetInstructions().push_back(new ObjectInstruction(object));
         }
     }
+}
+
+void Analyzer::VisitFunctionDeclarationStatement(const FunctionDeclarationStatementNode *ctx) {
+    // Create a reference to the function.
+    auto *function = new Function();
+    auto *ref = new Object(GetCoreType("Function"), ctx->GetSourceSpan());
+    ref->rawObject.type = Object::FUNCTION;
+    ref->rawObject.value.function = function;
+
+    if (!(blockStack.top()->GetScope()->Add(ctx->GetIdentifier()->GetName(), ref))) {
+        std::ostringstream oss;
+        oss << "The name '" << ctx->GetIdentifier()->GetName() << "' already exists in this context.";
+        AddError(oss.str(), ctx->GetIdentifier()->GetSourceSpan());
+        delete function;
+        delete ref;
+        return;
+    }
+
+    EnterFunction(function);
+
+    for (unsigned long i = 0; i < ctx->GetBody()->GetStatementCount(); i++) {
+        VisitStatement(ctx->GetBody()->GetStatements()[i]);
+    }
+
+    ExitFunction();
 }
 
 void Analyzer::VisitVariableDeclarationStatement(const VariableDeclarationStatementNode *ctx) {

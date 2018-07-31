@@ -119,9 +119,14 @@ void Parser::ParseStatements(std::vector<StatementNode *> &statements) {
 
 StatementNode *Parser::ParseStatement() {
     StatementNode *result = nullptr;
-    if ((result = ParseFunctionDeclarationStatement()) != nullptr) return result;
-    if ((result = ParseVariableDeclarationStatement()) != nullptr) return result;
-    if ((result = ParseExpressionStatement()) != nullptr) return result;
+    if ((result = ParseFunctionDeclarationStatement()) != nullptr) {
+        return result;
+    } else if ((result = ParseVariableDeclarationStatement()) != nullptr) {
+        return result;
+    } else if ((result = ParseExpressionStatement()) != nullptr) {
+        return result;
+    }
+
     return result;
 }
 

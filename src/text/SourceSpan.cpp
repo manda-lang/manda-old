@@ -65,10 +65,10 @@ const std::string manda::SourceSpan::GetContext(std::string &sourceText) const {
     s.reserve(255);
 
     //skip N lines
-    for(int i = 0; i < line; ++i)
+    for (int i = 1; i < line; ++i)
         std::getline(ss, s);
 
-    std::getline(ss,s);
+    std::getline(ss, s);
     return s;
 }
 

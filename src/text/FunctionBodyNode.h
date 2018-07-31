@@ -17,9 +17,9 @@ namespace manda
     public:
         virtual ~FunctionBodyNode() = default;
 
-        virtual unsigned long GetStatementCount() = 0;
+        virtual unsigned long GetStatementCount() const = 0;
 
-        virtual const StatementNode *GetStatements() = 0;
+        virtual const StatementNode **GetStatements() const = 0;
     };
 }
 

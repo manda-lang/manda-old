@@ -19,10 +19,10 @@ const manda::SourceSpan *manda::ArrowFunctionBodyNode::GetSourceSpan() const {
     return expressionStatement->GetSourceSpan();
 }
 
-unsigned long manda::ArrowFunctionBodyNode::GetStatementCount() {
+unsigned long manda::ArrowFunctionBodyNode::GetStatementCount() const {
     return 1;
 }
 
-const manda::StatementNode *manda::ArrowFunctionBodyNode::GetStatements() {
-    return expressionStatement;
+const manda::StatementNode **manda::ArrowFunctionBodyNode::GetStatements() const {
+    return (const StatementNode **) &expressionStatement;
 }

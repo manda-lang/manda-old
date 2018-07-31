@@ -40,6 +40,8 @@ namespace manda
 
         void VisitExpressionStatement(const ExpressionStatementNode *ctx);
 
+        void VisitFunctionDeclarationStatement(const FunctionDeclarationStatementNode *ctx);
+
         void VisitVariableDeclarationStatement(const VariableDeclarationStatementNode *ctx);
 
         Object *VisitExpression(const ExpressionNode *ctx);

@@ -9,6 +9,7 @@
 
 #include "Analyzer.h"
 #include "AssignmentInstruction.h"
+#include "BaseFunctionType.h"
 #include "Block.h"
 #include "Function.h"
 #include "Instruction.h"

@@ -29,7 +29,6 @@ namespace manda
 
         const FunctionBodyNode *GetBody() const;
 
-    public:
         const SourceSpan *GetSourceSpan() const override;
 
         bool HasFunctionDeclaration() const override;

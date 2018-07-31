@@ -12,6 +12,8 @@
 
 namespace manda
 {
+    class Function;
+
     class Type;
 
     class Object
@@ -31,7 +33,7 @@ namespace manda
 
         enum RawObjectType
         {
-            NONE, STRING, DOUBLE, LONG
+            NONE, STRING, DOUBLE, LONG, FUNCTION
         };
 
         struct
@@ -42,11 +44,13 @@ namespace manda
                 const char *asString;
                 uint64_t asUint64;
                 double asDouble = 0.0;
+                Function *function;
             } value;
         } rawObject;
 
     protected:
         explicit Object();
+
         const Type *type = nullptr;
         const SourceSpan *sourceSpan = nullptr;
     };

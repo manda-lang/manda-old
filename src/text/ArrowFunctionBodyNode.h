@@ -22,9 +22,9 @@ namespace manda
 
         const SourceSpan *GetSourceSpan() const override;
 
-        unsigned long GetStatementCount() override;
+        unsigned long GetStatementCount() const override;
 
-        const StatementNode *GetStatements() override;
+        const StatementNode **GetStatements() const override;
 
     private:
         ExpressionStatementNode *expressionStatement;
