@@ -17,13 +17,18 @@ namespace manda
     {
     public:
         explicit Function();
+
         ~Function();
 
-        const std::unordered_map<std::string, Block *>& GetBlocks() const;
+        const std::unordered_map<std::string, Block *> &GetBlocks() const;
 
         bool HasBlock(std::string &name) const;
 
         Block *GetBlock(std::string &name) const;
+
+        const char* GetName() const;
+
+        void SetName(const std::string &name);
 
         Block *GetStartBlock() const;
 
@@ -33,6 +38,7 @@ namespace manda
 
     private:
         std::unordered_map<std::string, Block *> blocks;
+        std::string name;
     };
 }
 

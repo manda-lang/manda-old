@@ -96,6 +96,7 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(const manda::Compilat
     PrecursoryVisitCompilationUnit(module, ctx);
 
     // Next, visit every top-level statement, and load them into the implicit entry point.
+    moduleStack.push(module);
     EnterFunction(module->GetImplicitFunction());
 
     // Hoist up all function declarations
@@ -112,6 +113,7 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(const manda::Compilat
         }
     }
 
+    moduleStack.pop();
     ExitFunction();
 
     return module;
@@ -150,6 +152,12 @@ void Analyzer::VisitFunctionDeclarationStatement(const FunctionDeclarationStatem
         delete ref;
         return;
     }
+
+    auto *module = moduleStack.top();
+    auto *startBlock = new Block(module->GetScope()->CreateChild());
+    function->SetName(ctx->GetIdentifier()->GetName());
+    function->SetStartBlock(startBlock);
+    module->GetFunctions().push_back(function);
 
     EnterFunction(function);
 

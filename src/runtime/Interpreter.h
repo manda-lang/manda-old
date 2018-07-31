@@ -74,6 +74,7 @@ namespace manda
         Program *program = nullptr;
         std::stack<jit_function_t> functionStack;
         std::unordered_map<std::string, unsigned long> variableIndices;
+        std::unordered_map<Function *, jit_function_t> compiledFunctions;
         jit_context_t jit;
         jit_function_t entryPoint;
         uint64_t *allocatedVariables = nullptr;

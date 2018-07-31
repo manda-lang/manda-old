@@ -55,6 +55,7 @@ namespace manda
     private:
         std::stack<Block *> blockStack;
         std::stack<Function *> functionStack;
+        std::stack<Module *> moduleStack;
         std::stack<Program *> programStack;
         bool isRepl = false;
         Module *coreModule = nullptr;

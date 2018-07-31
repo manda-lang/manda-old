@@ -60,7 +60,7 @@ void Interpreter::Run() {
                 jit_context_build_end(jit);
                 jit_ulong result;
                 // jit_dump_function(stdout, function, "JIT [compiled]");
-                jit_function_apply(function, nullptr, &result);
+                //jit_function_apply(function, nullptr, &result);
                 currentFiber->SetResult((uint64_t) result);
                 currentFiber = nullptr;
                 fiber->Exit();
@@ -75,6 +75,12 @@ void Interpreter::Run() {
 
 jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     // TODO: What if it's already been compiled???
+    auto it = compiledFunctions.find(ctx);
+
+    if (it != compiledFunctions.end()) {
+        return compiledFunctions.at(ctx);
+    }
+
     // TODO: Return value
     // TODO: Parameters
     // TODO: Ref counting
@@ -98,6 +104,7 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
 
     CompileFunction(function);
     jit_dump_function(stdout, function, "JIT [uncompiled]");
+    compiledFunctions.insert(std::make_pair(ctx, function));
     return function;
 }
 

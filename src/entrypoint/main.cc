@@ -143,6 +143,11 @@ int runFromFile(const char *str) {
     // Dispose of existing fibers.
     vm.ClearFibers();
 
+    // Print each function's name.
+    for (auto * function : program->GetMainModule()->GetFunctions()) {
+        std::cout << function->GetName() << std::endl;
+    }
+
     // Create a new fiber to run our code.
     auto *fiber = vm.CreateFiber(program->GetMainModule()->GetImplicitFunction());
 
