@@ -19,7 +19,7 @@ namespace manda
 
         ~ExpressionStatementNode();
 
-        const ExpressionNode * GetExpression();
+        const ExpressionNode * GetExpression() const;
 
         const SourceSpan *GetSourceSpan() const override;
 
@@ -27,7 +27,7 @@ namespace manda
 
         bool IsExpressionStatement() const override;
 
-        void AcceptAnalyzer(Analyzer *analyzer) override;
+        void AcceptAnalyzer(Analyzer *analyzer) const override;
 
     private:
         const ExpressionNode *expression;

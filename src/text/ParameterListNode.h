@@ -20,7 +20,9 @@ namespace manda
 
         ~ParameterListNode();
 
-        std::vector<ParameterNode *> &GetParameters() const;
+        const std::vector<ParameterNode *> &GetParameters() const;
+
+        void AddParameter(ParameterNode *parameter);
 
     public:
         const SourceSpan *GetSourceSpan() const override;

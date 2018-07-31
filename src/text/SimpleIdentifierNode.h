@@ -25,7 +25,7 @@ namespace manda
 
         bool HasConstantValue() override;
 
-        Object *AcceptAnalyzer(Analyzer *analyzer) override;
+        Object *AcceptAnalyzer(Analyzer *analyzer) const override;
 
     private:
         const Token *token;

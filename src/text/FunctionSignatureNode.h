@@ -24,6 +24,8 @@ namespace manda
 
         const TypeNode *GetReturnType() const;
 
+        const SourceSpan *GetSourceSpan() const override;
+
     private:
         const ParameterListNode *parameterList;
         const TypeNode *returnType;

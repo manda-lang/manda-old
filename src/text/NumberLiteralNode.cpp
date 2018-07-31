@@ -28,6 +28,6 @@ bool manda::NumberLiteralNode::HasConstantValue() {
     return true;
 }
 
-Object *NumberLiteralNode::AcceptAnalyzer(Analyzer *analyzer) {
+Object *NumberLiteralNode::AcceptAnalyzer(Analyzer *analyzer) const {
     return analyzer->VisitNumberLiteral(this);
 }

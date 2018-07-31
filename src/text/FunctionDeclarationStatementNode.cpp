@@ -47,6 +47,6 @@ bool manda::FunctionDeclarationStatementNode::IsExpressionStatement() const {
     return false;
 }
 
-void manda::FunctionDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) {
+void manda::FunctionDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) const {
     
 }

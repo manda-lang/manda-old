@@ -26,3 +26,7 @@ const manda::ParameterListNode *manda::FunctionSignatureNode::GetParameterList()
 const manda::TypeNode *manda::FunctionSignatureNode::GetReturnType() const {
     return returnType;
 }
+
+const manda::SourceSpan *manda::FunctionSignatureNode::GetSourceSpan() const {
+    return parameterList->GetSourceSpan();
+}

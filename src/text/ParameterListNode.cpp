@@ -17,8 +17,12 @@ manda::ParameterListNode::~ParameterListNode() {
     span = nullptr;
 }
 
-std::vector<ParameterNode *> &manda::ParameterListNode::GetParameters() const {
+const std::vector<ParameterNode *> &manda::ParameterListNode::GetParameters() const {
     return parameters;
+}
+
+void ParameterListNode::AddParameter(ParameterNode *parameter) {
+    parameters.push_back(parameter);
 }
 
 const manda::SourceSpan *manda::ParameterListNode::GetSourceSpan() const {

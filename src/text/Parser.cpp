@@ -215,7 +215,7 @@ ParameterListNode *Parser::ParseParameterList() {
 
     std::deque<ParameterNode *> parameters;
     auto *lParen = GetCurrentToken();
-    auto *lastSpan = lastSpan->GetSourceSpan();
+    auto *lastSpan = lParen->GetSourceSpan();
     auto *parameter = ParseParameter();
     const Token *lastComma = nullptr;
 
@@ -226,7 +226,7 @@ ParameterListNode *Parser::ParseParameterList() {
         if (!Next(Token::COMMA))
             break;
 
-        delete *lastComma;
+        delete lastComma;
         lastComma = GetCurrentToken();
         lastSpan = lastComma->GetSourceSpan();
         parameter = ParseParameter();
@@ -251,7 +251,7 @@ ParameterListNode *Parser::ParseParameterList() {
     delete lastComma;
 
     while (!parameters.empty()) {
-        list->GetParameters().push_back(parameters.front());
+        list->AddParameter(parameters.front());
         parameters.pop_front();
     }
 

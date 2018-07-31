@@ -8,6 +8,6 @@
 
 manda::ExpressionNode::~ExpressionNode() = default;
 
-bool manda::ExpressionNode::CanStandAlone() {
+bool manda::ExpressionNode::CanStandAlone() const {
     return false;
 }

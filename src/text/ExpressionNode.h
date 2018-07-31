@@ -23,9 +23,9 @@ namespace manda
 
         virtual bool HasConstantValue() = 0;
 
-        virtual bool CanStandAlone();
+        virtual bool CanStandAlone() const;
 
-        virtual Object *AcceptAnalyzer(Analyzer *analyzer) = 0;
+        virtual Object * AcceptAnalyzer(Analyzer *analyzer) const = 0;
     };
 }
 

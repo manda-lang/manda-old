@@ -13,7 +13,7 @@
 
 namespace manda
 {
-    class ArrowFunctionBodyNode : FunctionBodyNode
+    class ArrowFunctionBodyNode : public FunctionBodyNode
     {
     public:
         explicit ArrowFunctionBodyNode(const ExpressionNode *expression);

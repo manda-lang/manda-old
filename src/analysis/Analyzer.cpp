@@ -60,7 +60,7 @@ const Type *Analyzer::GetCoreType(const char *name) {
     return typeObject->GetReferencedType();
 }
 
-manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode *ctx) {
+manda::Program *manda::Analyzer::VisitCompilationUnit(const manda::CompilationUnitNode *ctx) {
     auto *program = new Program;
     programStack.push(program);
 
@@ -77,7 +77,7 @@ manda::Program *manda::Analyzer::VisitCompilationUnit(manda::CompilationUnitNode
     return program;
 }
 
-void Analyzer::PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNode *ctx) {
+void Analyzer::PrecursoryVisitCompilationUnit(Module *module, const CompilationUnitNode *ctx) {
     // Create an implicit entry function.
     auto *entry = new Function;
     auto *startBlock = new Block(module->GetScope()->CreateChild());
@@ -87,7 +87,7 @@ void Analyzer::PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNod
     // TODO: Look for top-level functions + types
 }
 
-manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUnitNode *ctx) {
+manda::Module *manda::Analyzer::VisitSingleCompilationUnit(const manda::CompilationUnitNode *ctx) {
     std::string moduleName("Main");
     auto *module = new Module(moduleName, globalScope->CreateChild());
 
@@ -108,11 +108,11 @@ manda::Module *manda::Analyzer::VisitSingleCompilationUnit(manda::CompilationUni
     return module;
 }
 
-void Analyzer::VisitStatement(StatementNode *ctx) {
+void Analyzer::VisitStatement(const StatementNode *ctx) {
     ctx->AcceptAnalyzer(this);
 }
 
-void Analyzer::VisitExpressionStatement(ExpressionStatementNode *ctx) {
+void Analyzer::VisitExpressionStatement(const ExpressionStatementNode *ctx) {
     if (!isRepl && ctx->GetExpression()->CanStandAlone()) {
         AddError("Expression must be a call or assignment, otherwise, its value will be discarded.",
                  ctx->GetExpression()->GetSourceSpan());
@@ -126,7 +126,7 @@ void Analyzer::VisitExpressionStatement(ExpressionStatementNode *ctx) {
     }
 }
 
-void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx) {
+void Analyzer::VisitVariableDeclarationStatement(const VariableDeclarationStatementNode *ctx) {
     auto *initializer = VisitExpression(ctx->GetInitializer());
 
     if (initializer != nullptr) {
@@ -145,15 +145,15 @@ void Analyzer::VisitVariableDeclarationStatement(VariableDeclarationStatementNod
     }
 }
 
-Object *Analyzer::VisitExpression(ExpressionNode *ctx) {
+Object *Analyzer::VisitExpression(const ExpressionNode *ctx) {
     return ctx->AcceptAnalyzer(this);
 }
 
-Object *Analyzer::VisitBinaryExpression(BinaryExpressionNode *ctx) {
+Object *Analyzer::VisitBinaryExpression(const BinaryExpressionNode *ctx) {
     return nullptr;
 }
 
-Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
+Object *Analyzer::VisitNumberLiteral(const NumberLiteralNode *ctx) {
     auto *object = new Object(GetCoreType("Num"), ctx->GetSourceSpan());
     auto type = ctx->GetToken()->GetType();
 
@@ -182,7 +182,7 @@ Object *Analyzer::VisitNumberLiteral(NumberLiteralNode *ctx) {
     return object;
 }
 
-Object *Analyzer::VisitSimpleIdentifier(SimpleIdentifierNode *ctx) {
+Object *Analyzer::VisitSimpleIdentifier(const SimpleIdentifierNode *ctx) {
     // Find the corresponding symbol.
     const auto &name = ctx->GetName();
     auto *symbol = blockStack.top()->GetScope()->Resolve(name);

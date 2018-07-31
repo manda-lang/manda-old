@@ -13,7 +13,8 @@ namespace manda
 {
     class TypeNode : public AstNode
     {
-
+    public:
+        virtual ~TypeNode() = default;
     };
 }
 

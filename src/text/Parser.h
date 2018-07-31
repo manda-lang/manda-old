@@ -79,7 +79,7 @@ namespace manda
         NumberLiteralNode *ParseNumberLiteral();
 
     private:
-        std::unordered_map<Token::TokenType, InfixParselet *> infixParselets;
+        std::unordered_map<Token::TokenType, InfixParselet *, Token::EnumClassHash> infixParselets;
         int64_t index;
         Lexer *lexer;
     };

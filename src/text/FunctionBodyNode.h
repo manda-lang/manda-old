@@ -14,6 +14,9 @@ namespace manda
 {
     class FunctionBodyNode : public AstNode
     {
+    public:
+        virtual ~FunctionBodyNode() = default;
+
         virtual unsigned long GetStatementCount() = 0;
 
         virtual const StatementNode *GetStatements() = 0;

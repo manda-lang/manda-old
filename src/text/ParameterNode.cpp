@@ -7,25 +7,25 @@
 #include "ParameterNode.h"
 
 manda::ParameterNode::ParameterNode(const SimpleIdentifierNode *name, const TypeNode *type, const ExpressionNode *defaultValue) {
-    this->identifier = identifier;
+    this->identifier = name;
     this->defaultValue = defaultValue;
     this->type = type;
 }
 
 manda::ParameterNode::ParameterNode(const SimpleIdentifierNode* name) {
-    this->identifier = identifier;
+    this->identifier = name;
     this->defaultValue = nullptr;
     this->type = nullptr;
 }
 
 manda::ParameterNode::ParameterNode(const SimpleIdentifierNode* name, const manda::TypeNode *type) {
-    this->identifier = identifier;
+    this->identifier = name;
     this->defaultValue = nullptr;
     this->type = type;
 }
 
 manda::ParameterNode::ParameterNode(const SimpleIdentifierNode* name, const manda::ExpressionNode *defaultValue) {
-    this->identifier = identifier;
+    this->identifier = name;
     this->defaultValue = defaultValue;
     this->type = nullptr;
 }

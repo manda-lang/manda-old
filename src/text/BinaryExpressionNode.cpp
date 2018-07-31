@@ -39,6 +39,6 @@ const manda::Token *manda::BinaryExpressionNode::GetOperator() const {
     return op;
 }
 
-manda::Object *manda::BinaryExpressionNode::AcceptAnalyzer(manda::Analyzer *analyzer) {
+manda::Object *manda::BinaryExpressionNode::AcceptAnalyzer(manda::Analyzer *analyzer) const {
     return analyzer->VisitBinaryExpression(this);
 }

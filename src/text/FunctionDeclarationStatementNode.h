@@ -36,7 +36,7 @@ namespace manda
 
         bool IsExpressionStatement() const override;
 
-        void AcceptAnalyzer(Analyzer *analyzer) override;
+        void AcceptAnalyzer(Analyzer *analyzer) const override;
 
     private:
         SimpleIdentifierNode *identifier;

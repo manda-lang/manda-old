@@ -25,30 +25,30 @@ namespace manda
 
         void LoadParser(Parser *parser);
 
-        Program *VisitCompilationUnit(CompilationUnitNode *ctx);
+        Program *VisitCompilationUnit(const CompilationUnitNode *ctx);
 
         /**
          * Forward-declares functions, types, etc. in a module, to allow circular reference.
          * @param module
          * @param ctx
          */
-        void PrecursoryVisitCompilationUnit(Module *module, CompilationUnitNode *ctx);
+        void PrecursoryVisitCompilationUnit(Module *module, const CompilationUnitNode *ctx);
 
-        Module *VisitSingleCompilationUnit(CompilationUnitNode *ctx);
+        Module *VisitSingleCompilationUnit(const CompilationUnitNode *ctx);
 
-        void VisitStatement(StatementNode *ctx);
+        void VisitStatement(const StatementNode *ctx);
 
-        void VisitExpressionStatement(ExpressionStatementNode *ctx);
+        void VisitExpressionStatement(const ExpressionStatementNode *ctx);
 
-        void VisitVariableDeclarationStatement(VariableDeclarationStatementNode *ctx);
+        void VisitVariableDeclarationStatement(const VariableDeclarationStatementNode *ctx);
 
-        Object *VisitExpression(ExpressionNode *ctx);
+        Object *VisitExpression(const ExpressionNode *ctx);
 
-        Object *VisitBinaryExpression(BinaryExpressionNode *ctx);
+        Object *VisitBinaryExpression(const BinaryExpressionNode *ctx);
 
-        Object *VisitNumberLiteral(NumberLiteralNode *ctx);
+        Object *VisitNumberLiteral(const NumberLiteralNode *ctx);
 
-        Object *VisitSimpleIdentifier(SimpleIdentifierNode *ctx);
+        Object *VisitSimpleIdentifier(const SimpleIdentifierNode *ctx);
 
     private:
         std::stack<Block *> blockStack;

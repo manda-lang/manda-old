@@ -51,6 +51,6 @@ bool manda::VariableDeclarationStatementNode::IsExpressionStatement() const {
     return false;
 }
 
-void manda::VariableDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) {
+void manda::VariableDeclarationStatementNode::AcceptAnalyzer(manda::Analyzer *analyzer) const {
     analyzer->VisitVariableDeclarationStatement(this);
 }

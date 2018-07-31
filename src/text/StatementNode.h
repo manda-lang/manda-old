@@ -22,7 +22,7 @@ namespace manda
 
         virtual bool IsExpressionStatement() const = 0;
 
-        virtual void AcceptAnalyzer(Analyzer *analyzer) = 0;
+        virtual void AcceptAnalyzer(Analyzer *analyzer) const = 0;
     };
 }
 

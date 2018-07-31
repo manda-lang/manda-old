@@ -16,7 +16,7 @@ manda::ExpressionStatementNode::~ExpressionStatementNode() {
     delete expression;
 }
 
-const ExpressionNode * manda::ExpressionStatementNode::GetExpression() {
+const ExpressionNode * manda::ExpressionStatementNode::GetExpression() const {
     return expression;
 }
 
@@ -32,6 +32,6 @@ bool ExpressionStatementNode::IsExpressionStatement() const {
     return true;
 }
 
-void ExpressionStatementNode::AcceptAnalyzer(Analyzer *analyzer) {
+void ExpressionStatementNode::AcceptAnalyzer(Analyzer *analyzer) const {
     analyzer->VisitExpressionStatement(this);
 }
