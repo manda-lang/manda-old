@@ -18,7 +18,7 @@ namespace manda
     class ParameterNode : public AstNode
     {
     public:
-        explicit ParameterNode(const SimpleIdentifierNode* name, const ExpressionNode *defaultValue, const TypeNode *type);
+        explicit ParameterNode(const SimpleIdentifierNode *name, const TypeNode *type, const ExpressionNode *defaultValue);
 
         explicit ParameterNode(const SimpleIdentifierNode* name);
 

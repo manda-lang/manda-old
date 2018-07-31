@@ -6,8 +6,7 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "ParameterNode.h"
 
-manda::ParameterNode::ParameterNode(const SimpleIdentifierNode* name, const manda::ExpressionNode *defaultValue,
-                                    const manda::TypeNode *type) {
+manda::ParameterNode::ParameterNode(const SimpleIdentifierNode *name, const TypeNode *type, const ExpressionNode *defaultValue) {
     this->identifier = identifier;
     this->defaultValue = defaultValue;
     this->type = type;

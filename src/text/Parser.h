@@ -12,7 +12,7 @@
 #include "ArrowFunctionBodyNode.h"
 #include "CompilationUnitNode.h"
 #include "ExpressionStatementNode.h"
-#include "FunctionSignatureNode.h"
+#include "FunctionDeclarationStatementNode.h"
 #include "InfixParselet.h"
 #include "Lexer.h"
 #include "NumberLiteralNode.h"
@@ -50,6 +50,8 @@ namespace manda
 
         StatementNode *ParseStatement();
 
+        FunctionDeclarationStatementNode *ParseFunctionDeclarationStatement();
+
         FunctionBodyNode *ParseFunctionBody();
 
         ArrowFunctionBodyNode *ParseArrowFunctionBody();
@@ -77,7 +79,7 @@ namespace manda
         NumberLiteralNode *ParseNumberLiteral();
 
     private:
-        std::unordered_map<int, InfixParselet *> infixParselets;
+        std::unordered_map<Token::TokenType, InfixParselet *> infixParselets;
         int64_t index;
         Lexer *lexer;
     };

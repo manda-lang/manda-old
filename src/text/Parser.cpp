@@ -4,6 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <deque>
 #include <iostream>
 #include "BinaryExpressionParselet.h"
 #include "Parser.h"
@@ -118,9 +119,48 @@ void Parser::ParseStatements(std::vector<StatementNode *> &statements) {
 
 StatementNode *Parser::ParseStatement() {
     StatementNode *result = nullptr;
+    if ((result = ParseFunctionDeclarationStatement()) != nullptr) return result;
     if ((result = ParseVariableDeclarationStatement()) != nullptr) return result;
     if ((result = ParseExpressionStatement()) != nullptr) return result;
     return result;
+}
+
+FunctionDeclarationStatementNode *Parser::ParseFunctionDeclarationStatement() {
+    if (!Next(Token::FUNC))
+        return nullptr;
+
+    auto *func = GetCurrentToken();
+    auto *name = ParseSimpleIdentifier();
+
+    if (name == nullptr) {
+        AddError("Missing identifier after 'func'.", func->GetSourceSpan());
+        delete func;
+        return nullptr;
+    }
+
+    delete func;
+    auto *signature = ParseFunctionSignature();
+
+    if (signature == nullptr) {
+        std::ostringstream oss;
+        oss << "Missing signature for function '" << name->GetName() << "'.";
+        AddError(oss.str(), name->GetSourceSpan());
+        delete name;
+        return nullptr;
+    }
+
+    auto *body = ParseFunctionBody();
+
+    if (body == nullptr) {
+        std::ostringstream oss;
+        oss << "Missing body for function '" << name->GetName() << "'.";
+        AddError(oss.str(), name->GetSourceSpan());
+        delete name;
+        delete signature;
+        return nullptr;
+    }
+
+    return new FunctionDeclarationStatementNode(name, signature, body);
 }
 
 FunctionBodyNode *Parser::ParseFunctionBody() {
@@ -142,6 +182,125 @@ ArrowFunctionBodyNode *Parser::ParseArrowFunctionBody() {
         delete arrow;
         return new ArrowFunctionBodyNode(expr);
     }
+}
+
+FunctionSignatureNode *Parser::ParseFunctionSignature() {
+    auto *parameterList = ParseParameterList();
+
+    if (parameterList == nullptr)
+        return nullptr;
+
+    // Check for :type
+    TypeNode *returnType = nullptr;
+
+    if (Next(Token::COLON)) {
+        auto *colon = GetCurrentToken();
+
+        if ((returnType = ParseType()) == nullptr) {
+            AddError("Missing return type for function after ':'.", colon->GetSourceSpan());
+            delete parameterList;
+            delete colon;
+            return nullptr;
+        } else {
+            delete colon;
+        }
+    }
+
+    return new FunctionSignatureNode(parameterList, returnType);
+}
+
+ParameterListNode *Parser::ParseParameterList() {
+    if (!Next(Token::LPAREN))
+        return nullptr;
+
+    std::deque<ParameterNode *> parameters;
+    auto *lParen = GetCurrentToken();
+    auto *lastSpan = lastSpan->GetSourceSpan();
+    auto *parameter = ParseParameter();
+    const Token *lastComma = nullptr;
+
+    while (parameter != nullptr) {
+        parameters.push_back(parameter);
+        lastSpan = parameter->GetSourceSpan();
+
+        if (!Next(Token::COMMA))
+            break;
+
+        delete *lastComma;
+        lastComma = GetCurrentToken();
+        lastSpan = lastComma->GetSourceSpan();
+        parameter = ParseParameter();
+    }
+
+    if (!Next(Token::RPAREN)) {
+        AddError("Missing ')' in parameter list.", lastSpan);
+        delete lastComma;
+        delete lParen;
+
+        while (!parameters.empty()) {
+            delete parameters.front();
+            parameters.pop_front();
+        }
+    }
+
+    auto *rParen = GetCurrentToken();
+    delete rParen;
+
+    auto *list = new ParameterListNode(lParen->GetSourceSpan());
+    delete lParen;
+    delete lastComma;
+
+    while (!parameters.empty()) {
+        list->GetParameters().push_back(parameters.front());
+        parameters.pop_front();
+    }
+
+    return list;
+}
+
+ParameterNode *Parser::ParseParameter() {
+    auto *name = ParseSimpleIdentifier();
+
+    if (name == nullptr)
+        return nullptr;
+
+    // Check for type annotation
+    TypeNode *type = nullptr;
+
+    if (Next(Token::COLON)) {
+        auto *colon = GetCurrentToken();
+
+        if ((type = ParseType()) == nullptr) {
+            std::ostringstream oss;
+            oss << "Missing type after ':' for parameter '" << name->GetName() << "'.";
+            AddError(oss.str(), colon->GetSourceSpan());
+            delete name;
+            delete colon;
+            return nullptr;
+        } else {
+            delete colon;
+        }
+    }
+
+    // Check for defaultValue
+    ExpressionNode *defaultValue = nullptr;
+
+    if (Next(Token::EQUALS)) {
+        auto *equals = GetCurrentToken();
+
+        if ((defaultValue = ParseExpression(0)) == nullptr) {
+            std::ostringstream oss;
+            oss << "Missing default value after '=' for parameter '" << name->GetName() << "'.";
+            AddError(oss.str(), equals->GetSourceSpan());
+            delete name;
+            delete equals;
+            delete type;
+        } else {
+            delete equals;
+        }
+    }
+
+    return new ParameterNode(name, type, defaultValue);
 }
 
 VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
@@ -177,6 +336,16 @@ VariableDeclarationStatementNode *Parser::ParseVariableDeclarationStatement() {
     }
 
     return new VariableDeclarationStatementNode(let, id, equals, initializer);
+}
+
+TypeNode *Parser::ParseType() {
+    // TODO: Pratt for types
+    return ParseTypeReference();
+}
+
+TypeReferenceNode *Parser::ParseTypeReference() {
+    auto *id = ParseSimpleIdentifier();
+    return id == nullptr ? nullptr : new TypeReferenceNode(id);
 }
 
 ExpressionStatementNode *Parser::ParseExpressionStatement() {

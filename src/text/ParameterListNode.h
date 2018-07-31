@@ -15,6 +15,7 @@ namespace manda
 {
     class ParameterListNode : public AstNode
     {
+    public:
         explicit ParameterListNode(const SourceSpan *span);
 
         ~ParameterListNode();

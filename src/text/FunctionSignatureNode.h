@@ -15,6 +15,7 @@ namespace manda
 {
     class FunctionSignatureNode : public AstNode
     {
+    public:
         explicit FunctionSignatureNode(const ParameterListNode *parameterList, const TypeNode *returnType);
 
         ~FunctionSignatureNode();
