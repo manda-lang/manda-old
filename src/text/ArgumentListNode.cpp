@@ -22,7 +22,7 @@ manda::ArgumentListNode::~ArgumentListNode() {
     arguments.clear();
 }
 
-const std::vector<ExpressionNode *> &manda::ArgumentListNode::GetArguments() const {
+const std::vector<const ExpressionNode *> &manda::ArgumentListNode::GetArguments() const {
     return arguments;
 }
 

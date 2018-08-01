@@ -21,14 +21,14 @@ namespace manda
 
         ~ArgumentListNode();
 
-        const std::vector<ExpressionNode *> &GetArguments() const;
+        const std::vector<const ExpressionNode *> &GetArguments() const;
 
         void AddArgument(const ExpressionNode *expression);
 
         const SourceSpan *GetSourceSpan() const override;
 
     private:
-        std::vector<ExpressionNode *> arguments;
+        std::vector<const ExpressionNode *> arguments;
         const Token *lParen;
     };
 }

@@ -39,6 +39,12 @@ void Interpreter::LoadProgram(Program *program) {
         auto name = program->GetSsaVariables().at(i);
         variableIndices.insert(std::make_pair(name, i));
     }
+
+    // Pre-compile all functions
+
+    for (auto *function : program->GetMainModule()->GetFunctions()) {
+        VisitFunction(function);
+    }
 }
 
 void Interpreter::Run() {
