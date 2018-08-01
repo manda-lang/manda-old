@@ -14,6 +14,7 @@ namespace manda
 {
     class CallExpressionNode : public ExpressionNode
     {
+    public:
         explicit CallExpressionNode(const ExpressionNode *callee, const ArgumentListNode *argumentList);
 
         ~CallExpressionNode();
@@ -22,7 +23,8 @@ namespace manda
 
         const ArgumentListNode *GetArgumentList() const;
 
-    public:
+        bool CanStandAlone() const override;
+
         const SourceSpan *GetSourceSpan() const override;
 
         bool HasConstantValue() override;

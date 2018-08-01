@@ -23,9 +23,13 @@ namespace manda
 
         ~Object();
 
-        const Type *GetType() const;
+        virtual const Type *GetType() const;
 
-        const SourceSpan *GetSourceSpan() const;
+        virtual const SourceSpan *GetSourceSpan() const;
+
+        virtual bool IsCall() const {
+            return false;
+        }
 
         virtual bool IsReference() const {
             return false;

@@ -22,11 +22,11 @@ manda::ArgumentListNode::~ArgumentListNode() {
     arguments.clear();
 }
 
-const std::vector<const ExpressionNode *> &manda::ArgumentListNode::GetArguments() const {
+const std::vector<const ArgumentNode *> &manda::ArgumentListNode::GetArguments() const {
     return arguments;
 }
 
-void manda::ArgumentListNode::AddArgument(const manda::ExpressionNode *expression) {
+void manda::ArgumentListNode::AddArgument(const manda::ArgumentNode *expression) {
     arguments.push_back(expression);
 }
 

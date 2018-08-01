@@ -6,12 +6,14 @@
 // MIT-style license that can be found in the LICENSE file.
 #ifndef MANDA_TEXT_H
 #define MANDA_TEXT_H
+#include "ArgumentNode.h"
 #include "ArgumentListNode.h"
 #include "ArrowFunctionBodyNode.h"
 #include "AstNode.h"
 #include "BinaryExpressionNode.h"
 #include "BinaryExpressionParselet.h"
 #include "CallExpressionNode.h"
+#include "CallExpressionParselet.h"
 #include "CompilationUnitNode.h"
 #include "Error.h"
 #include "ExpressionNode.h"

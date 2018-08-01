@@ -13,6 +13,7 @@
 #include "../analysis/analysis.h"
 #include "../text/text.h"
 #include "VM.h"
+#include "../analysis/Call.h"
 
 namespace manda
 {
@@ -54,6 +55,8 @@ namespace manda
         void VisitObjectInstruction(const ObjectInstruction *ctx);
 
         jit_value_t VisitObject(const Object *ctx);
+
+        jit_value_t VisitCall(const manda::Call *ctx);
 
         jit_value_t VisitReference(const Reference *ctx);
 

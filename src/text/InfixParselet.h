@@ -19,6 +19,8 @@ namespace manda
     public:
         virtual ExpressionNode *Parse(Parser *parser, ExpressionNode *left, const Token *token) = 0;
 
+        virtual ~InfixParselet() = default;
+
         virtual int GetPrecedence() = 0;
     };
 }

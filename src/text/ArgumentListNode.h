@@ -8,8 +8,8 @@
 #define MANDA_ARGUMENTLISTNODE_H
 
 #include <vector>
+#include "ArgumentNode.h"
 #include "AstNode.h"
-#include "ExpressionNode.h"
 #include "Token.h"
 
 namespace manda
@@ -21,14 +21,14 @@ namespace manda
 
         ~ArgumentListNode();
 
-        const std::vector<const ExpressionNode *> &GetArguments() const;
+        const std::vector<const ArgumentNode *> &GetArguments() const;
 
-        void AddArgument(const ExpressionNode *expression);
+        void AddArgument(const ArgumentNode *expression);
 
         const SourceSpan *GetSourceSpan() const override;
 
     private:
-        std::vector<const ExpressionNode *> arguments;
+        std::vector<const ArgumentNode *> arguments;
         const Token *lParen;
     };
 }

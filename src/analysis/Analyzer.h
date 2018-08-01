@@ -48,6 +48,8 @@ namespace manda
 
         Object *VisitBinaryExpression(const BinaryExpressionNode *ctx);
 
+        Object *VisitCallExpression(const CallExpressionNode *ctx);
+
         Object *VisitNumberLiteral(const NumberLiteralNode *ctx);
 
         Object *VisitSimpleIdentifier(const SimpleIdentifierNode *ctx);

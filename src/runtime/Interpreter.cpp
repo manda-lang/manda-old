@@ -152,8 +152,9 @@ void Interpreter::VisitObjectInstruction(const ObjectInstruction *ctx) {
 
 jit_value_t Interpreter::VisitObject(const Object *ctx) {
     if (ctx->IsReference()) {
-
         return VisitReference((const Reference *) ctx);
+    } else if (ctx->IsCall()) {
+        return VisitCall((const Call *) ctx);
     }
 
     // TODO: Polymorphism
@@ -168,6 +169,34 @@ jit_value_t Interpreter::VisitObject(const Object *ctx) {
     }
 
     return jit_value_create_long_constant(function, jit_type_ulong, jit_ulong_to_long(box.as_int64));
+}
+
+jit_value_t Interpreter::VisitCall(const manda::Call *ctx) {
+    std::vector<jit_value_t> arguments;
+    auto function = functionStack.top();
+
+    for (auto *arg : ctx->GetArguments()) {
+        auto argument = VisitObject(arg); // TODO: Handle null
+        arguments.push_back(argument);
+    }
+
+//    auto *cc = ctx;
+//
+//    if (ctx->IsReference()) {
+//        auto *ref = (const Reference*)
+//    }
+
+    if (ctx->rawObject.type == Object::FUNCTION) {
+        auto *fn = ctx->rawObject.value.function;
+        auto jitFn = VisitFunction(fn);
+        auto sig = jit_function_get_signature(jitFn);
+        return jit_insn_call(function, fn->GetName(), jitFn, sig, arguments.data(), (unsigned int) arguments.size(), 0);
+    } else {
+        auto *callee = VisitObject(ctx->GetCallee()); // TODO: Handle null
+        std::cout << "ASSERT FALSE" << std::endl;
+        assert(false);
+        return nullptr;
+    }
 }
 
 jit_value_t Interpreter::VisitReference(const Reference *ctx) {

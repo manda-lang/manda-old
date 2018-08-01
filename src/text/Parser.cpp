@@ -7,7 +7,10 @@
 #include <deque>
 #include <iostream>
 #include "BinaryExpressionParselet.h"
+#include "CallExpressionParselet.h"
 #include "Parser.h"
+#include "ArgumentListNode.h"
+#include "ArgumentNode.h"
 
 using namespace manda;
 
@@ -21,7 +24,8 @@ manda::Parser::Parser(manda::Lexer *lexer) {
 
     lexer->GetErrors().clear();
 
-    int precedence = 4;
+    int precedence = 5;
+    infixParselets[Token::LPAREN] = new CallExpressionParselet(precedence--);
     infixParselets[Token::TIMES] = new BinaryExpressionParselet(precedence--);
     infixParselets[Token::DIV] = new BinaryExpressionParselet(precedence--);
     infixParselets[Token::MODULO] = new BinaryExpressionParselet(precedence--);
@@ -30,7 +34,11 @@ manda::Parser::Parser(manda::Lexer *lexer) {
 }
 
 Parser::~Parser() {
-    // TODO: Delete all infix parselets
+    for (auto &pair : infixParselets) {
+        delete pair.second;
+    }
+
+    infixParselets.clear();
 }
 
 const manda::Token *manda::Parser::GetCurrentToken() const {
@@ -363,6 +371,80 @@ manda::ExpressionNode *manda::Parser::ParsePrefixExpression() {
     if ((result = ParseSimpleIdentifier()) != nullptr) return result;
     if ((result = ParseNumberLiteral()) != nullptr) return result;
     return result;
+}
+
+manda::ArgumentListNode *Parser::ParseArgumentList(const Token *lParen) {
+    std::deque<ArgumentNode *> arguments;
+    auto *lastSpan = lParen->GetSourceSpan();
+    const Token *lastComma = nullptr;
+    bool mustParseNamed = false;
+    auto *argument = ParseArgument(mustParseNamed);
+
+    while (argument != nullptr) {
+        mustParseNamed = argument->GetIdentifier() != nullptr;
+        arguments.push_back(argument);
+
+        if (!Next(Token::COMMA)) {
+            break;
+        }
+
+        lastComma = GetCurrentToken();
+        lastSpan = lastComma->GetSourceSpan();
+        argument = ParseArgument(mustParseNamed);
+
+    }
+
+    if (!Next(Token::RPAREN)) {
+        AddError("Missing ')' at the end of argument list.", lastSpan);
+        delete lParen;
+        delete lastComma;
+        return nullptr;
+    }
+
+    auto *node = new ArgumentListNode(lParen);
+
+    while (!arguments.empty()) {
+        node->AddArgument(arguments.front());
+        arguments.pop_front();
+    }
+
+    return node;
+}
+
+manda::ArgumentNode *Parser::ParseArgument(bool mustParseNamed) {
+    auto *id = ParseSimpleIdentifier();
+
+    if (id == nullptr) {
+        if (mustParseNamed) {
+            return nullptr;
+        }
+    } else {
+        if (!Next(Token::COLON)) {
+            if (mustParseNamed) {
+                AddError("Missing ':' in named argument.", id->GetSourceSpan());
+                delete id;
+                return nullptr;
+            }
+        } else {
+            auto *colon = GetCurrentToken();
+            auto *expression = ParseExpression(0);
+
+            if (expression == nullptr) {
+                AddError("Missing expression after ':' in named argument.", colon->GetSourceSpan());
+                delete id;
+                delete colon;
+                return nullptr;
+            } else {
+                delete colon;
+                auto *node = new ArgumentNode(expression);
+                node->SetIdentifier(id);
+                return node;
+            }
+        }
+    }
+
+    auto *expression = ParseExpression(0);
+    return expression == nullptr ? nullptr : new ArgumentNode(expression);
 }
 
 ExpressionNode *Parser::ParseExpression(int precedence) {

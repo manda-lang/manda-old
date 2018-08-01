@@ -9,6 +9,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include "ArgumentListNode.h"
 #include "ArrowFunctionBodyNode.h"
 #include "CompilationUnitNode.h"
 #include "ExpressionStatementNode.h"
@@ -73,6 +74,10 @@ namespace manda
         ExpressionNode *ParseExpression(int precedence = 0);
 
         ExpressionNode *ParsePrefixExpression();
+
+        ArgumentListNode *ParseArgumentList(const Token *lParen);
+
+        ArgumentNode *ParseArgument(bool mustParseNamed);
 
         SimpleIdentifierNode *ParseSimpleIdentifier();
 

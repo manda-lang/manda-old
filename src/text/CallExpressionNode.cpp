@@ -4,7 +4,8 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include "CallExpressionNode.h"
+#include <iostream>
+#include "../manda_src.h"
 
 manda::CallExpressionNode::CallExpressionNode(const manda::ExpressionNode *callee,
                                               const manda::ArgumentListNode *argumentList) {
@@ -35,6 +36,9 @@ bool manda::CallExpressionNode::HasConstantValue() {
 }
 
 manda::Object *manda::CallExpressionNode::AcceptAnalyzer(manda::Analyzer *analyzer) const {
-    // TODO:
-    return nullptr;
+    return analyzer->VisitCallExpression(this);
+}
+
+bool manda::CallExpressionNode::CanStandAlone() const {
+    return true;
 }

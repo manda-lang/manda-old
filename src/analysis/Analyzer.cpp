@@ -144,7 +144,7 @@ void Analyzer::VisitFunctionDeclarationStatement(const FunctionDeclarationStatem
     ref->rawObject.type = Object::FUNCTION;
     ref->rawObject.value.function = function;
 
-    if (!(blockStack.top()->GetScope()->Add(ctx->GetIdentifier()->GetName(), ref))) {
+    if (!(blockStack.top()->GetScope()->GetParent()->Add(ctx->GetIdentifier()->GetName(), ref))) {
         std::ostringstream oss;
         oss << "The name '" << ctx->GetIdentifier()->GetName() << "' already exists in this context.";
         AddError(oss.str(), ctx->GetIdentifier()->GetSourceSpan());
@@ -257,4 +257,31 @@ Object *Analyzer::VisitSimpleIdentifier(const SimpleIdentifierNode *ctx) {
             }
         }
     }
+}
+
+Object *Analyzer::VisitCallExpression(const CallExpressionNode *ctx) {
+    auto *callee = VisitExpression(ctx->GetCallee());
+
+    if (callee == nullptr) {
+        AddError("An error occurred while processing this call.", ctx->GetArgumentList()->GetSourceSpan());
+        return nullptr;
+    }
+
+    const Type *type = GetCoreType("Num");// TODO: Actually resolve the type
+    auto *call = new Call(type, callee);
+
+    for (auto *arg : ctx->GetArgumentList()->GetArguments()) {
+        // TODO: Handle named arguments
+        auto *argument = VisitExpression(arg->GetExpression());
+
+        if (argument == nullptr) {
+            AddError("An error occurred while processing this argument.", arg->GetSourceSpan());
+            delete call;
+            delete callee;
+        } else {
+            call->AddArgument(argument);
+        }
+    }
+
+    return call;
 }
