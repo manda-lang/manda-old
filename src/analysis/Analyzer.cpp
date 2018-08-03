@@ -144,7 +144,7 @@ void Analyzer::VisitFunctionDeclarationStatement(const FunctionDeclarationStatem
     ref->rawObject.type = Object::FUNCTION;
     ref->rawObject.value.function = function;
 
-    if (!(blockStack.top()->GetScope()->GetParent()->Add(ctx->GetIdentifier()->GetName(), ref))) {
+    if (!(blockStack.top()->GetScope()->Add(ctx->GetIdentifier()->GetName(), ref))) {
         std::ostringstream oss;
         oss << "The name '" << ctx->GetIdentifier()->GetName() << "' already exists in this context.";
         AddError(oss.str(), ctx->GetIdentifier()->GetSourceSpan());
@@ -154,7 +154,7 @@ void Analyzer::VisitFunctionDeclarationStatement(const FunctionDeclarationStatem
     }
 
     auto *module = moduleStack.top();
-    auto *startBlock = new Block(module->GetScope()->CreateChild());
+    auto *startBlock = new Block(blockStack.top()->GetScope()->CreateChild());
     function->SetName(ctx->GetIdentifier()->GetName());
     function->SetStartBlock(startBlock);
     module->GetFunctions().push_back(function);
@@ -240,6 +240,9 @@ Object *Analyzer::VisitSimpleIdentifier(const SimpleIdentifierNode *ctx) {
         // If this is a constant symbol WITH a constant value, just return that
         // object.
         if (symbol->IsImmutable() && obj->rawObject.type != Object::NONE) {
+            return obj;
+        } else if (obj->rawObject.type == Object::FUNCTION) {
+            // In case of a constant function reference, just return that function.
             return obj;
         } else {
             // Otherwise, the value can potentially change at runtime, so return

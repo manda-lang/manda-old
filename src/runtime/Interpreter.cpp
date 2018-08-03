@@ -109,7 +109,7 @@ jit_function_t Interpreter::VisitFunction(const Function *ctx) {
     }
 
     CompileFunction(function);
-    jit_dump_function(stdout, function, "JIT [uncompiled]");
+    jit_dump_function(stdout, function, ctx->GetName());
     compiledFunctions.insert(std::make_pair(ctx, function));
     return function;
 }
@@ -186,13 +186,14 @@ jit_value_t Interpreter::VisitCall(const manda::Call *ctx) {
 //        auto *ref = (const Reference*)
 //    }
 
-    if (ctx->rawObject.type == Object::FUNCTION) {
-        auto *fn = ctx->rawObject.value.function;
+    auto *calleeCtx = ctx->GetCallee();
+    if (calleeCtx->rawObject.type == Object::FUNCTION) {
+        auto *fn = calleeCtx->rawObject.value.function;
         auto jitFn = VisitFunction(fn);
         auto sig = jit_function_get_signature(jitFn);
         return jit_insn_call(function, fn->GetName(), jitFn, sig, arguments.data(), (unsigned int) arguments.size(), 0);
     } else {
-        auto *callee = VisitObject(ctx->GetCallee()); // TODO: Handle null
+        auto *callee = VisitObject(calleeCtx); // TODO: Handle null
         std::cout << "ASSERT FALSE" << std::endl;
         assert(false);
         return nullptr;
