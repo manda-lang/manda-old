@@ -10,10 +10,7 @@
 #include <jit/jit.h>
 #include <stack>
 #include <unordered_map>
-#include "../analysis/analysis.h"
-#include "../text/text.h"
 #include "VM.h"
-#include "../analysis/Call.h"
 
 namespace manda
 {
@@ -46,20 +43,6 @@ namespace manda
 
         void Run();
 
-        jit_function_t VisitFunction(const Function *ctx);
-
-        void VisitInstruction(const Instruction *ctx);
-
-        void VisitAssignmentInstruction(const AssignmentInstruction *ctx);
-
-        void VisitObjectInstruction(const ObjectInstruction *ctx);
-
-        jit_value_t VisitObject(const Object *ctx);
-
-        jit_value_t VisitCall(const manda::Call *ctx);
-
-        jit_value_t VisitReference(const Reference *ctx);
-
     private:
         struct OnDemandCompilationOptions
         {
@@ -68,10 +51,6 @@ namespace manda
             const manda::Function *function;
             Program *program;
         };
-
-        static int CompileFunction(jit_function_t function);
-
-        static int CompileBlock(jit_function_t function, OnDemandCompilationOptions &options, Block *block);
 
         Analyzer *analyzer;
         Program *program = nullptr;
