@@ -1,5 +1,5 @@
 # manda
-A gradually-typed programming language designed to replace Python.
+A strongly-typed programming language designed to replace Python.
 
 # Example
 Before all the philosophy, here's some code:
