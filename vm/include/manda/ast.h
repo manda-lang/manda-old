@@ -46,7 +46,7 @@ typedef struct
         uint8_t as_uint8;
         int64_t as_int64;
         uint64_t as_uint64;
-        const char *as_register_name;
+        uint8_t *as_register_index;
         manda_block_t *as_block_pointer;
     } value;
 } manda_argument_t;

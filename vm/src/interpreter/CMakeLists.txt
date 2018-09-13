@@ -1,1 +1,1 @@
-add_library(manda interpreter.c)
+add_library(manda vm.c)
