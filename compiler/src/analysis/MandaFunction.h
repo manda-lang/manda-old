@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "../cfg/cfg.h"
+#include "MandaFunctionParameter.h"
 #include "MandaObject.h"
 
 namespace manda
@@ -16,7 +17,19 @@ namespace manda
     class MandaFunction : public MandaObject
     {
     public:
-        explicit MandaFunction(const SourceSpan &sourceSpan);
+        explicit MandaFunction(const MandaType *returnType, const SourceSpan &sourceSpan);
+
+        ~MandaFunction();
+
+        const MandaType *GetReturnType() const;
+
+        const std::vector<MandaFunctionParameter *> &GetParameters() const;
+
+        void AddParameter(MandaFunctionParameter *parameter);
+
+    private:
+        std::vector<MandaFunctionParameter *> parameters;
+        const MandaType *returnType;
     };
 }
 
