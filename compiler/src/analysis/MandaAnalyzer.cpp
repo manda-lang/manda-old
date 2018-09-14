@@ -8,7 +8,9 @@
 #include "MandaObject.h"
 
 manda::MandaAnalyzer::MandaAnalyzer() {
+    this->coreTypes = new MandaCoreTypes;
     this->currentScope = new SymbolTable;
+    coreTypes->InjectIntoSymbolTable(*currentScope);
 }
 
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
