@@ -42,6 +42,8 @@ namespace manda
 
         Any visitFloatExpr(MandaParser::FloatExprContext *ctx) override;
 
+        Any visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) override;
+
     private:
         MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;

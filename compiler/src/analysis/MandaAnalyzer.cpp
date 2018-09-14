@@ -4,6 +4,7 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <sstream>
 #include "MandaAnalyzer.h"
 #include "MandaObject.h"
 
@@ -36,6 +37,21 @@ Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
 Any manda::MandaAnalyzer::visitFloatExpr(MandaParser::FloatExprContext *ctx) {
     // TODO: Parse float -> Float32
     return MandaBaseVisitor::visitFloatExpr(ctx);
+}
+
+Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) {
+    auto name = ctx->Identifier()->getText();
+    auto *symbol = currentScope->Resolve(name);
+
+    if (symbol == nullptr) {
+        std::ostringstream message;
+        message << "The name \"" << name << "\" does not exist in the current context.";
+        auto *error = new MandaError(MandaError::kError, message.str(), SourceSpan::fromParserRuleContext(ctx));
+        errors.push_back(error);
+        return Any();
+    } else {
+        return Any(symbol->GetValue());
+    }
 }
 
 Any manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
