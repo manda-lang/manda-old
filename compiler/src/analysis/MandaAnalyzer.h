@@ -7,8 +7,11 @@
 #ifndef PROJECT_MANDAANALYZER_H
 #define PROJECT_MANDAANALYZER_H
 
+#include <antlr4-runtime/antlr4-runtime.h>
 #include "../parser/parser.h"
+#include "SymbolTable.h"
 
+using antlrcpp::Any;
 using parser::MandaBaseVisitor;
 using parser::MandaParser;
 
@@ -24,7 +27,8 @@ namespace manda
      */
     class MandaAnalyzer : public MandaBaseVisitor
     {
-
+    public:
+        Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
     };
 }
 

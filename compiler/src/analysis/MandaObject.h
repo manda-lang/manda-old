@@ -14,7 +14,7 @@ namespace manda
     class MandaObject
     {
     public:
-        MandaObject(const MandaType *type);
+        explicit MandaObject(const MandaType *type);
 
         const MandaType *GetType() const;
 
