@@ -29,25 +29,21 @@ std::string manda::MandaError::ToString() const {
     std::ostringstream oss;
 
     switch (severity) {
-        case kError: {
+        case kError:
             oss << "error";
             break;
-        }
-        case kWarning: {
+        case kWarning:
             oss << "warning";
             break;
-        }
-        case kInfo: {
+        case kInfo:
             oss << "info";
             break;
-        }
-        case kHint: {
+        case kHint:
             oss << "hint";
             break;
-        }
     }
 
-    oss << sourceSpan.GetLine() << ":" << sourceSpan.GetCharPositionInLine();
+    oss << ": " << sourceSpan.GetLine() << ":" << sourceSpan.GetCharPositionInLine();
     oss << ": " << message;
 
     return oss.str();

@@ -16,3 +16,9 @@ manda::MandaObject::MandaObject(const manda::MandaType *type, SourceSpan sourceS
 const manda::MandaType *manda::MandaObject::GetType() const {
     return type;
 }
+
+manda::MandaObject::~MandaObject() {
+    if (constantValueType == kString) {
+        delete constantValue.asString;
+    }
+}

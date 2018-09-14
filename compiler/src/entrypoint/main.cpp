@@ -7,10 +7,11 @@
 #include <antlr4-runtime/antlr4-runtime.h>
 #include <iostream>
 #include "../analysis/analysis.h"
+#include "../analysis/MandaObject.h"
 
 int main() {
     manda::MandaAnalyzer analyzer;
-    antlr4::ANTLRInputStream inputStream("x");
+    antlr4::ANTLRInputStream inputStream("23");
     parser::MandaLexer lexer(&inputStream);
     antlr4::CommonTokenStream tokens(&lexer);
     parser::MandaParser parser(&tokens);
@@ -24,8 +25,7 @@ int main() {
         }
 
         return 1;
-    }
-    else {
+    } else {
         if (valueAny.isNull()) {
             std::cout << "Fail" << std::endl;
         } else {
@@ -34,7 +34,30 @@ int main() {
             if (value->IsType()) {
                 std::cout << "Found type" << std::endl;
             } else {
+                auto *obj = value->AsObject();
                 std::cout << "Found object" << std::endl;
+                std::cout << "Type: " << obj->GetType()->GetQualifiedName() << std::endl;
+
+                if (obj->constantValueType != manda::MandaObject::kNone) {
+                    switch (obj->constantValueType) {
+                        case manda::MandaObject::kUnsigned:
+                            std::cout << "Unsigned integer: " << obj->constantValue.asUnsigned << std::endl;
+                            break;
+                        case manda::MandaObject::kSigned:
+                            std::cout << "Signed integer: " << obj->constantValue.asSigned << std::endl;
+                            break;
+                        case manda::MandaObject::kString:
+                            std::cout << "String literal: \"" << obj->constantValue.asString << "\"" << std::endl;
+                            break;
+                        case manda::MandaObject::kBool:
+                            std::cout << "Boolean: " << (obj->constantValue.asBool ? "true" : "false")
+                                      << std::endl;
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
             }
         }
     }

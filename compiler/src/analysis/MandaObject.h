@@ -17,6 +17,8 @@ namespace manda
     public:
         explicit MandaObject(const MandaType *type, SourceSpan sourceSpan);
 
+        ~MandaObject();
+
         const MandaType *GetType() const;
 
         enum ConstantValueType
