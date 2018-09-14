@@ -18,6 +18,22 @@ const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const 
     return errors;
 }
 
+Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
+    Any valueAny = ctx->expr()->accept(this);
+
+    if (valueAny.isNull()) {
+        errors.push_back(new MandaError(
+                MandaError::kError,
+                "Evaluating this expression produced an error.",
+                SourceSpan::fromParserRuleContext(ctx)));
+        return Any();
+    } else {
+        auto *value = valueAny.as<MandaObjectOrType *>();
+        // TODO: Only allow calls here
+
+    }
+}
+
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));

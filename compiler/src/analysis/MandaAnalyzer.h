@@ -7,6 +7,7 @@
 #ifndef PROJECT_MANDAANALYZER_H
 #define PROJECT_MANDAANALYZER_H
 
+#include <antlr4-runtime/antlr4-runtime.h>
 #include <vector>
 #include "../parser/parser.h"
 #include "MandaCoreTypes.h"
@@ -38,6 +39,8 @@ namespace manda
         Any visitFloatExpr(MandaParser::FloatExprContext *ctx) override;
 
         Any visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) override;
+
+        Any visitExprStmt(MandaParser::ExprStmtContext *ctx) override;
 
     private:
         MandaCoreTypes *coreTypes;
