@@ -8,6 +8,7 @@
 #define PROJECT_CFGBASICBLOCK_H
 
 #include <vector>
+#include "CfgStatement.h"
 
 namespace manda
 {
@@ -18,10 +19,15 @@ namespace manda
 
         const std::vector<CfgNode *> &GetChildren() const;
 
+        const std::vector<CfgStatement *> GetStatements() const;
+
         void AddChild(CfgNode *child);
 
-    protected:
+        void AddStatement(CfgStatement *statement);
+
+    private:
         std::vector<CfgNode *> children;
+        std::vector<CfgStatement *> statements;
     };
 }
 

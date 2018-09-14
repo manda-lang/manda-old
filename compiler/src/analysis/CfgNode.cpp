@@ -19,3 +19,11 @@ const std::vector<manda::CfgNode *> &manda::CfgNode::GetChildren() const {
 void manda::CfgNode::AddChild(manda::CfgNode *child) {
     children.push_back(child);
 }
+
+const std::vector<manda::CfgStatement *> manda::CfgNode::GetStatements() const {
+    return statements;
+}
+
+void manda::CfgNode::AddStatement(manda::CfgStatement *statement) {
+    statements.push_back(statement);
+}
