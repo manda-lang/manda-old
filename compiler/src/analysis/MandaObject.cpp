@@ -22,7 +22,3 @@ manda::MandaObject::~MandaObject() {
         delete constantValue.asString;
     }
 }
-
-bool manda::MandaObject::IsAssignableTo(const manda::MandaType *other) const {
-    return false;
-}

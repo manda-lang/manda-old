@@ -15,6 +15,7 @@
 namespace manda
 {
     class MandaObject;
+
     class MandaObjectOrType;
 
     class MandaType
@@ -30,6 +31,8 @@ namespace manda
                 const manda::MandaObject *left,
                 const manda::MandaObject *right,
                 const std::string &op) const = 0;
+
+        virtual bool IsAssignableTo(const MandaType *other) const = 0;
     };
 }
 

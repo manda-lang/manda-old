@@ -42,8 +42,6 @@ namespace manda
             bool asBool;
         } constantValue;
 
-        bool IsAssignableTo(const MandaType *other) const;
-
     private:
         const MandaType *type;
         const SourceSpan sourceSpan;
