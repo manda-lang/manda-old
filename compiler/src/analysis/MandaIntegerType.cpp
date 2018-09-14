@@ -6,6 +6,7 @@
 // MIT-style license that can be found in the LICENSE file.
 #include <sstream>
 #include <utility>
+#include "MandaBinaryObject.h"
 #include "MandaIntegerType.h"
 #include "MandaObject.h"
 
@@ -57,7 +58,7 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
         delete right;
         return new MandaObjectOrType(combined);
     } else {
-        return nullptr;
+        return new MandaObjectOrType(new MandaBinaryObject(left, right, op, this, sourceSpan));
     }
 }
 
