@@ -6,7 +6,7 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "SymbolTable.h"
 
-void manda::SymbolTable::Assign(std::string name, manda::MandaObject value) {
+void manda::SymbolTable::Assign(std::string name, const manda::MandaObject* value) {
     Assign(name, manda::MandaObjectOrType(value));
 }
 

@@ -1,4 +1,10 @@
 set(CMAKE_CXX_STANDARD 11)
+
+find_library(ANTLR4 antlr4-runtime)
+find_library(LIBJIT jit)
+
+include_directories(${ANTLR4_INCLUDE_DIR})
+
 add_executable(manda
         src/analysis/MandaType.cpp src/analysis/MandaType.h
         src/analysis/MandaIntegerType.cpp src/analysis/MandaIntegerType.h
@@ -10,4 +16,10 @@ add_executable(manda
         src/parser/MandaLexer.cpp src/parser/MandaLexer.h
         src/parser/MandaParser.cpp src/parser/MandaParser.h
         src/parser/MandaVisitor.cpp src/parser/MandaVisitor.h
-        src/entrypoint/main.cpp src/parser/parser.h src/analysis/MandaAnalyzer.cpp src/analysis/MandaAnalyzer.h)
+        src/entrypoint/main.cpp
+        src/parser/parser.h
+        src/analysis/MandaAnalyzer.cpp
+        src/analysis/MandaAnalyzer.h
+        src/analysis/SourceSpan.cpp src/analysis/SourceSpan.h)
+
+target_link_libraries(manda ${ANTLR4} ${LIBJIT})

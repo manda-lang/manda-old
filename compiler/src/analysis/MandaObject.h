@@ -8,13 +8,14 @@
 #define PROJECT_MANDAOBJECT_H
 
 #include "MandaType.h"
+#include "SourceSpan.h"
 
 namespace manda
 {
     class MandaObject
     {
     public:
-        explicit MandaObject(const MandaType *type);
+        explicit MandaObject(const MandaType *type, SourceSpan sourceSpan);
 
         const MandaType *GetType() const;
 
@@ -39,6 +40,7 @@ namespace manda
 
     private:
         const MandaType *type;
+        const SourceSpan sourceSpan;
     };
 }
 

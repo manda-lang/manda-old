@@ -14,7 +14,7 @@ namespace manda
     class SymbolTable
     {
     public:
-        void Assign(std::string name, MandaObject value);
+        void Assign(std::string name, const MandaObject* value);
 
         void Assign(std::string name, MandaType *value);
 
