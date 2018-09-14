@@ -7,9 +7,10 @@
 #ifndef PROJECT_MANDAANALYZER_H
 #define PROJECT_MANDAANALYZER_H
 
-#include <antlr4-runtime/antlr4-runtime.h>
+#include <vector>
 #include "../parser/parser.h"
 #include "MandaCoreTypes.h"
+#include "MandaError.h"
 #include "SymbolTable.h"
 
 using antlrcpp::Any;
@@ -31,6 +32,8 @@ namespace manda
     public:
         MandaAnalyzer();
 
+        const std::vector<MandaError *> &GetErrors() const;
+
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
 
         Any visitHexExpr(MandaParser::HexExprContext *ctx) override;
@@ -42,6 +45,7 @@ namespace manda
     private:
         MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;
+        std::vector<MandaError *> errors;
     };
 }
 

@@ -13,6 +13,10 @@ manda::MandaAnalyzer::MandaAnalyzer() {
     coreTypes->InjectIntoSymbolTable(*currentScope);
 }
 
+const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const {
+    return errors;
+}
+
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
