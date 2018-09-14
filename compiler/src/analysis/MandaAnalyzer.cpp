@@ -32,7 +32,24 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     } else {
         auto *value = valueAny.as<MandaObjectOrType *>();
         // TODO: Only allow calls here
-        auto *stmt = new CfgValueStatement(value, currentScope);
+        auto *stmt = new CfgValueStatement(value, currentScope, false);
+        return Any((CfgStatement *) stmt);
+    }
+}
+
+Any manda::MandaAnalyzer::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
+    Any valueAny = ctx->expr()->accept(this);
+
+    if (valueAny.isNull()) {
+        errors.push_back(new MandaError(
+                MandaError::kError,
+                "Evaluating this expression produced an error.",
+                SourceSpan::fromParserRuleContext(ctx)));
+        return Any();
+    } else {
+        auto *value = valueAny.as<MandaObjectOrType *>();
+        // TODO: Only allow calls here
+        auto *stmt = new CfgValueStatement(value, currentScope, true);
         return Any((CfgStatement *) stmt);
     }
 }

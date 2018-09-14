@@ -49,6 +49,8 @@ namespace manda
 
         Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) override;
 
+        Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
+
     private:
         MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;

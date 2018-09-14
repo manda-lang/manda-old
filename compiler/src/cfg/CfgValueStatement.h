@@ -14,12 +14,15 @@ namespace manda
     class CfgValueStatement : public CfgStatement
     {
     public:
-        CfgValueStatement(const MandaObjectOrType *value, SymbolTable *symbolTable);
+        CfgValueStatement(const MandaObjectOrType *value, SymbolTable *symbolTable, bool isReturn);
 
         const MandaObjectOrType *GetValue() const;
 
+        bool IsReturn() const;
+
     private:
         const MandaObjectOrType *value;
+        bool isReturn;
     };
 }
 
