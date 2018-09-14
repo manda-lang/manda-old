@@ -7,7 +7,7 @@
 #include "MandaObject.h"
 
 manda::MandaObject::MandaObject(const manda::MandaType *type, SourceSpan sourceSpan)
-        : sourceSpan(sourceSpan) {
+        : sourceSpan(std::move(sourceSpan)) {
     this->type = type;
     this->constantValueType = kNone;
     this->constantValue.asUnsigned = 0;

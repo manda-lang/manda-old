@@ -14,6 +14,7 @@
 
 namespace manda
 {
+    // TODO: MandaFunctionType
     class MandaFunction : public MandaObject
     {
     public:
