@@ -32,6 +32,12 @@ namespace manda
 
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
 
+        Any visitHexExpr(MandaParser::HexExprContext *ctx) override;
+
+        Any visitParenExpr(MandaParser::ParenExprContext *ctx) override;
+
+        Any visitFloatExpr(MandaParser::FloatExprContext *ctx) override;
+
     private:
         SymbolTable *currentScope;
     };
