@@ -22,6 +22,6 @@ add_executable(manda
         src/analysis/MandaAnalyzer.h
         src/analysis/SourceSpan.cpp src/analysis/SourceSpan.h
         src/analysis/MandaError.cpp src/analysis/MandaError.h
-        src/cfg/CfgNode.cpp src/cfg/CfgNode.h src/cfg/CfgStatement.cpp src/cfg/CfgStatement.h src/cfg/CfgValueStatement.cpp src/cfg/CfgValueStatement.h src/cfg/cfg.h src/analysis/MandaFunction.cpp src/analysis/MandaFunction.h)
+        src/cfg/CfgNode.cpp src/cfg/CfgNode.h src/cfg/CfgStatement.cpp src/cfg/CfgStatement.h src/cfg/CfgValueStatement.cpp src/cfg/CfgValueStatement.h src/cfg/cfg.h src/analysis/MandaFunction.cpp src/analysis/MandaFunction.h src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h)
 
 target_link_libraries(manda ${ANTLR4} ${LIBJIT})
