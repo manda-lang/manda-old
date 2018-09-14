@@ -28,7 +28,12 @@ namespace manda
     class MandaAnalyzer : public MandaBaseVisitor
     {
     public:
+        MandaAnalyzer();
+
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
+
+    private:
+        SymbolTable *currentScope;
     };
 }
 

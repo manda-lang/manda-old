@@ -7,6 +7,10 @@
 #include "MandaAnalyzer.h"
 #include "MandaObject.h"
 
+manda::MandaAnalyzer::MandaAnalyzer() {
+    this->currentScope = new SymbolTable;
+}
+
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(nullptr, SourceSpan::fromParserRuleContext(ctx)); // TODO: Int32
