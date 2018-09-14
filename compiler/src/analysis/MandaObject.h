@@ -12,6 +12,8 @@
 
 namespace manda
 {
+    class MandaType;
+
     class MandaObject
     {
     public:
@@ -39,6 +41,8 @@ namespace manda
             const char *asString;
             bool asBool;
         } constantValue;
+
+        bool IsAssignableTo(const MandaType *other) const;
 
     private:
         const MandaType *type;

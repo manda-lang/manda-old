@@ -9,9 +9,14 @@
 
 #include <cstdint>
 #include <string>
+#include "MandaObjectOrType.h"
+#include "MandaObject.h"
 
 namespace manda
 {
+    class MandaObject;
+    class MandaObjectOrType;
+
     class MandaType
     {
     public:
@@ -20,6 +25,11 @@ namespace manda
         virtual const std::string GetSimpleName() const = 0;
 
         virtual uint64_t GetSizeInBytes() const = 0;
+
+        virtual const manda::MandaObjectOrType *PerformBinaryOperation(
+                const manda::MandaObject *left,
+                const manda::MandaObject *right,
+                const std::string &op) const = 0;
     };
 }
 

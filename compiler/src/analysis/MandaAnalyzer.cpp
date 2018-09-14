@@ -59,7 +59,7 @@ Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaPar
             auto *left = leftValue->AsObject(), *right = rightValue->AsObject();
 
             // Binary operators must be applied to values of compatible types.
-            if (!(left->IsAssignableTo(right))) {
+            if (!(left->IsAssignableTo(right->GetType()))) {
                 errors.push_back(
                         new MandaError(
                                 MandaError::kError,
