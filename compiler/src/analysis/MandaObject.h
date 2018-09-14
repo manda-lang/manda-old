@@ -14,7 +14,31 @@ namespace manda
     class MandaObject
     {
     public:
-        const MandaType& GetType() const;
+        MandaObject(const MandaType *type);
+
+        const MandaType *GetType() const;
+
+        enum ConstantValueType
+        {
+            kNone,
+            kUnsigned,
+            kSigned,
+            kString,
+            kBool
+        };
+
+        ConstantValueType constantValueType;
+
+        union
+        {
+            uint64_t asUnsigned;
+            int64_t asSigned;
+            const char *asString;
+            bool asBool;
+        } constantValue;
+
+    private:
+        const MandaType *type;
     };
 }
 
