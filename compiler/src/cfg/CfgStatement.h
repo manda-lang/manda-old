@@ -7,7 +7,7 @@
 #ifndef PROJECT_CFGSTATEMENT_H
 #define PROJECT_CFGSTATEMENT_H
 
-#include "SymbolTable.h"
+#include "../analysis/SymbolTable.h"
 
 namespace manda
 {
