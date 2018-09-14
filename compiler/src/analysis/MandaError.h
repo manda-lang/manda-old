@@ -14,6 +14,7 @@ namespace manda
 {
     class MandaError
     {
+    public:
         enum MandaErrorSeverity
         {
             kError,
@@ -22,7 +23,6 @@ namespace manda
             kHint
         };
 
-    public:
         MandaError(MandaErrorSeverity severity, std::string message, SourceSpan sourceSpan);
 
         MandaErrorSeverity GetSeverity() const;
