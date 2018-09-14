@@ -13,6 +13,7 @@ manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaObject* value) {
 
 manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaType *value) {
     this->asType = value;
+    this->asObject = nullptr;
 }
 
 const manda::MandaObject* manda::MandaObjectOrType::AsObject() const {
@@ -29,5 +30,5 @@ bool manda::MandaObjectOrType::IsType() const {
 
 manda::MandaObjectOrType::~MandaObjectOrType() {
     delete asObject;
-    delete asType;
+    // delete asType;
 }

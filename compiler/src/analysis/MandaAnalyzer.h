@@ -9,6 +9,7 @@
 
 #include <antlr4-runtime/antlr4-runtime.h>
 #include "../parser/parser.h"
+#include "MandaCoreTypes.h"
 #include "SymbolTable.h"
 
 using antlrcpp::Any;
@@ -39,6 +40,7 @@ namespace manda
         Any visitFloatExpr(MandaParser::FloatExprContext *ctx) override;
 
     private:
+        MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;
     };
 }
