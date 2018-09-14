@@ -37,6 +37,62 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     }
 }
 
+Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
+                                        MandaParser::ExprContext *rightCtx, const std::string &op) {
+    Any leftAny = leftCtx->accept(this), rightAny = rightCtx->accept(this);
+
+    if (leftAny.isNull() || rightAny.isNull()) {
+        errors.push_back(new MandaError(MandaError::kError, "Could not resolve this binary expression.",
+                                        SourceSpan::fromParserRuleContext(ctx)));
+        return Any();
+    } else {
+        auto *leftValue = leftAny.as<MandaObjectOrType *>(), *rightValue = rightAny.as<MandaObjectOrType *>();
+
+        if (leftValue->IsType() || rightValue->IsType()) {
+            errors.push_back(
+                    new MandaError(
+                            MandaError::kError,
+                            "Binary operators may not be applied directly to types.",
+                            SourceSpan::fromParserRuleContext(ctx)));
+            return Any();
+        } else {
+            auto *left = leftValue->AsObject(), *right = rightValue->AsObject();
+
+            // Binary operators must be applied to values of compatible types.
+            if (!(left->IsAssignableTo(right))) {
+                errors.push_back(
+                        new MandaError(
+                                MandaError::kError,
+                                "Cannot perform a binary operation on two values of incompatible types.",
+                                SourceSpan::fromParserRuleContext(ctx)));
+                return Any();
+            }
+
+            // Let the left type handle the computation.
+            auto *result = left->GetType()->PerformBinaryOperation(left, right, op);
+
+            if (result == nullptr) {
+                return Any();
+            } else {
+                errors.push_back(
+                        new MandaError(
+                                MandaError::kError,
+                                "Evaluating this binary operation produced an error.",
+                                SourceSpan::fromParserRuleContext(ctx)));
+                return Any(result);
+            }
+        }
+    }
+}
+
+Any manda::MandaAnalyzer::visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) {
+    return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
+}
+
+Any manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) {
+    return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
+}
+
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtol(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));

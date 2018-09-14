@@ -42,6 +42,13 @@ namespace manda
 
         Any visitExprStmt(MandaParser::ExprStmtContext *ctx) override;
 
+        Any resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
+                                  MandaParser::ExprContext *rightCtx, const std::string &op);
+
+        Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) override;
+
+        Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) override;
+
     private:
         MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;
