@@ -15,8 +15,7 @@ manda::MandaAnalyzer::MandaAnalyzer() {
 
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
-    auto *int32Type = currentScope->Resolve("Int32")->GetValue()->AsType();
-    auto *object = new MandaObject(int32Type, SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asUnsigned = value;
     return Any(new MandaObjectOrType(object));
@@ -24,8 +23,7 @@ Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx)
 
 Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().substr(2).c_str(), nullptr, 16);
-    auto *int32Type = currentScope->Resolve("Int32")->GetValue()->AsType();
-    auto *object = new MandaObject(int32Type, SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asUnsigned = value;
     return Any(new MandaObjectOrType(object));
