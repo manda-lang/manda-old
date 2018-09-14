@@ -47,9 +47,29 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
 
         // TODO: Actually do operations.
         if (left->constantValueType == MandaObject::kSigned) {
-            combined->constantValue.asSigned = l.asSigned + r.asSigned;
+            if (op == "*") {
+                combined->constantValue.asSigned = l.asSigned * r.asSigned;
+            } else if (op == "/") {
+                combined->constantValue.asSigned = l.asSigned / r.asSigned;
+            } else if (op == "%") {
+                combined->constantValue.asSigned = l.asSigned % r.asSigned;
+            } else if (op == "+") {
+                combined->constantValue.asSigned = l.asSigned + r.asSigned;
+            } else if (op == "-") {
+                combined->constantValue.asSigned = l.asSigned - r.asSigned;
+            }
         } else {
-            combined->constantValue.asUnsigned = l.asUnsigned + r.asUnsigned;
+            if (op == "*") {
+                combined->constantValue.asUnsigned = l.asUnsigned * r.asUnsigned;
+            } else if (op == "/") {
+                combined->constantValue.asUnsigned = l.asUnsigned / r.asUnsigned;
+            } else if (op == "%") {
+                combined->constantValue.asUnsigned = l.asUnsigned % r.asUnsigned;
+            } else if (op == "+") {
+                combined->constantValue.asUnsigned = l.asUnsigned + r.asUnsigned;
+            } else if (op == "-") {
+                combined->constantValue.asUnsigned = l.asUnsigned - r.asUnsigned;
+            }
         }
 
         // Now that we've combined the values, delete the two objects, since

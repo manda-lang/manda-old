@@ -11,7 +11,7 @@
 
 int main() {
     manda::MandaAnalyzer analyzer;
-    antlr4::ANTLRInputStream inputStream("-34 + 46");
+    antlr4::ANTLRInputStream inputStream("((-34 + 46) - 5) * -3");
     parser::MandaLexer lexer(&inputStream);
     antlr4::CommonTokenStream tokens(&lexer);
     parser::MandaParser parser(&tokens);
