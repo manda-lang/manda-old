@@ -18,7 +18,7 @@ int main() {
     antlrcpp::Any valueAny = parser.expr()->accept(&analyzer);
     auto &errors = analyzer.GetErrors();
 
-    if (errors.empty()) {
+    if (!errors.empty()) {
         for (auto *error : errors) {
             std::cerr << error->ToString() << std::endl;
         }

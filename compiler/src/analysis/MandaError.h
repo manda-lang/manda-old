@@ -31,6 +31,8 @@ namespace manda
 
         const SourceSpan &GetSourceSpan() const;
 
+        std::string ToString() const;
+
     private:
         MandaErrorSeverity severity;
         const std::string message;
