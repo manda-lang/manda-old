@@ -20,6 +20,8 @@ add_executable(manda
         src/parser/parser.h
         src/analysis/MandaAnalyzer.cpp
         src/analysis/MandaAnalyzer.h
-        src/analysis/SourceSpan.cpp src/analysis/SourceSpan.h src/analysis/MandaError.cpp src/analysis/MandaError.h)
+        src/analysis/SourceSpan.cpp src/analysis/SourceSpan.h
+        src/analysis/MandaError.cpp src/analysis/MandaError.h
+        src/analysis/CfgNode.cpp src/analysis/CfgNode.h)
 
 target_link_libraries(manda ${ANTLR4} ${LIBJIT})

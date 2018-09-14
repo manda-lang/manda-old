@@ -20,12 +20,7 @@ using parser::MandaParser;
 namespace manda
 {
     /**
-     * Transforms the ANTLR tree into a Manda-specific AST.
-     *
-     * The output AST will have all objects resolved to some type,
-     * rejecting errant programs with errors.
-     *
-     * The output AST can in turn be processed by future passes.
+     * Transforms the ANTLR tree into a control-flow graph; also performs static type-checking.
      */
     class MandaAnalyzer : public MandaBaseVisitor
     {
