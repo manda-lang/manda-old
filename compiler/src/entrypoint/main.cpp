@@ -11,7 +11,7 @@
 
 int main() {
     manda::MandaAnalyzer analyzer;
-    antlr4::ANTLRInputStream inputStream("0x12a");
+    antlr4::ANTLRInputStream inputStream("-34");
     parser::MandaLexer lexer(&inputStream);
     antlr4::CommonTokenStream tokens(&lexer);
     parser::MandaParser parser(&tokens);

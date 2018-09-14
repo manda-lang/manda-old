@@ -57,7 +57,7 @@ expr:
 ;
 
 Whitespace: [ \n\r\t] -> skip;
-FloatLiteral: [0-9]+ '.' [0-9]+;
+FloatLiteral: '-'? [0-9]+ '.' [0-9]+;
 HexLiteral: '0x' [A-Fa-f0-9]+;
-IntegerLiteral: [0-9]+;
+IntegerLiteral: '-'? [0-9]+;
 Identifier: [A-Za-z_] [A-Za-z0-9_]*;
