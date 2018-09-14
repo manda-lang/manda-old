@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <sstream>
+#include <string>
 #include "../cfg/cfg.h"
 #include "MandaAnalyzer.h"
 #include "MandaObject.h"
@@ -37,18 +38,18 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
 }
 
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
-    uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
+    uint64_t value = strtol(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
-    object->constantValue.asUnsigned = value;
+    object->constantValue.asSigned = value;
     return Any(new MandaObjectOrType(object));
 }
 
 Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
-    uint64_t value = strtoul(ctx->getText().substr(2).c_str(), nullptr, 16);
+    uint64_t value = stoul(ctx->getText(), nullptr, 16);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
-    object->constantValue.asUnsigned = value;
+    object->constantValue.asSigned = value;
     return Any(new MandaObjectOrType(object));
 }
 
