@@ -5,6 +5,7 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <sstream>
+#include "CfgValueStatement.h"
 #include "MandaAnalyzer.h"
 #include "MandaObject.h"
 
@@ -30,7 +31,8 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     } else {
         auto *value = valueAny.as<MandaObjectOrType *>();
         // TODO: Only allow calls here
-
+        auto *stmt = new CfgValueStatement(value, currentScope);
+        return Any((CfgStatement *) stmt);
     }
 }
 
