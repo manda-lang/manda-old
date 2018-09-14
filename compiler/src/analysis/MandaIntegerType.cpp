@@ -29,3 +29,24 @@ uint64_t manda::MandaIntegerType::GetSizeInBytes() const {
 bool manda::MandaIntegerType::IsUnsigned() const {
     return isUnsigned;
 }
+
+const manda::MandaObjectOrType *
+manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+                                                const std::string &op) const {
+    return nullptr;
+}
+
+bool manda::MandaIntegerType::IsAssignableTo(const manda::MandaType *other) const {
+    return IsExactly(other);
+}
+
+bool manda::MandaIntegerType::IsExactly(const manda::MandaType *other) const {
+    auto *asIntegerType = dynamic_cast<MandaIntegerType *>(other);
+
+    if (asIntegerType == nullptr) {
+        return false;
+    }
+
+    return asIntegerType->isUnsigned == isUnsigned
+           && asIntegerType->sizeInBytes == sizeInBytes;
+}

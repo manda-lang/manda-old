@@ -33,6 +33,8 @@ namespace manda
                 const std::string &op) const = 0;
 
         virtual bool IsAssignableTo(const MandaType *other) const = 0;
+
+        virtual bool IsExactly(const MandaType *other) const = 0;
     };
 }
 
