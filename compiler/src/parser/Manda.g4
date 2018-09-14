@@ -52,6 +52,8 @@ expr:
     | FloatLiteral #FloatExpr
     | HexLiteral #HexExpr
     | IntegerLiteral #IntegerExpr
+    | left=expr op=('*'|'/'|'%') right=expr #MulDivOrModExpr
+    | left=expr op=('+'|'-') right=expr #AddOrSubExpr
     //| left=(FloatLiteral|IntegerLiteral) ('e'|'E') negative='-'? power=IntegerLiteral #ScientificLiteralExpr
     | '(' expr ')' #ParenExpr
 ;

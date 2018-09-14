@@ -68,15 +68,19 @@ public:
 
     virtual antlrcpp::Any visitVarDecl(MandaParser::VarDeclContext *context) = 0;
 
-    virtual antlrcpp::Any visitIdentifierExpr(MandaParser::IdentifierExprContext *context) = 0;
+    virtual antlrcpp::Any visitIntegerExpr(MandaParser::IntegerExprContext *context) = 0;
 
     virtual antlrcpp::Any visitFloatExpr(MandaParser::FloatExprContext *context) = 0;
 
+    virtual antlrcpp::Any visitIdentifierExpr(MandaParser::IdentifierExprContext *context) = 0;
+
     virtual antlrcpp::Any visitHexExpr(MandaParser::HexExprContext *context) = 0;
 
-    virtual antlrcpp::Any visitIntegerExpr(MandaParser::IntegerExprContext *context) = 0;
+    virtual antlrcpp::Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *context) = 0;
 
     virtual antlrcpp::Any visitParenExpr(MandaParser::ParenExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *context) = 0;
 
 
 };

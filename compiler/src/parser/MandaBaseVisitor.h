@@ -113,7 +113,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) override {
+  virtual antlrcpp::Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -121,15 +121,23 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitHexExpr(MandaParser::HexExprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override {
+  virtual antlrcpp::Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitParenExpr(MandaParser::ParenExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) override {
     return visitChildren(ctx);
   }
 
