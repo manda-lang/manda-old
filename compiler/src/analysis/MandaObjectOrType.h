@@ -17,7 +17,7 @@ namespace manda
     public:
         explicit MandaObjectOrType(const manda::MandaObject* value);
 
-        explicit MandaObjectOrType(manda::MandaType *value);
+        explicit MandaObjectOrType(const manda::MandaType *value);
 
         ~MandaObjectOrType();
 

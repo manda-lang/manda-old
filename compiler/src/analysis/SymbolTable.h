@@ -7,19 +7,51 @@
 #ifndef PROJECT_SYMBOLTABLE_H
 #define PROJECT_SYMBOLTABLE_H
 
+#include <vector>
 #include "MandaObjectOrType.h"
 
 namespace manda
 {
+    class SymbolTable;
+
+    class Symbol
+    {
+    public:
+        Symbol(SymbolTable *symbolTable, std::string name, const MandaObjectOrType *value);
+
+        const std::string &GetName() const;
+
+        const MandaObjectOrType *GetValue() const;
+
+    private:
+
+        const std::string name;
+        const MandaObjectOrType *value;
+        SymbolTable *symbolTable;
+    };
+
     class SymbolTable
     {
     public:
-        void Assign(std::string name, const MandaObject* value);
+        SymbolTable();
 
-        void Assign(std::string name, MandaType *value);
+        ~SymbolTable();
+
+        manda::Symbol *Assign(std::string name, const MandaObject *value);
+
+        manda::Symbol *Assign(std::string name, const MandaType *value);
+
+        bool IsRoot() const;
+
+        const Symbol *Resolve(const std::string &name) const;
 
     private:
-        void Assign(std::string name, MandaObjectOrType value);
+        SymbolTable *parent;
+        std::vector<Symbol *> symbols;
+
+        explicit SymbolTable(SymbolTable *parent);
+
+        manda::Symbol *Assign(std::string name, const MandaObjectOrType *value);
     };
 }
 

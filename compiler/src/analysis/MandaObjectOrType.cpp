@@ -11,7 +11,7 @@ manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaObject* value) {
     this->asType = nullptr;
 }
 
-manda::MandaObjectOrType::MandaObjectOrType(manda::MandaType *value) {
+manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaType *value) {
     this->asType = value;
 }
 
