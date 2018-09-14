@@ -71,3 +71,7 @@ manda::Symbol::Symbol(SymbolTable *symbolTable, std::string name, const manda::M
     this->symbolTable = symbolTable;
     this->value = value;
 }
+
+manda::Symbol::~Symbol() {
+    delete value;
+}

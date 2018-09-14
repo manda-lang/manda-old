@@ -19,6 +19,8 @@ namespace manda
     public:
         Symbol(SymbolTable *symbolTable, std::string name, const MandaObjectOrType *value);
 
+        ~Symbol();
+
         const std::string &GetName() const;
 
         const MandaObjectOrType *GetValue() const;
