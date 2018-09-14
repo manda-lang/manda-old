@@ -69,7 +69,7 @@ Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaPar
             }
 
             // Let the left type handle the computation.
-            auto *result = left->GetType()->PerformBinaryOperation(left, right, op);
+            auto *result = left->GetType()->PerformBinaryOperation(left, right, op, <#initializer#>);
 
             if (result == nullptr) {
                 return Any();

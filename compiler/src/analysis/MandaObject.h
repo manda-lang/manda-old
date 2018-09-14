@@ -14,6 +14,14 @@ namespace manda
 {
     class MandaType;
 
+    typedef union
+    {
+        uint64_t asUnsigned;
+        int64_t asSigned;
+        const char *asString;
+        bool asBool;
+    } MandaConstantValue;
+
     class MandaObject
     {
     public:
@@ -34,13 +42,7 @@ namespace manda
 
         ConstantValueType constantValueType;
 
-        union
-        {
-            uint64_t asUnsigned;
-            int64_t asSigned;
-            const char *asString;
-            bool asBool;
-        } constantValue;
+        MandaConstantValue constantValue;
 
     private:
         const MandaType *type;

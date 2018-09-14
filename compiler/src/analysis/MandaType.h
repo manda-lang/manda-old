@@ -27,10 +27,8 @@ namespace manda
 
         virtual uint64_t GetSizeInBytes() const = 0;
 
-        virtual const manda::MandaObjectOrType *PerformBinaryOperation(
-                const manda::MandaObject *left,
-                const manda::MandaObject *right,
-                const std::string &op) const = 0;
+        virtual const manda::MandaObjectOrType *PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+                                                                               const std::string &op, const SourceSpan &sourceSpan) const = 0;
 
         virtual bool IsAssignableTo(const MandaType *other) const = 0;
 
