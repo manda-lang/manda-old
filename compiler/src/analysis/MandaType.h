@@ -11,6 +11,7 @@
 #include <string>
 #include "MandaObjectOrType.h"
 #include "MandaObject.h"
+#include "SourceSpan.h"
 
 namespace manda
 {
@@ -27,8 +28,9 @@ namespace manda
 
         virtual uint64_t GetSizeInBytes() const = 0;
 
-        virtual const manda::MandaObjectOrType *PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
-                                                                               const std::string &op, const SourceSpan &sourceSpan) const = 0;
+        virtual MandaObjectOrType * PerformBinaryOperation(const manda::MandaObject *left,
+                                                           const manda::MandaObject *right,
+                                                           const std::string &op, const manda::SourceSpan &sourceSpan) const = 0;
 
         virtual bool IsAssignableTo(const MandaType *other) const = 0;
 

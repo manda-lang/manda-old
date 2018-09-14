@@ -32,7 +32,7 @@ bool manda::MandaIntegerType::IsUnsigned() const {
     return isUnsigned;
 }
 
-const manda::MandaObjectOrType *
+manda::MandaObjectOrType *
 manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
                                                 const std::string &op, const SourceSpan &sourceSpan) const {
     // The analyzer has already asserted that the left is a number.
@@ -44,6 +44,7 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
         auto *combined = new MandaObject(this, sourceSpan);
         combined->constantValueType = left->constantValueType;
 
+        // TODO: Actually do operations.
         if (left->constantValueType == MandaObject::kSigned) {
             combined->constantValue.asSigned = l.asSigned + r.asSigned;
         } else {
@@ -65,7 +66,7 @@ bool manda::MandaIntegerType::IsAssignableTo(const manda::MandaType *other) cons
 }
 
 bool manda::MandaIntegerType::IsExactly(const manda::MandaType *other) const {
-    auto *asIntegerType = dynamic_cast<MandaIntegerType *>(other);
+    auto *asIntegerType = dynamic_cast<const MandaIntegerType *>(other);
 
     if (asIntegerType == nullptr) {
         return false;

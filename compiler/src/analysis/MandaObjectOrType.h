@@ -12,6 +12,9 @@
 
 namespace manda
 {
+    class MandaObject;
+    class MandaType;
+
     class MandaObjectOrType
     {
     public:

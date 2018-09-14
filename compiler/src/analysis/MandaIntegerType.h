@@ -24,8 +24,8 @@ namespace manda
 
         bool IsUnsigned() const;
 
-        const manda::MandaObjectOrType *PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
-                                                                       const std::string &op, const SourceSpan &sourceSpan) const override;
+        MandaObjectOrType * PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+                                                   const std::string &op, const SourceSpan &sourceSpan) const override;
 
         bool IsAssignableTo(const MandaType *other) const override;
 

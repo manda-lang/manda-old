@@ -69,16 +69,17 @@ Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaPar
             }
 
             // Let the left type handle the computation.
-            auto *result = left->GetType()->PerformBinaryOperation(left, right, op, <#initializer#>);
+            auto *result = left->GetType()->PerformBinaryOperation(left, right, op,
+                                                                   SourceSpan::fromParserRuleContext(ctx));
 
             if (result == nullptr) {
-                return Any();
-            } else {
                 errors.push_back(
                         new MandaError(
                                 MandaError::kError,
                                 "Evaluating this binary operation produced an error.",
                                 SourceSpan::fromParserRuleContext(ctx)));
+                return Any();
+            } else {
                 return Any(result);
             }
         }
