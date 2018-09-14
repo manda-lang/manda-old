@@ -47,11 +47,13 @@ namespace manda
 
         const Symbol *Resolve(const std::string &name) const;
 
+        SymbolTable *CreateChild() const;
+
     private:
-        SymbolTable *parent;
+        const SymbolTable *parent;
         std::vector<Symbol *> symbols;
 
-        explicit SymbolTable(SymbolTable *parent);
+        explicit SymbolTable(const SymbolTable *parent);
 
         manda::Symbol *Assign(std::string name, const MandaObjectOrType *value);
     };

@@ -54,8 +54,12 @@ const manda::Symbol *manda::SymbolTable::Resolve(const std::string &name) const 
     }
 }
 
-manda::SymbolTable::SymbolTable(manda::SymbolTable *parent) {
+manda::SymbolTable::SymbolTable(const manda::SymbolTable *parent) {
     this->parent = parent;
+}
+
+manda::SymbolTable *manda::SymbolTable::CreateChild() const {
+    return new SymbolTable(this);
 }
 
 const std::string &manda::Symbol::GetName() const {
