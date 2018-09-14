@@ -25,6 +25,6 @@ add_executable(manda
         src/cfg/CfgValueStatement.cpp src/cfg/CfgValueStatement.h
         src/cfg/cfg.h
         src/analysis/MandaFunction.cpp src/analysis/MandaFunction.h
-        src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h src/analysis/analysis.h)
+        src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h src/analysis/analysis.h src/analysis/MandaBinaryObject.cpp src/analysis/MandaBinaryObject.h)
 
 target_link_libraries(manda ${ANTLR4} ${LIBJIT})
