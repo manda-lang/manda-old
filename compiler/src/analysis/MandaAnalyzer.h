@@ -30,7 +30,7 @@ namespace manda
 
         const std::vector<MandaError *> &GetErrors() const;
 
-        const MandaParser::CompilationUnitContext *GetCompilationUnit() const;
+        MandaParser::CompilationUnitContext * GetCompilationUnit() const;
 
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
 

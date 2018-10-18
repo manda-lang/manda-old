@@ -10,10 +10,11 @@
 #include <jit/jit.h>
 #include <stack>
 #include "../analysis/analysis.h"
+#include "../parser/parser.h"
 
 namespace manda
 {
-    class JITInterpreter
+    class JITInterpreter : public MandaBaseVisitor
     {
     public:
         explicit JITInterpreter(const MandaAnalyzer &analyzer);

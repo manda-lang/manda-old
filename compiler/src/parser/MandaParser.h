@@ -62,6 +62,8 @@ public:
     TypeAliasDeclContext* typeAliasDecl(size_t i);
     std::vector<FuncDeclContext *> funcDecl();
     FuncDeclContext* funcDecl(size_t i);
+    std::vector<StmtContext *> stmt();
+    StmtContext* stmt(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

@@ -1,6 +1,6 @@
 grammar Manda;
 
-compilationUnit: directive* typeAliasDecl* funcDecl*;
+compilationUnit: directive* typeAliasDecl* funcDecl* stmt*;
 
 directive: importDirective;
 
@@ -62,4 +62,5 @@ Whitespace: [ \n\r\t] -> skip;
 FloatLiteral: '-'? [0-9]+ '.' [0-9]+;
 HexLiteral: '0x' [A-Fa-f0-9]+;
 IntegerLiteral: '-'? [0-9]+;
+// STRING: '\'' '\''; // TODO: Real strings
 Identifier: [A-Za-z_] [A-Za-z0-9_]*;

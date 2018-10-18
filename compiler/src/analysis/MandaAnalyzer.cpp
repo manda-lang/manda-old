@@ -156,6 +156,6 @@ Any manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
     return ctx->expr()->accept(this);
 }
 
-const MandaParser::CompilationUnitContext *manda::MandaAnalyzer::GetCompilationUnit() const {
+MandaParser::CompilationUnitContext * manda::MandaAnalyzer::GetCompilationUnit() const {
     return unit;
 }
