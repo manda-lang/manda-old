@@ -16,8 +16,9 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, Whitespace = 26, 
-    FloatLiteral = 27, HexLiteral = 28, IntegerLiteral = 29, Identifier = 30
+    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
+    T__26 = 27, Whitespace = 28, FloatLiteral = 29, HexLiteral = 30, IntegerLiteral = 31, 
+    Identifier = 32
   };
 
   enum {
@@ -405,6 +406,13 @@ public:
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  TrueExprContext : public ExprContext {
+  public:
+    TrueExprContext(ExprContext *ctx);
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  IdentifierExprContext : public ExprContext {
   public:
     IdentifierExprContext(ExprContext *ctx);
@@ -450,6 +458,13 @@ public:
     MandaParser::ExprContext *right = nullptr;
     std::vector<ExprContext *> expr();
     ExprContext* expr(size_t i);
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  FalseExprContext : public ExprContext {
+  public:
+    FalseExprContext(ExprContext *ctx);
+
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 

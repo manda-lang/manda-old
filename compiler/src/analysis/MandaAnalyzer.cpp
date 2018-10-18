@@ -116,6 +116,21 @@ Any manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ct
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
+Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
+    auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    object->constantValueType = MandaObject::kSigned;
+    object->constantValue.asBool = true;
+    return Any(new MandaObjectOrType(object));
+}
+
+Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
+    auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    object->constantValueType = MandaObject::kSigned;
+    object->constantValue.asBool = false;
+    return Any(new MandaObjectOrType(object));
+}
+
+
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtol(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));

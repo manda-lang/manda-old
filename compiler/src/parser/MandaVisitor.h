@@ -72,6 +72,8 @@ public:
 
     virtual antlrcpp::Any visitFloatExpr(MandaParser::FloatExprContext *context) = 0;
 
+    virtual antlrcpp::Any visitTrueExpr(MandaParser::TrueExprContext *context) = 0;
+
     virtual antlrcpp::Any visitIdentifierExpr(MandaParser::IdentifierExprContext *context) = 0;
 
     virtual antlrcpp::Any visitHexExpr(MandaParser::HexExprContext *context) = 0;
@@ -81,6 +83,8 @@ public:
     virtual antlrcpp::Any visitParenExpr(MandaParser::ParenExprContext *context) = 0;
 
     virtual antlrcpp::Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitFalseExpr(MandaParser::FalseExprContext *context) = 0;
 
 
 };

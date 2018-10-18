@@ -54,6 +54,8 @@ expr:
     | IntegerLiteral #IntegerExpr
     | left=expr op=('*'|'/'|'%') right=expr #MulDivOrModExpr
     | left=expr op=('+'|'-') right=expr #AddOrSubExpr
+    | 'true' #TrueExpr
+    | 'false' #FalseExpr
     //| left=(FloatLiteral|IntegerLiteral) ('e'|'E') negative='-'? power=IntegerLiteral #ScientificLiteralExpr
     | '(' expr ')' #ParenExpr
 ;

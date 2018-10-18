@@ -32,6 +32,10 @@ namespace manda
 
         MandaParser::CompilationUnitContext * GetCompilationUnit() const;
 
+        Any visitTrueExpr(MandaParser::TrueExprContext *ctx) override;
+
+        Any visitFalseExpr(MandaParser::FalseExprContext *ctx) override;
+
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
 
         Any visitHexExpr(MandaParser::HexExprContext *ctx) override;
