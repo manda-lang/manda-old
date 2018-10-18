@@ -5,16 +5,19 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <jit/jit-dump.h>
+#include <nanbox/nanbox.h>
 #include "JITInterpreter.h"
 #include "../analysis/MandaObject.h"
 
 #define func functionStack.top()
+
 
 typedef jit_float64 (*MandaEntryPoint)();
 
 manda::JITInterpreter::JITInterpreter(MandaAnalyzer &analyzer)
         : analyzer(analyzer) {
     ctx = jit_context_create();
+    nanbox_true();
     result = 0.0;
 
     // double main()
@@ -71,20 +74,22 @@ jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) 
     if (obj->constantValueType != manda::MandaObject::kNone) {
         switch (obj->constantValueType) {
             case manda::MandaObject::kUnsigned: {
-                auto asFloat = jit_ulong_to_float64(obj->constantValue.asUnsigned);
+                auto value = nanbox_from_double(obj->constantValue.asUnsigned);
+                auto asFloat = nanbox_to_double(value);
                 return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
             }
             case manda::MandaObject::kSigned: {
-                auto asFloat = jit_long_to_float64(obj->constantValue.asSigned);
+                auto value = nanbox_from_double(obj->constantValue.asSigned);
+                auto asFloat = nanbox_to_double(value);
                 return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
             }
             case manda::MandaObject::kString:
                 std::cout << "String literal: \"" << obj->constantValue.asString << "\"" << std::endl;
                 break;
             case manda::MandaObject::kBool:
-                std::cout << "Boolean: " << (obj->constantValue.asBool ? "true" : "false")
-                          << std::endl;
-                break;
+                auto value = nanbox_from_boolean(obj->constantValue.asBool);
+                auto asFloat = nanbox_to_double(value);
+                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
             default:
                 break;
 
