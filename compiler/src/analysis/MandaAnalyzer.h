@@ -63,7 +63,7 @@ namespace manda
 
     private:
         MandaParser::CompilationUnitContext *unit;
-        MandaCoreTypes *coreTypes;
+        const MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;
         std::vector<MandaError *> errors;
     };

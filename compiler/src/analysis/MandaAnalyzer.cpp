@@ -11,7 +11,7 @@
 #include "MandaObject.h"
 
 manda::MandaAnalyzer::MandaAnalyzer() {
-    this->coreTypes = new MandaCoreTypes;
+    this->coreTypes = MandaCoreTypes::GetInstance();
     this->currentScope = new SymbolTable;
     coreTypes->InjectIntoSymbolTable(*currentScope);
 }
