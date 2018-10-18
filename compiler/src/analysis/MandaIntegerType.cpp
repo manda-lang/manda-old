@@ -58,16 +58,22 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
             } else if (op == "-") {
                 combined->constantValue.asSigned = l.asSigned - r.asSigned;
             } else if (op == "==") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned == r.asSigned;
             } else if (op == "!=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned != r.asSigned;
             } else if (op == "<") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned < r.asSigned;
             } else if (op == "<=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned <= r.asSigned;
             } else if (op == ">") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned > r.asSigned;
             } else if (op == ">=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asSigned >= r.asSigned;
             }
         } else {
@@ -82,16 +88,22 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
             } else if (op == "-") {
                 combined->constantValue.asUnsigned = l.asUnsigned - r.asUnsigned;
             } else if (op == "==") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned == r.asUnsigned;
             } else if (op == "!=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned != r.asUnsigned;
             } else if (op == "<") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned < r.asUnsigned;
             } else if (op == "<=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned <= r.asUnsigned;
             } else if (op == ">") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned > r.asUnsigned;
             } else if (op == ">=") {
+                combined->constantValueType = MandaObject::kBool;
                 combined->constantValue.asBool = l.asUnsigned >= r.asUnsigned;
             }
         }
