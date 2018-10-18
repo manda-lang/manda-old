@@ -10,10 +10,10 @@
 #include "MandaAnalyzer.h"
 #include "MandaObject.h"
 
-manda::MandaAnalyzer::MandaAnalyzer() {
-    this->coreTypes = MandaCoreTypes::GetInstance();
+manda::MandaAnalyzer::MandaAnalyzer()
+        : coreTypes(MandaCoreTypes::GetInstance()) {
     this->currentScope = new SymbolTable;
-    coreTypes->InjectIntoSymbolTable(*currentScope);
+    coreTypes.InjectIntoSymbolTable(*currentScope);
 }
 
 const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const {
@@ -121,14 +121,14 @@ Any manda::MandaAnalyzer::visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *
 }
 
 Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
-    auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = true;
     return Any(new MandaObjectOrType(object));
 }
 
 Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
-    auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = false;
     return Any(new MandaObjectOrType(object));
@@ -137,7 +137,7 @@ Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
 
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtol(ctx->getText().c_str(), nullptr, 10);
-    auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asSigned = value;
     return Any(new MandaObjectOrType(object));
@@ -145,7 +145,7 @@ Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx)
 
 Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
     uint64_t value = stoul(ctx->getText(), nullptr, 16);
-    auto *object = new MandaObject(coreTypes->GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asSigned = value;
     return Any(new MandaObjectOrType(object));

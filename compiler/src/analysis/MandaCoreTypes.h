@@ -16,9 +16,9 @@ namespace manda
     class MandaCoreTypes
     {
     public:
-        static const MandaCoreTypes *GetInstance();
+        static const MandaCoreTypes &GetInstance();
 
-        void InjectIntoSymbolTable(SymbolTable &symbolTable);
+        void InjectIntoSymbolTable(SymbolTable &symbolTable) const;
 
         const MandaBoolType *GetBoolType() const;
 
@@ -39,8 +39,6 @@ namespace manda
         const MandaIntegerType *GetUint64Type() const;
 
     private:
-        static MandaCoreTypes *instance = nullptr;
-
         MandaCoreTypes();
 
         ~MandaCoreTypes();

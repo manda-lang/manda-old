@@ -7,13 +7,12 @@
 #include "MandaCoreTypes.h"
 #include "MandaIntegerType.h"
 
-const manda::MandaCoreTypes *manda::MandaCoreTypes::GetInstance() {
-    if (instance == nullptr)
-        instance = new MandaCoreTypes;
+const manda::MandaCoreTypes &manda::MandaCoreTypes::GetInstance() {
+    static MandaCoreTypes instance;
     return instance;
 }
 
-void manda::MandaCoreTypes::InjectIntoSymbolTable(manda::SymbolTable &symbolTable) {
+void manda::MandaCoreTypes::InjectIntoSymbolTable(manda::SymbolTable &symbolTable) const {
     symbolTable.Assign(boolType.GetSimpleName(), &boolType);
     symbolTable.Assign(int8Type->GetSimpleName(), int8Type);
     symbolTable.Assign(int16Type->GetSimpleName(), int16Type);

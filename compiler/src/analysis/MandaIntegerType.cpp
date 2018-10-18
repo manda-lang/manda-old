@@ -115,10 +115,10 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
         delete right;
         return new MandaObjectOrType(combined);
     } else {
-        MandaType *outType = this;
+        const MandaType *outType = this;
 
         if (op == "==" || op == "!=" || op == "<" || op == "<=" || op == ">" || op == ">=")
-            outType = MandaCoreTypes::GetInstance()->GetBoolType();
+            outType = MandaCoreTypes::GetInstance().GetBoolType();
 
         return new MandaObjectOrType(new MandaBinaryObject(left, right, op, this, sourceSpan));
     }
