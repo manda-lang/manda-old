@@ -30,7 +30,7 @@ add_executable(manda
         src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h
         src/analysis/analysis.h
         src/analysis/MandaBinaryObject.cpp src/analysis/MandaBinaryObject.h
-        src/interpreter/JITInterpreter.cpp src/interpreter/JITInterpreter.h)
+        src/interpreter/JITInterpreter.cpp src/interpreter/JITInterpreter.h src/analysis/MandaBoolType.cpp src/analysis/MandaBoolType.h)
 
 target_include_directories(manda PUBLIC ${LIBJIT_INCLUDE_DIR})
 target_link_libraries(manda ${ANTLR4} ${LIBJIT})

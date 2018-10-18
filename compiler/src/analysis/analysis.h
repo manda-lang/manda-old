@@ -8,6 +8,8 @@
 #define PROJECT_ANALYSIS_H
 
 #include "MandaAnalyzer.h"
+#include "MandaBinaryObject.h"
+#include "MandaBoolType.h"
 #include "MandaCoreTypes.h"
 #include "MandaError.h"
 #include "MandaFunction.h"
