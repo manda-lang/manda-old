@@ -35,8 +35,18 @@ int main(int argc, const char **argv) {
 
     unit->accept(&analyzer);
     jit.Run();
-    std::cout << "Result: " << jit.GetResult() << std::endl;
-    return jit.GetExitCode();
+
+    auto result = jit.GetResult();
+
+    if (nanbox_is_boolean(result)) {
+        return nanbox_to_boolean(result) ? 1 : 0;
+    } else if (nanbox_is_double(result)) {
+        return (int) nanbox_to_double(result);
+    } else if (nanbox_is_int(result)) {
+        return nanbox_to_int(result);
+    }
+
+    return 0;
 }
 
 int mainOld() {

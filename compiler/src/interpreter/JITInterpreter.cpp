@@ -5,7 +5,6 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <jit/jit-dump.h>
-#include <nanbox/nanbox.h>
 #include "JITInterpreter.h"
 #include "../analysis/MandaObject.h"
 
@@ -18,7 +17,7 @@ manda::JITInterpreter::JITInterpreter(MandaAnalyzer &analyzer)
         : analyzer(analyzer) {
     ctx = jit_context_create();
     nanbox_true();
-    result = 0.0;
+    result = nanbox_from_double(0.0);
 
     // double main()
     auto mainSignature = jit_type_create_signature(jit_abi_cdecl, jit_type_float64, nullptr, 0, 0);
@@ -56,14 +55,14 @@ void manda::JITInterpreter::Run() {
 
 
     auto entry = (MandaEntryPoint) jit_function_to_closure(mainFunction);
-    result = entry();
+    result = nanbox_from_double(entry());
 }
 
 int manda::JITInterpreter::GetExitCode() const {
     return 0;
 }
 
-jit_float64 manda::JITInterpreter::GetResult() const {
+nanbox_t manda::JITInterpreter::GetResult() const {
     return result;
 }
 
@@ -86,10 +85,11 @@ jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) 
             case manda::MandaObject::kString:
                 std::cout << "String literal: \"" << obj->constantValue.asString << "\"" << std::endl;
                 break;
-            case manda::MandaObject::kBool:
+            case manda::MandaObject::kBool: {
                 auto value = nanbox_from_boolean(obj->constantValue.asBool);
                 auto asFloat = nanbox_to_double(value);
                 return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+            }
             default:
                 break;
 

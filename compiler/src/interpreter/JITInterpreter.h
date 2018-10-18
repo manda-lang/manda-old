@@ -8,6 +8,7 @@
 #define PROJECT_JITINTERPRETER_H
 
 #include <jit/jit.h>
+#include <nanbox/nanbox.h>
 #include <stack>
 #include "../analysis/analysis.h"
 #include "../parser/parser.h"
@@ -25,7 +26,7 @@ namespace manda
 
         int GetExitCode() const;
 
-        jit_float64 GetResult() const;
+        nanbox_t GetResult() const;
 
         void Run();
 
@@ -38,7 +39,7 @@ namespace manda
         std::stack<jit_function_t> functionStack;
         jit_function_t mainFunction;
         jit_context_t ctx;
-        jit_float64 result;
+        nanbox_t result;
     };
 }
 
