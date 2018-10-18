@@ -45,7 +45,7 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
         auto *combined = new MandaObject(this, sourceSpan);
         combined->constantValueType = left->constantValueType;
 
-        // TODO: Actually do operations.
+        // TODO: Perform these on floats
         if (left->constantValueType == MandaObject::kSigned) {
             if (op == "*") {
                 combined->constantValue.asSigned = l.asSigned * r.asSigned;
@@ -57,6 +57,18 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
                 combined->constantValue.asSigned = l.asSigned + r.asSigned;
             } else if (op == "-") {
                 combined->constantValue.asSigned = l.asSigned - r.asSigned;
+            } else if (op == "==") {
+                combined->constantValue.asBool = l.asSigned == r.asSigned;
+            } else if (op == "!=") {
+                combined->constantValue.asBool = l.asSigned != r.asSigned;
+            } else if (op == "<") {
+                combined->constantValue.asBool = l.asSigned < r.asSigned;
+            } else if (op == "<=") {
+                combined->constantValue.asBool = l.asSigned <= r.asSigned;
+            } else if (op == ">") {
+                combined->constantValue.asBool = l.asSigned > r.asSigned;
+            } else if (op == ">=") {
+                combined->constantValue.asBool = l.asSigned >= r.asSigned;
             }
         } else {
             if (op == "*") {
@@ -69,6 +81,18 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
                 combined->constantValue.asUnsigned = l.asUnsigned + r.asUnsigned;
             } else if (op == "-") {
                 combined->constantValue.asUnsigned = l.asUnsigned - r.asUnsigned;
+            } else if (op == "==") {
+                combined->constantValue.asBool = l.asUnsigned == r.asUnsigned;
+            } else if (op == "!=") {
+                combined->constantValue.asBool = l.asUnsigned != r.asUnsigned;
+            } else if (op == "<") {
+                combined->constantValue.asBool = l.asUnsigned < r.asUnsigned;
+            } else if (op == "<=") {
+                combined->constantValue.asBool = l.asUnsigned <= r.asUnsigned;
+            } else if (op == ">") {
+                combined->constantValue.asBool = l.asUnsigned > r.asUnsigned;
+            } else if (op == ">=") {
+                combined->constantValue.asBool = l.asUnsigned >= r.asUnsigned;
             }
         }
 
