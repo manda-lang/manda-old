@@ -35,6 +35,7 @@ int main(int argc, const char **argv) {
 
     unit->accept(&analyzer);
     jit.Run();
+    std::cout << "Result: " << jit.GetResult() << std::endl;
     return jit.GetExitCode();
 }
 

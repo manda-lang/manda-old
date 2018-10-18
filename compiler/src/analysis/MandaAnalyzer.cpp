@@ -148,7 +148,7 @@ Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext
         errors.push_back(error);
         return Any();
     } else {
-        return Any(symbol->GetValue());
+        return Any((MandaObjectOrType *) symbol->GetValue());
     }
 }
 

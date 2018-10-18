@@ -17,7 +17,7 @@ namespace manda
     class JITInterpreter : public MandaBaseVisitor
     {
     public:
-        explicit JITInterpreter(const MandaAnalyzer &analyzer);
+        explicit JITInterpreter(MandaAnalyzer &analyzer);
 
         ~JITInterpreter();
 
@@ -25,13 +25,18 @@ namespace manda
 
         int GetExitCode() const;
 
+        jit_float64 GetResult() const;
+
         void Run();
 
+        Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
+
     private:
-        const MandaAnalyzer &analyzer;
+        MandaAnalyzer &analyzer;
         std::stack<jit_function_t> functionStack;
         jit_function_t mainFunction;
         jit_context_t ctx;
+        jit_float64 result;
     };
 }
 
