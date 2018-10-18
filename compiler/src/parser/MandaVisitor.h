@@ -88,6 +88,8 @@ public:
 
     virtual antlrcpp::Any visitFalseExpr(MandaParser::FalseExprContext *context) = 0;
 
+    virtual antlrcpp::Any visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *context) = 0;
+
     virtual antlrcpp::Any visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *context) = 0;
 
 

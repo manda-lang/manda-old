@@ -63,6 +63,8 @@ namespace manda
 
         Any visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) override;
 
+        Any visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx) override;
+
     private:
         MandaParser::CompilationUnitContext *unit;
         const MandaCoreTypes &coreTypes;

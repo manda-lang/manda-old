@@ -124,6 +124,10 @@ Any manda::MandaAnalyzer::visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
+Any manda::MandaAnalyzer::visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx) {
+    return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
+}
+
 Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
     auto *object = new MandaObject(coreTypes.GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kBool;

@@ -55,6 +55,7 @@ expr:
     | IntegerLiteral #IntegerExpr
     | left=expr op=('*'|'/'|'%') right=expr #MulDivOrModExpr
     | left=expr op=('+'|'-') right=expr #AddOrSubExpr
+    | left=expr op=('=='|'!=') right=expr #BoolEqOrNeqExpr
     | left=expr op=('&&'|'||') right=expr #BoolAndOrExpr
     | 'true' #TrueExpr
     | 'false' #FalseExpr
