@@ -96,6 +96,43 @@ jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) 
     return nullptr;
 }
 
+Any manda::JITInterpreter::visitWhileStmt(MandaParser::WhileStmtContext *ctx) {
+    auto *condCtx = ctx->expr();
+    auto condAny = condCtx->accept(&analyzer);
+
+    if (!condAny.is<MandaObjectOrType *>()) {
+        // todo: err
+        std::cout << "while loop faileddd" << std::endl;
+    } else {
+        auto *condObjectOrType = condAny.as<MandaObjectOrType *>();
+        if (condObjectOrType->IsType()) {
+            std::cout << "This is a type, fool COND." << std::endl;
+        } else {
+            // We've got an object, compile it.
+            auto *cond = CompileObject(condObjectOrType->AsObject());
+
+            if (cond == nullptr) {
+                std::cout << "nullptr cond!!!" << std::endl;
+            } else {
+                // While loops are simple:
+                // 1. Make a START and END label
+                // 2. Check if condition
+                // 3. If not, jump to END
+                jit_label_t startLabel;
+                auto endLabel = jit_function_reserve_label(func);
+                auto jitTrue = jit_value_create_float64_constant(func, jit_type_float64, nanbox_true().as_double);
+                auto valueIsTrue = jit_insn_eq(func, cond, jitTrue);
+                jit_insn_label(func, &startLabel); // start:
+                jit_insn_branch_if_not(func, valueIsTrue, &endLabel); // End loop if not true
+                // TODO: Visit block
+                jit_insn_label(func, &endLabel); // end:
+            }
+        }
+    }
+
+    return Any();
+}
+
 Any manda::JITInterpreter::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
     // Get the value, it should ultimately return a MandaObjectOrType.
     auto *exprCtx = ctx->expr();
