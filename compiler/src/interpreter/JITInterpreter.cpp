@@ -120,7 +120,6 @@ Any manda::JITInterpreter::visitWhileStmt(MandaParser::WhileStmtContext *ctx) {
             if (cond == nullptr) {
                 std::cout << "nullptr cond!!!" << std::endl;
             } else {
-
                 // While loops are simple:
                 // 1. Make a START and END label
                 // 2. Check if condition
@@ -141,6 +140,34 @@ Any manda::JITInterpreter::visitWhileStmt(MandaParser::WhileStmtContext *ctx) {
 }
 
 Any manda::JITInterpreter::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
+    // Get the value, it should ultimately return a MandaObjectOrType.
+    auto *exprCtx = ctx->expr();
+    auto valueAny = exprCtx->accept(&analyzer);
+
+    if (!valueAny.is<MandaObjectOrType *>()) {
+        // todo: err
+        std::cout << "huh???" << std::endl;
+    } else {
+        auto *value = valueAny.as<MandaObjectOrType *>();
+        if (value->IsType()) {
+            std::cout << "This is a type, fool." << std::endl;
+        } else {
+            // We've got an object, compile it.
+            auto *returnValue = CompileObject(value->AsObject());
+
+            if (returnValue == nullptr) {
+                std::cout << "nullptr!!!" << std::endl;
+            } else {
+                jit_insn_return(func, returnValue);
+            }
+        }
+    }
+
+    return Any();
+}
+
+Any manda::JITInterpreter::visitArrowBlock(MandaParser::ArrowBlockContext *ctx) {
+    // TODO: Consolidate this with returnStmt
     // Get the value, it should ultimately return a MandaObjectOrType.
     auto *exprCtx = ctx->expr();
     auto valueAny = exprCtx->accept(&analyzer);

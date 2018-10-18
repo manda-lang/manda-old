@@ -36,6 +36,8 @@ namespace manda
 
         Any visitWhileStmt(MandaParser::WhileStmtContext *ctx) override;
 
+        Any visitArrowBlock(MandaParser::ArrowBlockContext *ctx) override;
+
     private:
         MandaAnalyzer &analyzer;
         std::stack<jit_function_t> functionStack;
