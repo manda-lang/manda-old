@@ -8,6 +8,7 @@
 #include "MandaIntegerType.h"
 
 void manda::MandaCoreTypes::InjectIntoSymbolTable(manda::SymbolTable &symbolTable) {
+    symbolTable.Assign(boolType.GetSimpleName(), &boolType);
     symbolTable.Assign(int8Type->GetSimpleName(), int8Type);
     symbolTable.Assign(int16Type->GetSimpleName(), int16Type);
     symbolTable.Assign(int32Type->GetSimpleName(), int32Type);
@@ -38,6 +39,10 @@ manda::MandaCoreTypes::~MandaCoreTypes() {
     delete uint16Type;
     delete uint32Type;
     delete uint64Type;
+}
+
+const manda::MandaBoolType *manda::MandaCoreTypes::GetBoolType() const {
+    return &boolType;
 }
 
 const manda::MandaIntegerType *manda::MandaCoreTypes::GetInt8Type() const {

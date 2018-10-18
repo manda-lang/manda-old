@@ -6,7 +6,6 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "MandaBinaryObject.h"
 #include "MandaBoolType.h"
-#include "MandaObject.h"
 
 const std::string manda::MandaBoolType::GetQualifiedName() const {
     return "Manda::Bool";

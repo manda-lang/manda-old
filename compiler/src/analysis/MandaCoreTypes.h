@@ -7,6 +7,7 @@
 #ifndef PROJECT_MANDACORETYPES_H
 #define PROJECT_MANDACORETYPES_H
 
+#include "MandaBoolType.h"
 #include "MandaIntegerType.h"
 #include "SymbolTable.h"
 
@@ -20,6 +21,8 @@ namespace manda
         ~MandaCoreTypes();
 
         void InjectIntoSymbolTable(SymbolTable &symbolTable);
+
+        const MandaBoolType *GetBoolType() const;
 
         const MandaIntegerType *GetInt8Type() const;
 
@@ -38,6 +41,7 @@ namespace manda
         const MandaIntegerType *GetUint64Type() const;
 
     private:
+        MandaBoolType boolType;
         MandaIntegerType *int8Type, *int16Type, *int32Type, *int64Type;
         MandaIntegerType *uint8Type, *uint16Type, *uint32Type, *uint64Type;
     };
