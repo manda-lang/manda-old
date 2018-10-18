@@ -16,6 +16,10 @@ const std::string manda::MandaBoolType::GetSimpleName() const {
 }
 
 bool manda::MandaBoolType::IsAssignableTo(const manda::MandaType *other) const {
+    return IsExactly(other);
+}
+
+bool manda::MandaBoolType::IsExactly(const manda::MandaType *other) const {
     return other == this;
 }
 

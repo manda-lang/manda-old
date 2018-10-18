@@ -116,6 +116,10 @@ Any manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ct
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
+Any manda::MandaAnalyzer::visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) {
+    return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
+}
+
 Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
     auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
     object->constantValueType = MandaObject::kBool;
@@ -171,6 +175,6 @@ Any manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
     return ctx->expr()->accept(this);
 }
 
-MandaParser::CompilationUnitContext * manda::MandaAnalyzer::GetCompilationUnit() const {
+MandaParser::CompilationUnitContext *manda::MandaAnalyzer::GetCompilationUnit() const {
     return unit;
 }

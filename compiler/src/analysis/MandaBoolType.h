@@ -20,6 +20,8 @@ namespace manda
 
         bool IsAssignableTo(const MandaType *other) const override;
 
+        bool IsExactly(const MandaType *other) const override;
+
         uint64_t GetSizeInBytes() const override;
 
         MandaObjectOrType *

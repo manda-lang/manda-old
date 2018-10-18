@@ -149,6 +149,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
 
 };
 

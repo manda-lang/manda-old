@@ -55,7 +55,7 @@ void manda::JITInterpreter::Run() {
 
 
     auto entry = (MandaEntryPoint) jit_function_to_closure(mainFunction);
-    result = nanbox_from_double(entry());
+    result.as_double = entry();
 }
 
 int manda::JITInterpreter::GetExitCode() const {
@@ -74,21 +74,18 @@ jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) 
         switch (obj->constantValueType) {
             case manda::MandaObject::kUnsigned: {
                 auto value = nanbox_from_double(obj->constantValue.asUnsigned);
-                auto asFloat = nanbox_to_double(value);
-                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+                return jit_value_create_float64_constant(func, jit_type_float64, value.as_double);
             }
             case manda::MandaObject::kSigned: {
                 auto value = nanbox_from_double(obj->constantValue.asSigned);
-                auto asFloat = nanbox_to_double(value);
-                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+                return jit_value_create_float64_constant(func, jit_type_float64, value.as_double);
             }
             case manda::MandaObject::kString:
                 std::cout << "String literal: \"" << obj->constantValue.asString << "\"" << std::endl;
                 break;
             case manda::MandaObject::kBool: {
                 auto value = nanbox_from_boolean(obj->constantValue.asBool);
-                auto asFloat = nanbox_to_double(value);
-                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+                return jit_value_create_float64_constant(func, jit_type_float64, value.as_double);
             }
             default:
                 break;

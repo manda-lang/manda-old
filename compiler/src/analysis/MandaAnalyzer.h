@@ -55,6 +55,8 @@ namespace manda
 
         Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) override;
 
+        Any visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) override;
+
         Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
 
         Any visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) override;
