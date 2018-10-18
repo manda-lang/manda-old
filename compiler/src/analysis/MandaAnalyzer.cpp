@@ -20,6 +20,10 @@ const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const 
     return errors;
 }
 
+const manda::MandaCoreTypes &manda::MandaAnalyzer::GetCoreTypes() const {
+    return coreTypes;
+}
+
 Any manda::MandaAnalyzer::visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) {
     unit = ctx;
     return MandaBaseVisitor::visitCompilationUnit(ctx);
