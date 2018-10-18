@@ -118,14 +118,14 @@ Any manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ct
 
 Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
     auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
-    object->constantValueType = MandaObject::kSigned;
+    object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = true;
     return Any(new MandaObjectOrType(object));
 }
 
 Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
     auto *object = new MandaObject(coreTypes->GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
-    object->constantValueType = MandaObject::kSigned;
+    object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = false;
     return Any(new MandaObjectOrType(object));
 }
