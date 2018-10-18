@@ -13,7 +13,18 @@ namespace manda
 {
     class MandaBoolType : public MandaType
     {
+    public:
+        const std::string GetQualifiedName() const override;
 
+        const std::string GetSimpleName() const override;
+
+        bool IsAssignableTo(const MandaType *other) const override;
+
+        uint64_t GetSizeInBytes() const override;
+
+        MandaObjectOrType *
+        PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right, const std::string &op,
+                               const manda::SourceSpan &sourceSpan) const override;
     };
 }
 
