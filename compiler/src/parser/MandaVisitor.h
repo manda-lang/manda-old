@@ -62,6 +62,8 @@ public:
 
     virtual antlrcpp::Any visitVarDeclStmt(MandaParser::VarDeclStmtContext *context) = 0;
 
+    virtual antlrcpp::Any visitWhileStmt(MandaParser::WhileStmtContext *context) = 0;
+
     virtual antlrcpp::Any visitReturnStmt(MandaParser::ReturnStmtContext *context) = 0;
 
     virtual antlrcpp::Any visitTryStmt(MandaParser::TryStmtContext *context) = 0;

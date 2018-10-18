@@ -17,8 +17,8 @@ public:
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
     T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
-    T__26 = 27, T__27 = 28, T__28 = 29, Whitespace = 30, FloatLiteral = 31, 
-    HexLiteral = 32, IntegerLiteral = 33, Identifier = 34
+    T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, Whitespace = 31, FloatLiteral = 32, 
+    HexLiteral = 33, IntegerLiteral = 34, Identifier = 35
   };
 
   MandaLexer(antlr4::CharStream *input);

@@ -101,6 +101,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitWhileStmt(MandaParser::WhileStmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override {
     return visitChildren(ctx);
   }

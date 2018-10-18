@@ -41,6 +41,7 @@ structTypeMember:
 stmt:
     expr #ExprStmt
     | 'let' (varDecl ',')* varDecl #VarDeclStmt
+    | 'while' expr block #WhileStmt
     | 'return' expr #ReturnStmt
     | 'try' expr #TryStmt
 ;

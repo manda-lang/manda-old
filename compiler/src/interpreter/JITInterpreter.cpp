@@ -47,7 +47,7 @@ void manda::JITInterpreter::Run() {
     auto zero = jit_value_create_float64_constant(func, jit_type_float64, 4.0);
     jit_insn_return(func, zero);
 
-    //jit_dump_function(stdout, func, "[uncompiled]");
+    jit_dump_function(stdout, func, "[uncompiled]");
 
     jit_context_build_start(ctx);
     jit_function_compile(mainFunction);
