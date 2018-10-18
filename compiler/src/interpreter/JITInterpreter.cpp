@@ -4,9 +4,13 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
+#include <jit/jit-dump.h>
 #include "JITInterpreter.h"
+#include "../analysis/MandaObject.h"
 
 #define func functionStack.top()
+
+typedef jit_float64 (*MandaEntryPoint)();
 
 manda::JITInterpreter::JITInterpreter(MandaAnalyzer &analyzer)
         : analyzer(analyzer) {
@@ -41,10 +45,15 @@ void manda::JITInterpreter::Run() {
     auto zero = jit_value_create_float64_constant(func, jit_type_float64, 4.0);
     jit_insn_return(func, zero);
 
+    //jit_dump_function(stdout, func, "[uncompiled]");
+
     jit_context_build_start(ctx);
     jit_function_compile(mainFunction);
     jit_context_build_end(ctx);
-    jit_function_apply(mainFunction, nullptr, &result);
+
+
+    auto entry = (MandaEntryPoint) jit_function_to_closure(mainFunction);
+    result = entry();
 }
 
 int manda::JITInterpreter::GetExitCode() const {
@@ -53,6 +62,36 @@ int manda::JITInterpreter::GetExitCode() const {
 
 jit_float64 manda::JITInterpreter::GetResult() const {
     return result;
+}
+
+jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) {
+    //std::cout << "Found object" << std::endl;
+    //std::cout << "Type: " << obj->GetType()->GetQualifiedName() << std::endl;
+
+    if (obj->constantValueType != manda::MandaObject::kNone) {
+        switch (obj->constantValueType) {
+            case manda::MandaObject::kUnsigned: {
+                auto asFloat = jit_ulong_to_float64(obj->constantValue.asUnsigned);
+                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+            }
+            case manda::MandaObject::kSigned: {
+                auto asFloat = jit_long_to_float64(obj->constantValue.asSigned);
+                return jit_value_create_float64_constant(func, jit_type_float64, asFloat);
+            }
+            case manda::MandaObject::kString:
+                std::cout << "String literal: \"" << obj->constantValue.asString << "\"" << std::endl;
+                break;
+            case manda::MandaObject::kBool:
+                std::cout << "Boolean: " << (obj->constantValue.asBool ? "true" : "false")
+                          << std::endl;
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    return nullptr;
 }
 
 Any manda::JITInterpreter::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
@@ -69,7 +108,8 @@ Any manda::JITInterpreter::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) 
             std::cout << "This is a type, fool." << std::endl;
         } else {
             // We've got an object, compile it.
-            auto *returnValue = value->AsObject()->Accept(*this);
+            auto *returnValue = CompileObject(value->AsObject());
+
             if (returnValue == nullptr) {
                 std::cout << "nullptr!!!" << std::endl;
             } else {

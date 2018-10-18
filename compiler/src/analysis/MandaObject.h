@@ -7,15 +7,12 @@
 #ifndef PROJECT_MANDAOBJECT_H
 #define PROJECT_MANDAOBJECT_H
 
-#include <jit/jit.h>
 #include "MandaType.h"
 #include "SourceSpan.h"
 
 namespace manda
 {
     class MandaType;
-
-    class JITInterpreter;
 
     typedef union
     {
@@ -31,8 +28,6 @@ namespace manda
         explicit MandaObject(const MandaType *type, SourceSpan sourceSpan);
 
         ~MandaObject();
-
-        virtual jit_value_t Accept(JITInterpreter &interpreter) const = 0;
 
         const MandaType *GetType() const;
 

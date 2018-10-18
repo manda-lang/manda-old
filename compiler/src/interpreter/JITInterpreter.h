@@ -29,6 +29,8 @@ namespace manda
 
         void Run();
 
+        jit_value_t CompileObject(const MandaObject *obj);
+
         Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
 
     private:
