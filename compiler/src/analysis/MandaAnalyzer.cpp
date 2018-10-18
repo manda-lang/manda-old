@@ -20,6 +20,11 @@ const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const 
     return errors;
 }
 
+Any manda::MandaAnalyzer::visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) {
+    unit = ctx;
+    return MandaBaseVisitor::visitCompilationUnit(ctx);
+}
+
 Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
@@ -149,4 +154,8 @@ Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext
 
 Any manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
     return ctx->expr()->accept(this);
+}
+
+const MandaParser::CompilationUnitContext *manda::MandaAnalyzer::GetCompilationUnit() const {
+    return unit;
 }

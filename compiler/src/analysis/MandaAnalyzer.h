@@ -30,6 +30,8 @@ namespace manda
 
         const std::vector<MandaError *> &GetErrors() const;
 
+        const MandaParser::CompilationUnitContext *GetCompilationUnit() const;
+
         Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
 
         Any visitHexExpr(MandaParser::HexExprContext *ctx) override;
@@ -43,7 +45,7 @@ namespace manda
         Any visitExprStmt(MandaParser::ExprStmtContext *ctx) override;
 
         Any resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
-                                  MandaParser::ExprContext *rightCtx, const std::string &op);
+                          MandaParser::ExprContext *rightCtx, const std::string &op);
 
         Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) override;
 
@@ -51,7 +53,10 @@ namespace manda
 
         Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
 
+        Any visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) override;
+
     private:
+        MandaParser::CompilationUnitContext *unit;
         MandaCoreTypes *coreTypes;
         SymbolTable *currentScope;
         std::vector<MandaError *> errors;

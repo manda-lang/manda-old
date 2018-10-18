@@ -3,6 +3,8 @@ set(CMAKE_CXX_STANDARD 11)
 find_library(ANTLR4 antlr4-runtime)
 find_library(LIBJIT jit)
 
+find_path(LIBJIT_INCLUDE_DIR jit/jit.h)
+
 add_executable(manda
         src/analysis/MandaType.cpp src/analysis/MandaType.h
         src/analysis/MandaIntegerType.cpp src/analysis/MandaIntegerType.h
@@ -25,6 +27,10 @@ add_executable(manda
         src/cfg/CfgValueStatement.cpp src/cfg/CfgValueStatement.h
         src/cfg/cfg.h
         src/analysis/MandaFunction.cpp src/analysis/MandaFunction.h
-        src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h src/analysis/analysis.h src/analysis/MandaBinaryObject.cpp src/analysis/MandaBinaryObject.h)
+        src/analysis/MandaFunctionParameter.cpp src/analysis/MandaFunctionParameter.h
+        src/analysis/analysis.h
+        src/analysis/MandaBinaryObject.cpp src/analysis/MandaBinaryObject.h
+        src/interpreter/JITInterpreter.cpp src/interpreter/JITInterpreter.h)
 
+target_include_directories(manda PUBLIC ${LIBJIT_INCLUDE_DIR})
 target_link_libraries(manda ${ANTLR4} ${LIBJIT})

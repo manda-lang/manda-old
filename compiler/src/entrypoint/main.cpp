@@ -8,8 +8,37 @@
 #include <iostream>
 #include "../analysis/analysis.h"
 #include "../analysis/MandaObject.h"
+#include "../interpreter/JITInterpreter.h"
 
-int main() {
+int main(int argc, const char **argv) {
+    const char *filename = nullptr;
+
+    if (argc < 2) {
+        std::cerr << "fatal error: no input file" << std::endl;
+        return 1;
+    }
+
+    filename = argv[1];
+
+    manda::MandaAnalyzer analyzer;
+    manda::JITInterpreter jit(analyzer);
+    antlr4::ANTLRFileStream inputStream(filename);
+    parser::MandaLexer lexer(&inputStream);
+    antlr4::CommonTokenStream tokens(&lexer);
+    parser::MandaParser parser(&tokens);
+
+    auto *unit = parser.compilationUnit();
+
+    if (parser.getNumberOfSyntaxErrors() > 0) {
+        return 1;
+    }
+
+    unit->accept(&analyzer);
+    jit.Run();
+    return jit.GetExitCode();
+}
+
+int mainOld() {
     manda::MandaAnalyzer analyzer;
     antlr4::ANTLRInputStream inputStream("((-34 + 46) - 5) * -3");
     parser::MandaLexer lexer(&inputStream);
