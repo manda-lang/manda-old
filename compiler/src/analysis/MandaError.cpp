@@ -8,9 +8,10 @@
 #include "MandaError.h"
 
 manda::MandaError::MandaError(manda::MandaError::MandaErrorSeverity severity, std::string message,
-                              manda::SourceSpan sourceSpan)
-        : message(std::move(message)), sourceSpan(std::move(sourceSpan)) {
-    this->severity = severity;
+                              const SourceSpan &sourceSpan)
+        : message(std::move(message)),
+          sourceSpan(std::move(sourceSpan)),
+          severity(severity) {
 }
 
 manda::MandaError::MandaErrorSeverity manda::MandaError::GetSeverity() const {

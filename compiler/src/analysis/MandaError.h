@@ -12,9 +12,8 @@
 
 namespace manda
 {
-    class MandaError
+    struct MandaError
     {
-    public:
         enum MandaErrorSeverity
         {
             kError,
@@ -23,17 +22,6 @@ namespace manda
             kHint
         };
 
-        MandaError(MandaErrorSeverity severity, std::string message, SourceSpan sourceSpan);
-
-        MandaErrorSeverity GetSeverity() const;
-
-        const std::string &GetMessage() const;
-
-        const SourceSpan &GetSourceSpan() const;
-
-        std::string ToString() const;
-
-    private:
         MandaErrorSeverity severity;
         const std::string message;
         const SourceSpan sourceSpan;
