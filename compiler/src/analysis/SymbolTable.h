@@ -14,22 +14,16 @@ namespace manda
 {
     class SymbolTable;
 
-    class Symbol
+    struct Symbol
     {
+        friend class SymbolTable;
+
     public:
-        Symbol(SymbolTable *symbolTable, std::string name, const MandaObjectOrType *value);
-
-        ~Symbol();
-
-        const std::string &GetName() const;
-
-        const MandaObjectOrType *GetValue() const;
-
-    private:
-
         const std::string name;
-        const MandaObjectOrType *value;
-        SymbolTable *symbolTable;
+        const MandaObjectOrType &value;
+        const SymbolTable &symbolTable;
+    private:
+        Symbol(const SymbolTable &symbolTable, std::string name, const MandaObjectOrType &value);
     };
 
     class SymbolTable
@@ -37,25 +31,31 @@ namespace manda
     public:
         SymbolTable();
 
-        ~SymbolTable();
+        bool isRoot() const;
 
-        manda::Symbol *Assign(std::string name, const MandaObject *value);
+        manda::Symbol &assign(std::string name, const MandaObjectOrType &value);
 
-        manda::Symbol *Assign(std::string name, const MandaType *value);
+        const Symbol &resolve(const std::string &name) const;
 
-        bool IsRoot() const;
-
-        const Symbol *Resolve(const std::string &name) const;
-
-        SymbolTable *CreateChild() const;
+        SymbolTable &createChild() const;
 
     private:
         const SymbolTable *parent;
-        std::vector<Symbol *> symbols;
+        std::vector<Symbol> symbols;
 
         explicit SymbolTable(const SymbolTable *parent);
+    };
 
-        manda::Symbol *Assign(std::string name, const MandaObjectOrType *value);
+    class SymbolTableException : public std::exception
+    {
+    public:
+        explicit SymbolTableException(const std::string &message);
+
+        const char *what() const override;
+
+        const std::string message;
+
+
     };
 }
 

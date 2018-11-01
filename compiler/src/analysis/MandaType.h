@@ -23,20 +23,20 @@ namespace manda
         ~MandaType() override;
 
     public:
-        virtual const std::string GetQualifiedName() const = 0;
+        virtual const std::string qualifiedName() const = 0;
 
-        virtual const std::string GetSimpleName() const = 0;
+        virtual const std::string simpleName() const = 0;
 
-        virtual uint64_t GetSizeInBytes() const = 0;
+        virtual uint64_t sizeInBytes() const = 0;
 
-        virtual MandaObjectOrType &PerformBinaryOperation(const MandaObject &left,
-                                                          const MandaObject &right,
-                                                          const std::string &op,
-                                                          const manda::SourceSpan &sourceSpan) const = 0;
+        virtual MandaObjectOrType &binaryOperation(const MandaObject &left,
+                                                   const MandaObject &right,
+                                                   const std::string &op,
+                                                   const manda::SourceSpan &sourceSpan) const = 0;
 
-        virtual bool IsAssignableTo(const MandaType &other) const = 0;
+        virtual bool isAssignableTo(const MandaType &other) const = 0;
 
-        virtual bool IsExactly(const MandaType &other) const = 0;
+        virtual bool isExactly(const MandaType &other) const = 0;
     };
 }
 

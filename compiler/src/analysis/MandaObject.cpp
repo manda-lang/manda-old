@@ -6,19 +6,9 @@
 // MIT-style license that can be found in the LICENSE file.
 #include "MandaObject.h"
 
-manda::MandaObject::MandaObject(const manda::MandaType *type, SourceSpan sourceSpan)
-        : sourceSpan(std::move(sourceSpan)) {
-    this->type = type;
+manda::MandaObject::MandaObject(const MandaType &type, const SourceSpan &sourceSpan)
+        : sourceSpan(sourceSpan),
+          type(type) {
     this->constantValueType = kNone;
     this->constantValue.asUnsigned = 0;
-}
-
-const manda::MandaType *manda::MandaObject::GetType() const {
-    return type;
-}
-
-manda::MandaObject::~MandaObject() {
-    if (constantValueType == kString) {
-        delete constantValue.asString;
-    }
 }

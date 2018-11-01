@@ -11,13 +11,8 @@
 #include "MandaObject.h"
 
 manda::MandaAnalyzer::MandaAnalyzer()
-        : coreTypes(MandaCoreTypes::GetInstance()) {
-    this->currentScope = new SymbolTable;
-    coreTypes.InjectIntoSymbolTable(*currentScope);
-}
-
-const std::vector<manda::MandaError *> &manda::MandaAnalyzer::GetErrors() const {
-    return errors;
+        : coreTypes(MandaCoreTypes()) {
+    coreTypes.InjectIntoSymbolTable(currentScope);
 }
 
 const manda::MandaCoreTypes &manda::MandaAnalyzer::GetCoreTypes() const {
@@ -33,10 +28,10 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
     if (valueAny.isNull()) {
-        errors.push_back(MandaError(
+        errors.emplace_back(
                 MandaError::kError,
                 "Evaluating this expression produced an error.",
-                SourceSpan::fromParserRuleContext(ctx)));
+                SourceSpan(*ctx));
         return Any();
     } else {
         auto *value = valueAny.as<MandaObjectOrType *>();
@@ -50,10 +45,10 @@ Any manda::MandaAnalyzer::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
     if (valueAny.isNull()) {
-        errors.push_back(new MandaError(
+        errors.emplace_back(
                 MandaError::kError,
                 "Evaluating this expression produced an error.",
-                SourceSpan::fromParserRuleContext(ctx)));
+                SourceSpan(*ctx));
         return Any();
     } else {
         auto *value = valueAny.as<MandaObjectOrType *>();
@@ -68,45 +63,37 @@ Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaPar
     Any leftAny = leftCtx->accept(this), rightAny = rightCtx->accept(this);
 
     if (leftAny.isNull() || rightAny.isNull()) {
-        errors.push_back(new MandaError(MandaError::kError, "Could not resolve this binary expression.",
-                                        SourceSpan::fromParserRuleContext(ctx)));
+        errors.emplace_back(MandaError::kError, "Could not resolve this binary expression.",
+                            SourceSpan(*ctx));
         return Any();
     } else {
-        auto *leftValue = leftAny.as<MandaObjectOrType *>(), *rightValue = rightAny.as<MandaObjectOrType *>();
 
-        if (leftValue->IsType() || rightValue->IsType()) {
-            errors.push_back(
-                    new MandaError(
-                            MandaError::kError,
-                            "Binary operators may not be applied directly to types.",
-                            SourceSpan::fromParserRuleContext(ctx)));
+        if (leftAny.is<MandaType *>() || rightAny.is<MandaType *>()) {
+            errors.emplace_back(
+                    MandaError::kError,
+                    "Binary operators may not be applied directly to types.",
+                    SourceSpan(*ctx));
             return Any();
         } else {
-            auto *left = leftValue->AsObject(), *right = rightValue->AsObject();
+            auto *left = leftAny.as<MandaObject *>(), *right = rightAny.as<MandaObject *>();
 
             // Binary operators must be applied to values of compatible types.
-            if (!(left->GetType()->IsAssignableTo(right->GetType()))) {
-                errors.push_back(
-                        new MandaError(
-                                MandaError::kError,
-                                "Cannot perform a binary operation on two values of incompatible types.",
-                                SourceSpan::fromParserRuleContext(ctx)));
+            if (!(left->type.isAssignableTo(right->type))) {
+                errors.emplace_back(
+                        MandaError::kError,
+                        "Cannot perform a binary operation on two values of incompatible types.",
+                        SourceSpan(*ctx));
                 return Any();
             }
 
-            // Let the left type handle the computation.
-            auto *result = left->GetType()->PerformBinaryOperation(left, right, op,
-                                                                   SourceSpan::fromParserRuleContext(ctx));
-
-            if (result == nullptr) {
-                errors.push_back(
-                        new MandaError(
-                                MandaError::kError,
-                                "Evaluating this binary operation produced an error.",
-                                SourceSpan::fromParserRuleContext(ctx)));
+            try {
+                // Let the left type handle the computation.
+                auto result = left->type.binaryOperation(*left, *right, op,
+                                                         SourceSpan(*ctx));
+                return Any(&result); // TODO: Untracked pointer?
+            } catch (const MandaException &exc) {
+                errors.push_back(exc.error);
                 return Any();
-            } else {
-                return Any(result);
             }
         }
     }
@@ -129,34 +116,34 @@ Any manda::MandaAnalyzer::visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprConte
 }
 
 Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
-    auto *object = new MandaObject(coreTypes.GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.boolType, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = true;
-    return Any(new MandaObjectOrType(object));
+    return Any(object);
 }
 
 Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
-    auto *object = new MandaObject(coreTypes.GetBoolType(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.boolType, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = false;
-    return Any(new MandaObjectOrType(object));
+    return Any(object);
 }
 
 
 Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
-    uint64_t value = strtol(ctx->getText().c_str(), nullptr, 10);
-    auto *object = new MandaObject(coreTypes.GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
+    uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
+    auto *object = new MandaObject(coreTypes.int32Type, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asSigned = value;
-    return Any(new MandaObjectOrType(object));
+    return Any(object);
 }
 
 Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
     uint64_t value = stoul(ctx->getText(), nullptr, 16);
-    auto *object = new MandaObject(coreTypes.GetInt32Type(), SourceSpan::fromParserRuleContext(ctx));
+    auto *object = new MandaObject(coreTypes.int32Type, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kSigned;
     object->constantValue.asSigned = value;
-    return Any(new MandaObjectOrType(object));
+    return Any(object);
 }
 
 Any manda::MandaAnalyzer::visitFloatExpr(MandaParser::FloatExprContext *ctx) {
@@ -166,16 +153,13 @@ Any manda::MandaAnalyzer::visitFloatExpr(MandaParser::FloatExprContext *ctx) {
 
 Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) {
     auto name = ctx->Identifier()->getText();
-    auto *symbol = currentScope->Resolve(name);
 
-    if (symbol == nullptr) {
-        std::ostringstream message;
-        message << "The name \"" << name << "\" does not exist in the current context.";
-        auto *error = new MandaError(MandaError::kError, message.str(), SourceSpan::fromParserRuleContext(ctx));
-        errors.push_back(error);
+    try {
+        auto &symbol = currentScope.resolve(name);
+        return Any(static_cast<MandaObjectOrType*>(&symbol.value)); // TODO: Unwatched pointer
+    } catch (const SymbolTableException &exc) {
+        errors.emplace_back(MandaError::kError, exc.message, SourceSpan(*ctx));
         return Any();
-    } else {
-        return Any((MandaObjectOrType *) symbol->GetValue());
     }
 }
 

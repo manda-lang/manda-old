@@ -28,7 +28,9 @@ namespace manda
     public:
         MandaAnalyzer();
 
-        const std::vector<MandaError *> &GetErrors() const;
+        std::vector<MandaError> errors;
+
+        const MandaCoreTypes &coreTypes;
 
         const MandaCoreTypes &GetCoreTypes() const;
 
@@ -67,9 +69,7 @@ namespace manda
 
     private:
         MandaParser::CompilationUnitContext *unit;
-        const MandaCoreTypes &coreTypes;
-        SymbolTable *currentScope;
-        std::vector<MandaError *> errors;
+        SymbolTable currentScope;
     };
 }
 

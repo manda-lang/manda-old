@@ -7,29 +7,29 @@
 #include "MandaBinaryObject.h"
 #include "MandaBoolType.h"
 
-const std::string manda::MandaBoolType::GetQualifiedName() const {
+const std::string manda::MandaBoolType::qualifiedName() const {
     return "Manda::Bool";
 }
 
-const std::string manda::MandaBoolType::GetSimpleName() const {
+const std::string manda::MandaBoolType::simpleName() const {
     return "Bool";
 }
 
-bool manda::MandaBoolType::IsAssignableTo(const MandaType &other) const {
-    return IsExactly(other);
+bool manda::MandaBoolType::isAssignableTo(const MandaType &other) const {
+    return isExactly(other);
 }
 
-bool manda::MandaBoolType::IsExactly(const MandaType &other) const {
+bool manda::MandaBoolType::isExactly(const MandaType &other) const {
     return other == this;
 }
 
-uint64_t manda::MandaBoolType::GetSizeInBytes() const {
+uint64_t manda::MandaBoolType::sizeInBytes() const {
     return 1;
 }
 
 manda::MandaObjectOrType &
-manda::MandaBoolType::PerformBinaryOperation(const MandaObject &left, const MandaObject &right,
-                                             const std::string &op, const manda::SourceSpan &sourceSpan) const {
+manda::MandaBoolType::binaryOperation(const MandaObject &left, const MandaObject &right,
+                                      const std::string &op, const manda::SourceSpan &sourceSpan) const {
     // TODO: Do we need XOR, NOR, etc...?
     if (op == "==" || op == "!=" || op == "&&" || op == "||") {
         // See if we can fold this as a constant.

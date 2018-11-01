@@ -7,6 +7,7 @@
 #ifndef PROJECT_MANDAERROR_H
 #define PROJECT_MANDAERROR_H
 
+#include <exception>
 #include <string>
 #include "SourceSpan.h"
 
@@ -26,9 +27,19 @@ namespace manda
         const std::string message;
         const SourceSpan &sourceSpan;
 
-        const std::string& toString() const;
+        const std::string &toString() const;
 
         MandaError(MandaErrorSeverity severity, const std::string &message, const SourceSpan &sourceSpan);
+    };
+
+    class MandaException : public std::exception
+    {
+    public:
+        explicit MandaException(const MandaError &error);
+
+        const MandaError &error;
+
+        const char *what() const override;
     };
 }
 

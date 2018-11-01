@@ -7,77 +7,27 @@
 #include "MandaCoreTypes.h"
 #include "MandaIntegerType.h"
 
-const manda::MandaCoreTypes &manda::MandaCoreTypes::GetInstance() {
-    static MandaCoreTypes instance;
-    return instance;
+
+manda::MandaCoreTypes::MandaCoreTypes()
+        : int8Type(MandaIntegerType("Int8", 1)),
+          int16Type(MandaIntegerType("Int16", 2)),
+          int32Type(MandaIntegerType("Int32", 4)),
+          int64Type(MandaIntegerType("Int64", 8)),
+          uint8Type(MandaIntegerType("Uint8", 1)),
+          uint16Type(MandaIntegerType("Uint16", 2)),
+          uint32Type(MandaIntegerType("Uint32", 4)),
+          uint64Type(MandaIntegerType("Uint64", 8)) {
+
 }
 
 void manda::MandaCoreTypes::InjectIntoSymbolTable(manda::SymbolTable &symbolTable) const {
-    symbolTable.Assign(boolType.GetSimpleName(), &boolType);
-    symbolTable.Assign(int8Type->GetSimpleName(), int8Type);
-    symbolTable.Assign(int16Type->GetSimpleName(), int16Type);
-    symbolTable.Assign(int32Type->GetSimpleName(), int32Type);
-    symbolTable.Assign(int64Type->GetSimpleName(), int64Type);
-    symbolTable.Assign(uint8Type->GetSimpleName(), uint8Type);
-    symbolTable.Assign(uint16Type->GetSimpleName(), uint16Type);
-    symbolTable.Assign(uint32Type->GetSimpleName(), uint32Type);
-    symbolTable.Assign(uint64Type->GetSimpleName(), uint64Type);
-}
-
-manda::MandaCoreTypes::MandaCoreTypes() {
-    this->int8Type = new MandaIntegerType("Int8", 1);
-    this->int16Type = new MandaIntegerType("Int16", 2);
-    this->int32Type = new MandaIntegerType("Int32", 4);
-    this->int64Type = new MandaIntegerType("Int64", 8);
-    this->uint8Type = new MandaIntegerType("Uint8", 1);
-    this->uint16Type = new MandaIntegerType("Uint16", 2);
-    this->uint32Type = new MandaIntegerType("Uint32", 4);
-    this->uint64Type = new MandaIntegerType("Uint64", 8);
-}
-
-manda::MandaCoreTypes::~MandaCoreTypes() {
-    delete int8Type;
-    delete int16Type;
-    delete int32Type;
-    delete int64Type;
-    delete uint8Type;
-    delete uint16Type;
-    delete uint32Type;
-    delete uint64Type;
-}
-
-const manda::MandaBoolType *manda::MandaCoreTypes::GetBoolType() const {
-    return &boolType;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetInt8Type() const {
-    return int8Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetInt16Type() const {
-    return int16Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetInt32Type() const {
-    return int32Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetInt64Type() const {
-    return int64Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetUint8Type() const {
-    return uint8Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetUint16Type() const {
-    return uint16Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetUint32Type() const {
-    return uint32Type;
-}
-
-const manda::MandaIntegerType *manda::MandaCoreTypes::GetUint64Type() const {
-    return uint64Type;
+    symbolTable.assign(boolType.simpleName(), boolType);
+    symbolTable.assign(int8Type.simpleName(), int8Type);
+    symbolTable.assign(int16Type.simpleName(), int16Type);
+    symbolTable.assign(int32Type.simpleName(), int32Type);
+    symbolTable.assign(int64Type.simpleName(), int64Type);
+    symbolTable.assign(uint8Type.simpleName(), uint8Type);
+    symbolTable.assign(uint16Type.simpleName(), uint16Type);
+    symbolTable.assign(uint32Type.simpleName(), uint32Type);
+    symbolTable.assign(uint64Type.simpleName(), uint64Type);
 }

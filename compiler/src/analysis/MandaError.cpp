@@ -38,4 +38,9 @@ const std::string &manda::MandaError::toString() const {
     return oss.str();
 }
 
+manda::MandaException::MandaException(const manda::MandaError &error)
+        : error(error) {}
 
+const char *manda::MandaException::what() const {
+    return error.message.c_str();
+}

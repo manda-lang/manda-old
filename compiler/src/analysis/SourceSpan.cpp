@@ -9,25 +9,14 @@
 #include <utility>
 #include <antlr4-runtime/ParserRuleContext.h>
 
-manda::SourceSpan::SourceSpan(std::string text, int line, int charPositionInLine)
-        : text(std::move(text)) {
+manda::SourceSpan::SourceSpan(const std::string &text, size_t line, size_t charPositionInLine)
+        : text(text), line(line), charPositionInLine(charPositionInLine) {
     this->line = line;
     this->charPositionInLine = charPositionInLine;
 }
 
-const std::string &manda::SourceSpan::GetText() const {
-    return text;
-}
-
-int manda::SourceSpan::GetLine() const {
-    return line;
-}
-
-int manda::SourceSpan::GetCharPositionInLine() const {
-    return charPositionInLine;
-}
-
-manda::SourceSpan manda::SourceSpan::fromParserRuleContext(antlr4::ParserRuleContext *ctx) {
-    auto *token = ctx->start;
-    return SourceSpan(ctx->getText(), token->getLine(), token->getCharPositionInLine());
+manda::SourceSpan::SourceSpan(const antlr4::ParserRuleContext &ctx)
+        : text(ctx.start->getText()),
+          line(ctx.start->getLine()),
+          charPositionInLine(ctx.start->getCharPositionInLine()) {
 }

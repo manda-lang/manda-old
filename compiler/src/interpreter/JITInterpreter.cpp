@@ -68,7 +68,7 @@ nanbox_t manda::JITInterpreter::GetResult() const {
 
 jit_value_t manda::JITInterpreter::CompileObject(const manda::MandaObject *obj) {
     //std::cout << "Found object" << std::endl;
-    //std::cout << "Type: " << obj->GetType()->GetQualifiedName() << std::endl;
+    //std::cout << "Type: " << obj->GetType()->qualifiedName() << std::endl;
 
     if (obj->constantValueType != manda::MandaObject::kNone) {
         switch (obj->constantValueType) {

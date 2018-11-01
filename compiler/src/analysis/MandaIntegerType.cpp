@@ -125,7 +125,7 @@ manda::MandaIntegerType::PerformBinaryOperation(const MandaObject &left, const M
 }
 
 bool manda::MandaIntegerType::IsAssignableTo(const MandaType &other) const {
-    return IsExactly(other);
+    return isExactly(other);
 }
 
 bool manda::MandaIntegerType::IsExactly(const MandaType &other) const {

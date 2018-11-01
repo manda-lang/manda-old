@@ -14,19 +14,19 @@ namespace manda
     class MandaBoolType : public MandaType
     {
     public:
-        const std::string GetQualifiedName() const override;
+        const std::string qualifiedName() const override;
 
-        const std::string GetSimpleName() const override;
+        const std::string simpleName() const override;
 
-        bool IsAssignableTo(const MandaType &other) const override;
+        bool isAssignableTo(const MandaType &other) const override;
 
-        bool IsExactly(const MandaType &other) const override;
+        bool isExactly(const MandaType &other) const override;
 
-        uint64_t GetSizeInBytes() const override;
+        uint64_t sizeInBytes() const override;
 
         MandaObjectOrType &
-        PerformBinaryOperation(const MandaObject &left, const MandaObject &right, const std::string &op,
-                               const manda::SourceSpan &sourceSpan) const override;
+        binaryOperation(const MandaObject &left, const MandaObject &right, const std::string &op,
+                        const manda::SourceSpan &sourceSpan) const override;
     };
 }
 

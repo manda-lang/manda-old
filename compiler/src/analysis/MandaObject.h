@@ -22,14 +22,10 @@ namespace manda
         bool asBool;
     } MandaConstantValue;
 
-    class MandaObject
+    struct MandaObject
     {
     public:
-        explicit MandaObject(const MandaType *type, SourceSpan sourceSpan);
-
-        ~MandaObject();
-
-        const MandaType *GetType() const;
+        explicit MandaObject(const MandaType &type, const SourceSpan &sourceSpan);
 
         enum ConstantValueType
         {
@@ -41,12 +37,9 @@ namespace manda
         };
 
         ConstantValueType constantValueType;
-
         MandaConstantValue constantValue;
-
-    private:
-        const MandaType *type;
-        const SourceSpan sourceSpan;
+        const MandaType &type;
+        const SourceSpan &sourceSpan;
     };
 }
 

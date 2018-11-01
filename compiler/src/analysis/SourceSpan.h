@@ -12,23 +12,15 @@
 
 namespace manda
 {
-    class SourceSpan
+    struct SourceSpan
     {
-    public:
-        SourceSpan(std::string text, int line, int charPositionInLine);
+        SourceSpan(const std::string &text, size_t line, size_t charPositionInLine);
 
-        const std::string &GetText() const;
+        explicit SourceSpan(const antlr4::ParserRuleContext &ctx);
 
-        int GetLine() const;
-
-        int GetCharPositionInLine() const;
-
-        static SourceSpan fromParserRuleContext(antlr4::ParserRuleContext *ctx);
-
-    private:
         const std::string text;
-        int line;
-        int charPositionInLine;
+        size_t line;
+        size_t charPositionInLine;
     };
 }
 

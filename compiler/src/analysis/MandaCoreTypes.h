@@ -13,39 +13,13 @@
 
 namespace manda
 {
-    class MandaCoreTypes
+    struct MandaCoreTypes
     {
-    public:
-        static const MandaCoreTypes &GetInstance();
-
+        const MandaBoolType boolType;
+        const MandaIntegerType int8Type, int16Type, int32Type, int64Type;
+        const MandaIntegerType uint8Type, uint16Type, uint32Type, uint64Type;
         void InjectIntoSymbolTable(SymbolTable &symbolTable) const;
-
-        const MandaBoolType *GetBoolType() const;
-
-        const MandaIntegerType *GetInt8Type() const;
-
-        const MandaIntegerType *GetInt16Type() const;
-
-        const MandaIntegerType *GetInt32Type() const;
-
-        const MandaIntegerType *GetInt64Type() const;
-
-        const MandaIntegerType *GetUint8Type() const;
-
-        const MandaIntegerType *GetUint16Type() const;
-
-        const MandaIntegerType *GetUint32Type() const;
-
-        const MandaIntegerType *GetUint64Type() const;
-
-    private:
         MandaCoreTypes();
-
-        ~MandaCoreTypes();
-
-        MandaBoolType boolType;
-        MandaIntegerType *int8Type, *int16Type, *int32Type, *int64Type;
-        MandaIntegerType *uint8Type, *uint16Type, *uint32Type, *uint64Type;
     };
 }
 
