@@ -17,10 +17,11 @@ namespace manda
 {
     class MandaObject;
 
-    class MandaObjectOrType;
-
-    class MandaType
+    class MandaType : public MandaObjectOrType
     {
+    public:
+        ~MandaType() override;
+
     public:
         virtual const std::string GetQualifiedName() const = 0;
 
@@ -28,13 +29,14 @@ namespace manda
 
         virtual uint64_t GetSizeInBytes() const = 0;
 
-        virtual MandaObjectOrType * PerformBinaryOperation(const manda::MandaObject *left,
-                                                           const manda::MandaObject *right,
-                                                           const std::string &op, const manda::SourceSpan &sourceSpan) const = 0;
+        virtual MandaObjectOrType &PerformBinaryOperation(const MandaObject &left,
+                                                          const MandaObject &right,
+                                                          const std::string &op,
+                                                          const manda::SourceSpan &sourceSpan) const = 0;
 
-        virtual bool IsAssignableTo(const MandaType *other) const = 0;
+        virtual bool IsAssignableTo(const MandaType &other) const = 0;
 
-        virtual bool IsExactly(const MandaType *other) const = 0;
+        virtual bool IsExactly(const MandaType &other) const = 0;
     };
 }
 

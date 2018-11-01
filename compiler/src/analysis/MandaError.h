@@ -24,7 +24,11 @@ namespace manda
 
         MandaErrorSeverity severity;
         const std::string message;
-        const SourceSpan sourceSpan;
+        const SourceSpan &sourceSpan;
+
+        const std::string& toString() const;
+
+        MandaError(MandaErrorSeverity severity, const std::string &message, const SourceSpan &sourceSpan);
     };
 }
 

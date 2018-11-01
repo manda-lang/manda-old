@@ -24,12 +24,12 @@ namespace manda
 
         bool IsUnsigned() const;
 
-        MandaObjectOrType * PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+        MandaObjectOrType & PerformBinaryOperation(const MandaObject &left, const MandaObject &right,
                                                    const std::string &op, const SourceSpan &sourceSpan) const override;
 
-        bool IsAssignableTo(const MandaType *other) const override;
+        bool IsAssignableTo(const MandaType &other) const override;
 
-        bool IsExactly(const MandaType *other) const override;
+        bool IsExactly(const MandaType &other) const override;
 
     private:
         const std::string simpleName;

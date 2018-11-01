@@ -7,26 +7,14 @@
 #include <sstream>
 #include "MandaError.h"
 
-manda::MandaError::MandaError(manda::MandaError::MandaErrorSeverity severity, std::string message,
+manda::MandaError::MandaError(manda::MandaError::MandaErrorSeverity severity, const std::string &message,
                               const SourceSpan &sourceSpan)
         : message(std::move(message)),
-          sourceSpan(std::move(sourceSpan)),
+          sourceSpan(sourceSpan),
           severity(severity) {
 }
 
-manda::MandaError::MandaErrorSeverity manda::MandaError::GetSeverity() const {
-    return severity;
-}
-
-const std::string &manda::MandaError::GetMessage() const {
-    return message;
-}
-
-const manda::SourceSpan &manda::MandaError::GetSourceSpan() const {
-    return sourceSpan;
-}
-
-std::string manda::MandaError::ToString() const {
+const std::string &manda::MandaError::toString() const {
     std::ostringstream oss;
 
     switch (severity) {
@@ -49,3 +37,5 @@ std::string manda::MandaError::ToString() const {
 
     return oss.str();
 }
+
+

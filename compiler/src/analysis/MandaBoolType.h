@@ -18,14 +18,14 @@ namespace manda
 
         const std::string GetSimpleName() const override;
 
-        bool IsAssignableTo(const MandaType *other) const override;
+        bool IsAssignableTo(const MandaType &other) const override;
 
-        bool IsExactly(const MandaType *other) const override;
+        bool IsExactly(const MandaType &other) const override;
 
         uint64_t GetSizeInBytes() const override;
 
-        MandaObjectOrType *
-        PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right, const std::string &op,
+        MandaObjectOrType &
+        PerformBinaryOperation(const MandaObject &left, const MandaObject &right, const std::string &op,
                                const manda::SourceSpan &sourceSpan) const override;
     };
 }

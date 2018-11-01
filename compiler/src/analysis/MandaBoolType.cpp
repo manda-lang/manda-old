@@ -15,11 +15,11 @@ const std::string manda::MandaBoolType::GetSimpleName() const {
     return "Bool";
 }
 
-bool manda::MandaBoolType::IsAssignableTo(const manda::MandaType *other) const {
+bool manda::MandaBoolType::IsAssignableTo(const MandaType &other) const {
     return IsExactly(other);
 }
 
-bool manda::MandaBoolType::IsExactly(const manda::MandaType *other) const {
+bool manda::MandaBoolType::IsExactly(const MandaType &other) const {
     return other == this;
 }
 
@@ -27,8 +27,8 @@ uint64_t manda::MandaBoolType::GetSizeInBytes() const {
     return 1;
 }
 
-manda::MandaObjectOrType *
-manda::MandaBoolType::PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+manda::MandaObjectOrType &
+manda::MandaBoolType::PerformBinaryOperation(const MandaObject &left, const MandaObject &right,
                                              const std::string &op, const manda::SourceSpan &sourceSpan) const {
     // TODO: Do we need XOR, NOR, etc...?
     if (op == "==" || op == "!=" || op == "&&" || op == "||") {

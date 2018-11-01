@@ -15,7 +15,7 @@ namespace manda
     class MandaObjectOrType
     {
     public:
-         virtual ~MandaObjectOrType() = default;
+        virtual ~MandaObjectOrType() = 0;
     };
 }
 

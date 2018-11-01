@@ -33,7 +33,7 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
     if (valueAny.isNull()) {
-        errors.push_back(new MandaError(
+        errors.push_back(MandaError(
                 MandaError::kError,
                 "Evaluating this expression produced an error.",
                 SourceSpan::fromParserRuleContext(ctx)));

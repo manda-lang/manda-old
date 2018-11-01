@@ -34,8 +34,8 @@ bool manda::MandaIntegerType::IsUnsigned() const {
     return isUnsigned;
 }
 
-manda::MandaObjectOrType *
-manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, const manda::MandaObject *right,
+manda::MandaObjectOrType &
+manda::MandaIntegerType::PerformBinaryOperation(const MandaObject &left, const MandaObject &right,
                                                 const std::string &op, const SourceSpan &sourceSpan) const {
     // The analyzer has already asserted that the left is a number.
     // We want to determine if both items are constant, and if so, fold them.
@@ -124,11 +124,11 @@ manda::MandaIntegerType::PerformBinaryOperation(const manda::MandaObject *left, 
     }
 }
 
-bool manda::MandaIntegerType::IsAssignableTo(const manda::MandaType *other) const {
+bool manda::MandaIntegerType::IsAssignableTo(const MandaType &other) const {
     return IsExactly(other);
 }
 
-bool manda::MandaIntegerType::IsExactly(const manda::MandaType *other) const {
+bool manda::MandaIntegerType::IsExactly(const MandaType &other) const {
     auto *asIntegerType = dynamic_cast<const MandaIntegerType *>(other);
 
     if (asIntegerType == nullptr) {
