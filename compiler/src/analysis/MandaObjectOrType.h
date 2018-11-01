@@ -12,27 +12,10 @@
 
 namespace manda
 {
-    class MandaObject;
-    class MandaType;
-
     class MandaObjectOrType
     {
     public:
-        explicit MandaObjectOrType(const manda::MandaObject* value);
-
-        explicit MandaObjectOrType(const manda::MandaType *value);
-
-        ~MandaObjectOrType();
-
-        const MandaObject* AsObject() const;
-
-        const MandaType *AsType() const;
-
-        bool IsType() const;
-
-    private:
-        const manda::MandaObject* asObject;
-        const manda::MandaType *asType;
+         virtual ~MandaObjectOrType() = default;
     };
 }
 

@@ -5,30 +5,3 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include "MandaObjectOrType.h"
-
-manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaObject* value) {
-    this->asObject = value;
-    this->asType = nullptr;
-}
-
-manda::MandaObjectOrType::MandaObjectOrType(const manda::MandaType *value) {
-    this->asType = value;
-    this->asObject = nullptr;
-}
-
-const manda::MandaObject* manda::MandaObjectOrType::AsObject() const {
-    return asObject;
-}
-
-const manda::MandaType *manda::MandaObjectOrType::AsType() const {
-    return asType;
-}
-
-bool manda::MandaObjectOrType::IsType() const {
-    return asType != nullptr;
-}
-
-manda::MandaObjectOrType::~MandaObjectOrType() {
-    delete asObject;
-    // delete asType;
-}
