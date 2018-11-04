@@ -19,12 +19,12 @@ const manda::MandaCoreTypes &manda::MandaAnalyzer::GetCoreTypes() const {
     return coreTypes;
 }
 
-Any manda::MandaAnalyzer::visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) {
+void manda::MandaAnalyzer::visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) {
     unit = ctx;
     return MandaBaseVisitor::visitCompilationUnit(ctx);
 }
 
-Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
+void manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
     if (valueAny.isNull()) {
@@ -41,7 +41,7 @@ Any manda::MandaAnalyzer::visitExprStmt(MandaParser::ExprStmtContext *ctx) {
     }
 }
 
-Any manda::MandaAnalyzer::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
+void manda::MandaAnalyzer::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
     Any valueAny = ctx->expr()->accept(this);
 
     if (valueAny.isNull()) {
@@ -58,8 +58,10 @@ Any manda::MandaAnalyzer::visitReturnStmt(MandaParser::ReturnStmtContext *ctx) {
     }
 }
 
-Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
-                                        MandaParser::ExprContext *rightCtx, const std::string &op) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx,
+                                                               MandaParser::ExprContext *leftCtx,
+                                                               MandaParser::ExprContext *rightCtx,
+                                                               const std::string &op) {
     Any leftAny = leftCtx->accept(this), rightAny = rightCtx->accept(this);
 
     if (leftAny.isNull() || rightAny.isNull()) {
@@ -99,30 +101,30 @@ Any manda::MandaAnalyzer::resolveBinary(antlr4::ParserRuleContext *ctx, MandaPar
     }
 }
 
-Any manda::MandaAnalyzer::visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) {
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
-Any manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) {
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
-Any manda::MandaAnalyzer::visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) {
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
-Any manda::MandaAnalyzer::visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx) {
     return resolveBinary(ctx, ctx->left, ctx->right, ctx->op->getText());
 }
 
-Any manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
+manda::MandaObject & manda::MandaAnalyzer::visitTrueExpr(MandaParser::TrueExprContext *ctx) {
     auto *object = new MandaObject(coreTypes.boolType, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = true;
     return Any(object);
 }
 
-Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
+manda::MandaObject & manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
     auto *object = new MandaObject(coreTypes.boolType, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kBool;
     object->constantValue.asBool = false;
@@ -130,7 +132,7 @@ Any manda::MandaAnalyzer::visitFalseExpr(MandaParser::FalseExprContext *ctx) {
 }
 
 
-Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
+manda::MandaObject & manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx) {
     uint64_t value = strtoul(ctx->getText().c_str(), nullptr, 10);
     auto *object = new MandaObject(coreTypes.int32Type, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kSigned;
@@ -138,7 +140,7 @@ Any manda::MandaAnalyzer::visitIntegerExpr(MandaParser::IntegerExprContext *ctx)
     return Any(object);
 }
 
-Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
+manda::MandaObject & manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
     uint64_t value = stoul(ctx->getText(), nullptr, 16);
     auto *object = new MandaObject(coreTypes.int32Type, SourceSpan(*ctx));
     object->constantValueType = MandaObject::kSigned;
@@ -146,12 +148,12 @@ Any manda::MandaAnalyzer::visitHexExpr(MandaParser::HexExprContext *ctx) {
     return Any(object);
 }
 
-Any manda::MandaAnalyzer::visitFloatExpr(MandaParser::FloatExprContext *ctx) {
+manda::MandaObject & manda::MandaAnalyzer::visitFloatExpr(MandaParser::FloatExprContext *ctx) {
     // TODO: Parse float -> Float32
     return MandaBaseVisitor::visitFloatExpr(ctx);
 }
 
-Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) {
     auto name = ctx->Identifier()->getText();
 
     try {
@@ -163,10 +165,16 @@ Any manda::MandaAnalyzer::visitIdentifierExpr(MandaParser::IdentifierExprContext
     }
 }
 
-Any manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
+manda::MandaObjectOrType & manda::MandaAnalyzer::visitParenExpr(MandaParser::ParenExprContext *ctx) {
     return ctx->expr()->accept(this);
 }
 
 MandaParser::CompilationUnitContext *manda::MandaAnalyzer::GetCompilationUnit() const {
     return unit;
+}
+
+manda::MandaObjectOrType &manda::MandaAnalyzer::visitExpr(MandaParser::ExprContext *ctx) {
+    if (auto *trueCtx = dynamic_cast<MandaParser::TrueExprContext*>(ctx)) {
+        return visitTrueExpr(trueCtx);
+    }
 }

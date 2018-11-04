@@ -23,7 +23,7 @@ namespace manda
     /**
      * Transforms the ANTLR tree into a control-flow graph; also performs static type-checking.
      */
-    class MandaAnalyzer : public MandaBaseVisitor
+    class MandaAnalyzer
     {
     public:
         MandaAnalyzer();
@@ -36,36 +36,38 @@ namespace manda
 
         MandaParser::CompilationUnitContext *GetCompilationUnit() const;
 
-        Any visitTrueExpr(MandaParser::TrueExprContext *ctx) override;
+        MandaObjectOrType &visitExpr(MandaParser::ExprContext *ctx);
 
-        Any visitFalseExpr(MandaParser::FalseExprContext *ctx) override;
+        MandaObject &visitTrueExpr(MandaParser::TrueExprContext *ctx);
 
-        Any visitIntegerExpr(MandaParser::IntegerExprContext *ctx) override;
+        MandaObject &visitFalseExpr(MandaParser::FalseExprContext *ctx);
 
-        Any visitHexExpr(MandaParser::HexExprContext *ctx) override;
+        MandaObject &visitIntegerExpr(MandaParser::IntegerExprContext *ctx);
 
-        Any visitParenExpr(MandaParser::ParenExprContext *ctx) override;
+        MandaObject &visitHexExpr(MandaParser::HexExprContext *ctx);
 
-        Any visitFloatExpr(MandaParser::FloatExprContext *ctx) override;
+        MandaObjectOrType &visitParenExpr(MandaParser::ParenExprContext *ctx);
 
-        Any visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx) override;
+        MandaObject &visitFloatExpr(MandaParser::FloatExprContext *ctx);
 
-        Any visitExprStmt(MandaParser::ExprStmtContext *ctx) override;
+        MandaObjectOrType &visitIdentifierExpr(MandaParser::IdentifierExprContext *ctx);
 
-        Any resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
-                          MandaParser::ExprContext *rightCtx, const std::string &op);
+        void visitExprStmt(MandaParser::ExprStmtContext *ctx);
 
-        Any visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx) override;
+        MandaObjectOrType &resolveBinary(antlr4::ParserRuleContext *ctx, MandaParser::ExprContext *leftCtx,
+                                         MandaParser::ExprContext *rightCtx, const std::string &op);
 
-        Any visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx) override;
+        MandaObjectOrType &visitMulDivOrModExpr(MandaParser::MulDivOrModExprContext *ctx);
 
-        Any visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx) override;
+        MandaObjectOrType &visitAddOrSubExpr(MandaParser::AddOrSubExprContext *ctx);
 
-        Any visitReturnStmt(MandaParser::ReturnStmtContext *ctx) override;
+        MandaObjectOrType &visitBoolAndOrExpr(MandaParser::BoolAndOrExprContext *ctx);
 
-        Any visitCompilationUnit(MandaParser::CompilationUnitContext *ctx) override;
+        void visitReturnStmt(MandaParser::ReturnStmtContext *ctx);
 
-        Any visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx) override;
+        void visitCompilationUnit(MandaParser::CompilationUnitContext *ctx);
+
+        MandaObjectOrType &visitBoolEqOrNeqExpr(MandaParser::BoolEqOrNeqExprContext *ctx);
 
     private:
         MandaParser::CompilationUnitContext *unit;

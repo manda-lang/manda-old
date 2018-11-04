@@ -22,7 +22,7 @@ namespace manda
         bool asBool;
     } MandaConstantValue;
 
-    struct MandaObject
+    struct MandaObject : public MandaObjectOrType
     {
     public:
         explicit MandaObject(const MandaType &type, const SourceSpan &sourceSpan);
