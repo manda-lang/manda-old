@@ -1,6 +1,3 @@
 cmake_minimum_required(VERSION 3.0.0)
 include_directories(third_party)
-include_directories(third_party/antlr4-runtime)
-#include_directories(vm/include)
-add_subdirectory(compiler)
-#add_subdirectory(vm)
+add_subdirectory(src)
