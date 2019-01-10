@@ -1,0 +1,11 @@
+let is_even n =
+    let rem = n % 2;
+
+    if rem == 0
+        true
+    else
+        false
+
+let main () =
+    let parity = is_even 34;
+    println (to_string parity)

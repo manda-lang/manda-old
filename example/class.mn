@@ -1,0 +1,18 @@
+class Bird
+    var wingspan;
+
+    new this.wingspan = ();
+
+    let clone = Bird wingspan;
+
+    let fly () =
+        println "I have a wingspan of %{wingspan}!"
+end
+
+let birdOrInt x =
+    | Bird -> x.wingspan
+    | int -> x
+
+let main () =
+    let bird = Bird ~wingspan: 34;
+    bird.clone.fly()
