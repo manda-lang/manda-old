@@ -1,7 +1,0 @@
-import Redis
-
-let redis = Redis.connect('127.0.0.1', 6379)
-let reply = redis.send('SET foo bar')
-print('Success: %{reply.isSuccess}')
-
-redis.close()

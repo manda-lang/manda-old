@@ -1,4 +1,0 @@
-let x = 23
-let obj = {x, a: 'b'}
-
-print('23 = %{obj.x}')

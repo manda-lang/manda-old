@@ -1,4 +1,0 @@
-import Json
-
-let obj = Json.parse('{"foo": "bar"}') as {foo: String}
-print('Foo: %foo')
