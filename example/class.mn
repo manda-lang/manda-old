@@ -1,18 +1,25 @@
-class Bird
-    var wingspan;
+with IO
 
-    new this.wingspan = ();
+class Bird {
+    new(property wingspan : Int);
 
-    let clone = Bird wingspan;
+    clone() => Bird(wingspan)
 
-    let fly () =
-        println "I have a wingspan of %{wingspan}!"
-end
+    fly() : void => stdout.writeln("I have a wingspan of %{wingspan}!")
 
-let birdOrInt x =
-    | Bird -> x.wingspan
-    | int -> x
+    private doSomething() : void {
+        // Do something here...
+    }
+}
 
-let main () =
-    let bird = Bird ~wingspan: 34;
+fn birdOrInt (x: Bird | Int) : Int {
+    return match x with {
+        is Bird => x.wingspan
+        is Int => x
+    }
+}
+
+fn main() : void {
+    var bird = Bird()
     bird.clone.fly()
+}

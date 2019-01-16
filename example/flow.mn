@@ -1,11 +1,8 @@
-let is_even n =
-    let rem = n % 2;
+with IO
 
-    if rem == 0
-        true
-    else
-        false
+fn isEven(n: Int) : Bool => (n % 2) == 0
 
-let main () =
-    let parity = is_even 34;
-    println (to_string parity)
+fn main() : void {
+    var parity = isEven(34)
+    stdout.writeln(parity.toString())
+}
