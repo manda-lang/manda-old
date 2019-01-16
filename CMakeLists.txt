@@ -3,4 +3,5 @@ project(manda)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(manda
-        src/parsing/string_scanner.cc src/parsing/string_scanner.h)
+        src/parsing/string_scanner.cc src/parsing/string_scanner.h
+        src/parsing/test_it.cpp)
