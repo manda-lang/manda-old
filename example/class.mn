@@ -1,7 +1,7 @@
 with IO
 
 class Bird {
-    new(property wingspan : Int);
+    new(public wingspan : Int);
 
     clone() => Bird(wingspan)
 

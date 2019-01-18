@@ -2,7 +2,7 @@
  * The boxed implementation of an integer.
  */
 class Int {
-    new(final private property value: int)
+    new(final private value: int)
 
     operator !=(other: Int) => !(this == other)
 
@@ -40,6 +40,7 @@ class Int {
 
     abs() => Int(value > 0 ? value : (-1 * value))
 
+    // TODO: Need a smart way to return the primitive value instead
     to Double => Double(value * 1.0)
 
     to String {
