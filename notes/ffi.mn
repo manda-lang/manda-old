@@ -1,0 +1,5 @@
+// Only primitive types can be used.
+public external puts(v: char[]) : void
+
+// You can provide a different name...
+public external "my_custom_puts" puts(v: char[]) : void
