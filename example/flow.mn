@@ -1,6 +1,6 @@
 with IO
 
-fn isEven(n: Int) : Bool => (n % 2) == 0
+fn isEven(n: Int) : bool => (n % 2) == 0
 
 fn main() : void {
     var parity = isEven(34)
