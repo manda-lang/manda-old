@@ -4,3 +4,5 @@ type MyTuple = (Int, String)
 
 // Really just a shorthand for a data/value/primitive type.
 type MyStruct = { quux: int, foo: bool }
+
+type MyNullable = String?

@@ -1,0 +1,21 @@
+type Hey = String | Bool
+
+hey(Hey? v) : int {
+    return match v with {
+        is String => v.length
+        is Bool => v ? 1: 0
+        is Null => -1
+    }
+}
+
+hey2(v: (Int, Double)) : Int {
+    let (a, b) = v
+    return a + 3
+}
+
+hey3(v: Hey?) : Int {
+    return match v with {
+        is Hey(a, b) => a + 3
+        else => -1
+    }
+}
