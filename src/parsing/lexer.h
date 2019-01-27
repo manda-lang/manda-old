@@ -7,6 +7,7 @@
 #ifndef MANDA_SCANNER_H
 #define MANDA_SCANNER_H
 
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include "token.h"
@@ -35,10 +36,14 @@ namespace manda::parsing
 
         const std::vector<syntax_error> errors() const;
 
+        const std::vector<token> tokens() const;
+
         void scan();
 
     private:
         std::vector<syntax_error> m_errors;
+        std::vector<token> m_tokens;
+        std::vector<std::pair<token::token_type, std::string>> patterns;
         string_scanner &scanner;
     };
 }

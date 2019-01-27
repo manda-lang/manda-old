@@ -19,6 +19,8 @@ namespace manda::parsing
     {
         string_scanner_state start, end;
 
+        unsigned long length() const;
+
         const std::string &uri() const;
 
         source_span operator+(const source_span& other);

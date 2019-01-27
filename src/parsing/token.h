@@ -11,14 +11,21 @@
 
 namespace manda::parsing
 {
-
     struct token
     {
         enum token_type
         {
             // Symbols
+            COLON,
+            COMMA,
+            LCURLY,
+            RCURLY,
+            LPAREN,
+            RPAREN,
 
             // Keywords
+            KW_ABSTRACT,
+            KW_CLASS,
                     KW_FN,
             KW_VAR,
 
@@ -26,7 +33,8 @@ namespace manda::parsing
                     EQUALS,
 
             // Values
-                    ID,
+                    INT,
+            ID,
         };
 
         token_type type;

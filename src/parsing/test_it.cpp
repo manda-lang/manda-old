@@ -5,14 +5,25 @@
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
 #include <iostream>
-#include "parsing.h"
+#include <sstream>
+#include "lexer.h"
+
+using namespace manda::parsing;
 
 int main() {
     std::string line;
     std::cout << "manda> ";
 
     while (std::cin >> line) {
-        manda::parse_ast(line);
+        std::istringstream iss(line);
+        string_scanner scanner("stdin", iss);
+        lexer lexer(scanner);
+        lexer.scan();
+
+        for (auto & error: lexer.errors()) {
+            std::cout << "error: " << error.span << ": " << error.message << std::endl;
+        }
+
         std::cout << "manda> ";
     }
 

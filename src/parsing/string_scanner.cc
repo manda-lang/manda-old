@@ -2,6 +2,10 @@
 #include <utility>
 #include "string_scanner.h"
 
+unsigned long manda::parsing::source_span::length() const {
+    return end.offset - start.offset;
+}
+
 const std::string &manda::parsing::source_span::uri() const {
     return start.uri;
 }
