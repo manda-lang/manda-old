@@ -4,17 +4,12 @@
 //
 // Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file.
-#include <iostream>
+#include <parser.hpp>
 #include "parsing.h"
 
-int main() {
-    std::string line;
-    std::cout << "manda> ";
+void yy_scan_string(const char *str);
 
-    while (std::cin >> line) {
-        manda::parse_ast(line);
-        std::cout << "manda> ";
-    }
-
-    return 0;
+int manda::parse_ast(const std::string &text) {
+    yy_scan_string(text.c_str());
+    return yyparse();
 }
