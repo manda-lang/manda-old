@@ -1,3 +1,5 @@
+#include <utility>
+
 // Copyright (c) 2019, Tobechukwu Osakwe.
 //
 // All rights reserved.
@@ -7,6 +9,28 @@
 #include "lexer.h"
 
 using namespace manda::parsing;
+
+lexer::lexer_pattern::lexer_pattern(std::regex rgx) {
+    m_rgx = std::move(rgx);
+    m_is_match = true;
+}
+
+lexer::lexer_pattern::lexer_pattern(std::string str) {
+    m_str = std::move(str);
+    m_is_match = false;
+}
+
+bool lexer::lexer_pattern::is_regex() const {
+    return false;
+}
+
+const std::regex & lexer::lexer_pattern::as_regex() const {
+    return m_rgx;
+}
+
+const std::string & lexer::lexer_pattern::as_string() const {
+    return m_str;
+}
 
 manda::parsing::lexer::lexer(manda::parsing::string_scanner &scanner) : scanner(scanner) {
     // Symbols
@@ -22,6 +46,7 @@ manda::parsing::lexer::lexer(manda::parsing::string_scanner &scanner) : scanner(
     patterns.emplace_back(token::KW_CLASS, "class");
     patterns.emplace_back(token::KW_FN, "fn");
     patterns.emplace_back(token::KW_VAR, "var");
+    patterns.emplace_back(token::KW_VAR, std::regex("y[A-Za-z]s"));
 
     // Operators
     patterns.emplace_back(token::EQUALS, "=");
@@ -40,9 +65,17 @@ void manda::parsing::lexer::scan() {
         std::vector<token> provisional;
 
         for (auto &pair: patterns) {
-            if (scanner.matches(pair.second)) {
-                token tok = {pair.first, scanner.last_span()};
-                provisional.push_back(tok);
+            auto pattern = pair.second;
+            auto matches = pattern.is_regex()
+                           ? scanner.matches(pattern.as_regex())
+                           : scanner.matches(
+                            pattern.as_string());
+
+            if (matches) {
+                if (scanner.matches(pattern.as_string())) {
+                    token tok = {pair.first, scanner.last_span()};
+                    provisional.push_back(tok);
+                }
             }
 
             // TODO: Parse values

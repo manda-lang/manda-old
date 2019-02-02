@@ -41,9 +41,27 @@ namespace manda::parsing
         void scan();
 
     private:
+        class lexer_pattern
+        {
+        public:
+            lexer_pattern(std::regex rgx);
+            lexer_pattern(std::string str);
+
+            bool is_regex() const;
+
+            const std::regex & as_regex() const;
+
+            const std::string & as_string() const;
+
+        private:
+            bool m_is_match;
+            std::regex m_rgx;
+            std::string m_str;
+        };
+
         std::vector<syntax_error> m_errors;
         std::vector<token> m_tokens;
-        std::vector<std::pair<token::token_type, std::string>> patterns;
+        std::vector<std::pair<token::token_type, lexer_pattern>> patterns;
         string_scanner &scanner;
     };
 }
