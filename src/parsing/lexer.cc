@@ -48,8 +48,6 @@ void manda::parsing::lexer::scan() {
             // TODO: Parse values
         }
 
-        throw provisional.size();
-
         // TODO: Sort tokens
         if (provisional.empty()) {
             // TODO: Better errors

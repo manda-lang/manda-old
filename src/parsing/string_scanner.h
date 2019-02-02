@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <ostream>
+#include <regex>
 #include <string>
 
 namespace manda::parsing
@@ -31,7 +32,7 @@ namespace manda::parsing
     class string_scanner
     {
     public:
-        string_scanner(std::string source_url, std::istream &in);
+        string_scanner(const std::string &source_url, const std::string &in);
 
         bool done() const;
 
@@ -45,20 +46,27 @@ namespace manda::parsing
 
         string_scanner_state state() const;
 
-        bool matches(int ch);
-
         bool matches(const std::string &str);
 
-        bool scan(int ch);
+        bool matches(const std::regex& rgx);
 
         bool scan(const std::string &str);
+
+        bool scan(const std::regex& rgx);
+
+        std::smatch last_match() const;
 
         source_span last_span() const;
 
     private:
+        bool matches(int ch);
+
+        bool scan(int ch);
+
         unsigned long m_line, m_column, m_offset;
+        std::smatch m_last_match;
         source_span m_last_span;
-        std::istream &in;
+        std::string in;
         std::string source_url;
     };
 } // namespace manda::parsing

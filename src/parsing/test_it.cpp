@@ -15,8 +15,7 @@ int main() {
     std::cout << "manda> ";
 
     while (std::cin >> line) {
-        std::istringstream iss(line);
-        string_scanner scanner("stdin", iss);
+        string_scanner scanner("stdin", line);
         lexer lexer(scanner);
         lexer.scan();
 
