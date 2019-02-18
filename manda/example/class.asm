@@ -46,7 +46,6 @@ section .code
     ; The pointer will be in v0, call it.
     la a0, dog
     call v0
-
     ret
 
   animal_constructor:
