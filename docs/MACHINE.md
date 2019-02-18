@@ -1,7 +1,7 @@
 The Manda Virtual Machine (MVM) is a 64-bit register machine. Its design is influenced by that of the MIPS
 processor, and includes 256 64-bit registers.
 
-## Registers
+# Registers
 Registers are addressed numerically, and divided
 into four categories; each category has a one-letter
 prefix identifying it.
@@ -20,6 +20,23 @@ one-byte values. The range `0-63` corresponds to registers in
 the `a` category, while `64-127`, `128-191`, and `192-155`
 correspond to `s`, `v`, and `t`, respectively.
 
-## Stack
+# Stack
 
-## Bytecode Format
+# Bytecode Format
+The MVM accepts one executable file at a time. 
+
+## Executable File
+An executable file consists of multiple sections.
+ 
+```
+executable_file: section*;
+```
+
+## Sections
+Each section starts with a single byte - an unsigned value
+representing which type of section it is. This byte is
+followed by a 64-bit unsigned value representing the length of
+the section.
+
+### Data Section
+
