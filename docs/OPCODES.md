@@ -41,6 +41,8 @@ Multiplies the contents of `a` by `b`, and stores the product in `dest`.
 ### 0x11: `div dest:reg, a:reg, b:reg`
 Divides the contents of `a` by `b`, and stores the quotient in `dest`.
 
+If `b` is `0`, the system will panic.
+
 ### 0x12: `div_r q_dest:reg, r_dest:reg, a:reg, b:reg`
 Divides the contents of `a` by `b`, stores the quotient in `q_dest`, and stores the remainder in `r_dest`.
 
@@ -52,3 +54,16 @@ Pushes the next instruction offset to the stack, and then jumps to `offset`.
 
 ### 0x15: `ret`
 Pops a 64-bit unsigned return address from stack, and jumps to it.
+Causes a system panic if the stack is empty.
+
+### 0x16: `panic exc:reg`
+If the error handler stack is not empty, then its first value, an address `n`, is popped,
+`reg` is copied into `a0`, and execution jumps to `n`.
+
+If the error handler *is* empty, then a system panic is triggered.
+
+### 0x17: `push_error offset:reg`
+Pushes the `offset` to the error handler stack.
+
+### 0x18: `pop_error`
+Pops the first value from the error handler stack. Causes a system panic if the error handler stack is empty.
