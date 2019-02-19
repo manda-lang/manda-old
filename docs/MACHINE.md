@@ -22,8 +22,25 @@ correspond to `s`, `v`, and `t`, respectively.
 
 # Stack
 
-# Bytecode Format
-The MVM accepts one executable file at a time. 
+# Bytecode Format and Execution
+The MVM accepts one executable file at a time.
+At runtime, the contents of this file are loaded into memory.
+The program is able to read, write, and/or execute regions of memory,
+depending on the access granted by the machine.
+
+## Parallelism and Forking
+The MVM can run units of code in parallel, at the behest of the user.
+A program can `fork` itself; this operation starts a new, parallel context,
+copying the entire contents of memory into the new context.
+
+In addition to memory, the values of the `a`-series registers are also copied;
+this allows for arguments to be passed to spawned threads.
+
+## Message Passing
+MVM threads do not share memory at all; however, the MVM allows for
+message passing by means of  *message ports*. Each port maintains a single queue
+of binary data, and can be used like a socket. Serialization and deserialization of
+data is left up to the user.
 
 ## Executable File
 An executable file consists of multiple sections.
@@ -39,4 +56,41 @@ followed by a 64-bit unsigned value representing the length of
 the section.
 
 ### Data Section
+A data section is both readable and writable by the program, and effectively
+has no purpose to the system. Such a section can hold either initialized or
+unitialized data (or, of course, a mix of the two). The distinction is up to
+the user.
 
+A data section is preceded by the 8-bit number `0`, and followed by a 64-bit
+unsigned value, corresponding to the length of the section.
+
+```
+data_section: 8-bit-zero, n=64-bit-unsigned, { n bytes of data }
+```
+
+### Code Section
+A code is only executable.
+
+A code section is encoded similarly to a data section, but is preceded by
+the 8-bit unsigned number `1`, instead of `0`:
+
+```
+code_section: 8-bit-one, n=64-bit-unsigned, labels=label*
+
+(* where the combined length of labels == n *)
+```
+
+Users can jump to anywhere in executable memory, but labels are
+special locations with additional semantic information attached.
+
+```
+label = label_header label_data;
+label_header =
+  8-bit-zero
+  | 8-bit-one, n=64-bit-unsigned, { string of length n }
+;
+label_data = { n bytes of data};
+```
+
+Labels preceded by `1` may indicate their name by means of
+encoding a string.
