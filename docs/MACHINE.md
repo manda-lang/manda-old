@@ -1,3 +1,4 @@
+# The Manda Virtual Machine
 The Manda Virtual Machine (MVM) is a 64-bit register machine. Its design is influenced by that of the MIPS
 processor, and includes 256 64-bit registers.
 
@@ -55,6 +56,13 @@ representing which type of section it is. This byte is
 followed by a 64-bit unsigned value representing the length of
 the section.
 
+Sections may be readable, writable, or executable, or a combination
+thereof.
+
+The machine **must**:
+* Prevent reading or writing of executable code
+* Prevent execution of readable or writable code
+
 ### Data Section
 A data section is both readable and writable by the program, and effectively
 has no purpose to the system. Such a section can hold either initialized or
@@ -67,6 +75,10 @@ unsigned value, corresponding to the length of the section.
 ```
 data_section: 8-bit-zero, n=64-bit-unsigned, { n bytes of data }
 ```
+
+A data section can be marked as completely read-only
+(i.e., `.rodata`) by heading it with an 8-bit `2`, instead of
+`0`.
 
 ### Code Section
 A code is only executable.
@@ -94,3 +106,15 @@ label_data = { n bytes of data};
 
 Labels preceded by `1` may indicate their name by means of
 encoding a string.
+
+The opcode numbers `0-9` are reserved for label headers. At the moment,
+there are only two types of header, but this could potentially change in the future.
+
+### Instructions
+Within a label are an arbitrary number of instructions.
+Each instruction consists of an 8-bit unsigned opcode (`10-255`),
+and is followed by a number of operands.
+
+The number and size of these operands is tightly coupled to the instruction.
+
+Find the list of opcodes [here](OPCODES.md).
