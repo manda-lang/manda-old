@@ -57,7 +57,7 @@ of binary data, and can be used like a socket. Serialization and deserialization
 data is left up to the user.
 
 ## Executable File
-An executable file consists of multiple sections.
+An executable file, otherwise known as a *kernel*, consists of multiple sections.
  
 ```
 executable_file: section*;
