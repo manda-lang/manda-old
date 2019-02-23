@@ -22,6 +22,19 @@ the `a` category, while `64-127`, `128-191`, and `192-155`
 correspond to `s`, `v`, and `t`, respectively.
 
 # Stack
+The MVM has a LIFO stack for each thread. This stack, however, is not used for
+function calls; rather, it is intended for storing addresses (i.e. for jump returns).
+
+Likewise, each thread also has another specific stack, called the *error stack*, which
+can be used to tell the machine where to jump, if a panic occurs. This powers `try`-`catch`
+functionality for languages targeting the MVM.
+
+# Panics
+In the case of an error or exception, the system will *panic*. There are two kinds of panics:
+* Kernel panic - Defers to the error stack to call a procedure specified by the kernel. If there is
+none, upgrades to a system panic.
+* System panic - Immediately ends execution of all threads. Implementations should print a diagnostic
+about the message that caused this panic.
 
 # Bytecode Format and Execution
 The MVM accepts one executable file at a time.
