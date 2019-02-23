@@ -1,0 +1,7 @@
+# Code section
+u8 0
+u64 2
+# Anonymous label
+u8 0
+# Just return
+u8 0x19
