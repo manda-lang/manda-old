@@ -49,43 +49,38 @@ Divides the contents of `a` by `b`, stores the quotient in `q_dest`, and stores 
 ## Signed Arithmetic
 The following instructions treat the involved registers as signed integers, but
 perform the same semantic operations as their counterparts:
-* 0x14: `ands dest:reg, a:reg, b:reg`
-* 0x15: `ors dest:reg, a:reg, b:reg`
-* 0x16: `xors dest:reg, a:reg, b:reg`
-* 0x17: `adds dest:reg, a:reg, b:reg`
-* 0x18: `subs dest:reg, a:reg, b:reg`
-* 0x19: `muls dest:reg, a:reg, b:reg`
-* 0x1A: `divs dest:reg, a:reg, b:reg`
-* 0x1B: `div_rs dest:reg, a:reg, b:reg`
+* 0x14: `muls dest:reg, a:reg, b:reg`
+* 0x15: `divs dest:reg, a:reg, b:reg`
+* 0x16: `div_rs dest:reg, a:reg, b:reg`
 
-### 0x1B: `jmp offset:u64`
+### 0x17: `jmp offset:u64`
 Jumps to `offset`.
 
-### 0x1C: `call offset:u64`
+### 0x18: `call offset:u64`
 Pushes the next instruction offset to the stack, and then jumps to `offset`.
 
-### 0x1D: `ret`
+### 0x19: `ret`
 Pops a 64-bit unsigned return address from stack, and jumps to it.
 Causes a system panic if the stack is empty.
 
-### 0x1E: `panic exc:reg`
+### 0x1A: `panic exc:reg`
 If the error handler stack is not empty, then its first value, an address `n`, is popped,
 `reg` is copied into `a0`, and execution jumps to `n`.
 
 If the error handler *is* empty, then a system panic is triggered.
 
-### 0x1F: `push_error offset:reg`
+### 0x1B: `push_error offset:reg`
 Pushes the `offset` to the error handler stack.
 
-### 0x20: `pop_error`
+### 0x1C: `pop_error`
 Pops the first value from the error handler stack. Causes a system panic if the error handler stack is empty.
 
-### 0x21: `li dest:reg, value:u64`
+### 0x1D: `li dest:reg, value:u64`
 Loads an unsigned integer, `value`, into `dest`.
 Assemblers can include a pseudo-instruction, `la`, that loads the offset of an address.
 
-### 0x22: `signed r:reg`
+### 0x1E: `signed r:reg`
 Converts register `r` from an unsigned value to a signed value.
 
-### 0x23: `unsigned r:reg`
+### 0x1F: `unsigned r:reg`
 Converts register `r` from a signed value to an unsigned value.
