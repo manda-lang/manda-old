@@ -15,8 +15,8 @@ namespace manda
     {
         enum SectionType
         {
-            dataSection,
-            codeSection
+            DATA_SECTION,
+            CODE_SECTION
         };
 
         class Section : public Node

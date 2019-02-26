@@ -7,4 +7,12 @@
 #ifndef MANDA_AST_HPP
 #define MANDA_AST_HPP
 
+#include "BytecodeVisitor.hpp"
+#include "CodeSection.hpp"
+#include "DataSection.hpp"
+#include "Instruction.hpp"
+#include "Kernel.hpp"
+#include "Node.hpp"
+#include "Section.hpp"
+
 #endif //MANDA_AST_HPP
