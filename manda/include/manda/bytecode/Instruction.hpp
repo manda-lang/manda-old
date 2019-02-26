@@ -7,7 +7,7 @@
 #ifndef MANDA_INSTRUCTION_HPP
 #define MANDA_INSTRUCTION_HPP
 
-#include <manda/bytecode/Node.hpp>
+#include "Node.hpp"
 
 namespace manda
 {
@@ -15,7 +15,8 @@ namespace manda
     {
         class Instruction : public Node
         {
-
+        public:
+            virtual uint8_t getOpcode() const = 0;
         };
     }
 }

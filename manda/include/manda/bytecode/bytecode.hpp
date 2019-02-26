@@ -15,5 +15,6 @@
 #include "Kernel.hpp"
 #include "Node.hpp"
 #include "Section.hpp"
+#include "SyscallInstruction.hpp"
 
 #endif //MANDA_AST_HPP
