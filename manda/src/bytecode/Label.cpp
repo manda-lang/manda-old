@@ -4,7 +4,7 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
-#include <manda/bytecode/Label.hpp>
+#include <manda/bytecode/bytecode.hpp>
 
 manda::bytecode::Label::Label()
 {
