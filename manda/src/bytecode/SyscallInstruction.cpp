@@ -14,5 +14,5 @@ uint8_t manda::bytecode::SyscallInstruction::getOpcode() const
 
 void manda::bytecode::SyscallInstruction::accept(BytecodeVisitor &visitor)
 {
-
+    visitor.visitSyscallInstruction(*this);
 }

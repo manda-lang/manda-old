@@ -29,3 +29,8 @@ void manda::bytecode::BytecodeVisitor::visitLabel(manda::bytecode::Label &ctx)
 {
     // Do nothing.
 }
+
+void manda::bytecode::BytecodeVisitor::visitSyscallInstruction(manda::bytecode::SyscallInstruction &ctx)
+{
+    // Do nothing.
+}

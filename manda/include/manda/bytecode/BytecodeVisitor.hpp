@@ -11,6 +11,7 @@
 #include "DataSection.hpp"
 #include "Kernel.hpp"
 #include "Label.hpp"
+#include "SyscallInstruction.hpp"
 
 namespace manda
 {
@@ -26,6 +27,8 @@ namespace manda
             virtual void visitKernel(Kernel &ctx);
 
             virtual void visitLabel(Label &ctx);
+
+            virtual void visitSyscallInstruction(SyscallInstruction &ctx);
         };
     }
 }
