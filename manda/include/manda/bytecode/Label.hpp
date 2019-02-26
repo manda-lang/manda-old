@@ -31,6 +31,8 @@ namespace manda
 
             const std::vector<Instruction> &getInstructions() const;
 
+            void accept(BytecodeVisitor &visitor) override;
+
         private:
             std::vector<Instruction> instructions;
             std::string name;

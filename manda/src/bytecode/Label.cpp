@@ -37,3 +37,8 @@ const std::vector<manda::bytecode::Instruction> &manda::bytecode::Label::getInst
     return instructions;
 }
 
+void manda::bytecode::Label::accept(manda::bytecode::BytecodeVisitor &visitor)
+{
+    visitor.visitLabel(*this);
+}
+

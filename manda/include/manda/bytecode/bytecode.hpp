@@ -11,6 +11,7 @@
 #include "CodeSection.hpp"
 #include "DataSection.hpp"
 #include "Instruction.hpp"
+#include "Label.hpp"
 #include "Kernel.hpp"
 #include "Node.hpp"
 #include "Section.hpp"

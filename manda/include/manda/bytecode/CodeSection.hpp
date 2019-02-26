@@ -18,6 +18,10 @@ namespace manda
         struct CodeSection : public Section
         {
             std::vector<Label> labels;
+
+            void accept(BytecodeVisitor &visitor) override;
+
+            SectionType getType() const override;
         };
     }
 }
