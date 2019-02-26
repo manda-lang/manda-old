@@ -27,7 +27,9 @@ void manda::bytecode::BytecodeVisitor::visitKernel(manda::bytecode::Kernel &ctx)
 
 void manda::bytecode::BytecodeVisitor::visitLabel(manda::bytecode::Label &ctx)
 {
-    // Do nothing.
+    for (auto &instruction : ctx.getInstructions()) {
+        instruction.accept(*this);
+    }
 }
 
 void manda::bytecode::BytecodeVisitor::visitSyscallInstruction(manda::bytecode::SyscallInstruction &ctx)
