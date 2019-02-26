@@ -1,3 +1,4 @@
 cmake_minimum_required(VERSION 3.0)
 project(manda)
+include_directories(manda/include)
 add_subdirectory(manda)
