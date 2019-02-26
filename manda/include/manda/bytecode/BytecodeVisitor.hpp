@@ -7,14 +7,16 @@
 #ifndef MANDA_BYTECODEVISITOR_HPP
 #define MANDA_BYTECODEVISITOR_HPP
 
+#include "Kernel.hpp"
+
 namespace manda
 {
     namespace bytecode
     {
-        template<typename T>
-        class Visitor
+        class BytecodeVisitor
         {
         public:
+            virtual void visitKernel(Kernel &ctx);
         };
     }
 }

@@ -5,10 +5,10 @@
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
 #include <manda/bytecode/BytecodeVisitor.hpp>
+#include <manda/bytecode/Kernel.hpp>
 
-void manda::bytecode::BytecodeVisitor::visitKernel(manda::bytecode::Kernel &ctx)
+
+void manda::bytecode::Kernel::accept(manda::bytecode::BytecodeVisitor &visitor)
 {
-    for (auto &section : ctx.sections) {
-        section.accept(*this);
-    }
+    visitor.visitKernel(*this);
 }

@@ -11,14 +11,12 @@ namespace manda
 {
     namespace bytecode
     {
-        template<typename T>
         class BytecodeVisitor;
 
         class Node
         {
         public:
-            template<typename T>
-            virtual T accept(BytecodeVisitor<T> &visitor) = 0;
+            virtual void accept(BytecodeVisitor &visitor) = 0;
         };
     }
 }
