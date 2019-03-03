@@ -16,6 +16,11 @@ void manda::bytecode::BytecodeVisitor::visitAndInstruction(manda::bytecode::AndI
     // Do nothing.
 }
 
+void manda::bytecode::BytecodeVisitor::visitCallInstruction(manda::bytecode::CallInstruction &ctx)
+{
+    // Do nothing.
+}
+
 void manda::bytecode::BytecodeVisitor::visitCodeSection(manda::bytecode::CodeSection &ctx)
 {
     for (auto &label : ctx.labels) {

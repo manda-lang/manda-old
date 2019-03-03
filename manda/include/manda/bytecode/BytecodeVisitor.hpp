@@ -9,6 +9,7 @@
 
 #include "AddInstruction.hpp"
 #include "AndInstruction.hpp"
+#include "CallInstruction.hpp"
 #include "CodeSection.hpp"
 #include "DataSection.hpp"
 #include "Kernel.hpp"
@@ -25,6 +26,8 @@ namespace manda
             virtual void visitAddInstruction(AddInstruction &ctx);
 
             virtual void visitAndInstruction(AndInstruction &ctx);
+
+            virtual void visitCallInstruction(CallInstruction &ctx);
 
             virtual void visitCodeSection(CodeSection &ctx);
 
