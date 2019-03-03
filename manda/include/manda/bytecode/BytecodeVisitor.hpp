@@ -8,6 +8,7 @@
 #define MANDA_BYTECODEVISITOR_HPP
 
 #include "AddInstruction.hpp"
+#include "AndInstruction.hpp"
 #include "CodeSection.hpp"
 #include "DataSection.hpp"
 #include "Kernel.hpp"
@@ -22,6 +23,8 @@ namespace manda
         {
         public:
             virtual void visitAddInstruction(AddInstruction &ctx);
+
+            virtual void visitAndInstruction(AndInstruction &ctx);
 
             virtual void visitCodeSection(CodeSection &ctx);
 
