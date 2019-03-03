@@ -7,10 +7,18 @@
 #ifndef MANDA_VIRTUALMACHINE_HPP
 #define MANDA_VIRTUALMACHINE_HPP
 
-namespace manda {
-    namespace runtime {
-        class VirtualMachine {
+#include <memory>
+#include <vector>
+#include "Thread.hpp"
 
+namespace manda
+{
+    namespace runtime
+    {
+        class VirtualMachine
+        {
+        private:
+            std::vector<std::unique_ptr<Thread>> threads;
         };
     }
 }
