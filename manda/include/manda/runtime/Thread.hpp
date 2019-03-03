@@ -7,6 +7,7 @@
 #ifndef MANDA_THREAD_HPP
 #define MANDA_THREAD_HPP
 
+#include <cstdint>
 #include <manda/bytecode/bytecode.hpp>
 
 namespace manda
@@ -17,6 +18,9 @@ namespace manda
         {
         public:
             void loadKernel(bytecode::Kernel &kernel);
+
+        private:
+            uint64_t registers[256];
         };
     }
 }
