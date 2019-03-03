@@ -16,6 +16,7 @@ namespace manda
         class Instruction : public Node
         {
         public:
+            virtual ~Instruction() = default;
             virtual uint8_t getOpcode() const = 0;
         };
     }
