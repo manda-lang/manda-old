@@ -33,6 +33,23 @@ void manda::bytecode::BytecodeVisitor::visitDataSection(manda::bytecode::DataSec
     // Do nothing.
 }
 
+void manda::bytecode::BytecodeVisitor::visitDivInstruction(manda::bytecode::DivInstruction &ctx)
+{
+
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitDivRemainderInstruction(manda::bytecode::DivRemainderInstruction &ctx)
+{
+
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitJmpInstruction(manda::bytecode::JmpInstruction &ctx)
+{
+    // Do nothing.
+}
+
 void manda::bytecode::BytecodeVisitor::visitKernel(manda::bytecode::Kernel &ctx)
 {
     for (auto &section : ctx.sections) {
@@ -47,7 +64,67 @@ void manda::bytecode::BytecodeVisitor::visitLabel(manda::bytecode::Label &ctx)
     }
 }
 
+void manda::bytecode::BytecodeVisitor::visitLIInstruction(manda::bytecode::LIInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitMovInstruction(manda::bytecode::MovInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitMulInstruction(manda::bytecode::MulInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitOrInstruction(manda::bytecode::OrInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitPanicInstruction(manda::bytecode::PanicInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitPopErrorInstruction(manda::bytecode::PopErrorInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitPushErrorInstruction(manda::bytecode::PushErrorInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitRetInstruction(manda::bytecode::RetInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitSignedInstruction(manda::bytecode::SignedInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitSubInstruction(manda::bytecode::SubInstruction &ctx)
+{
+    // Do nothing.
+}
+
 void manda::bytecode::BytecodeVisitor::visitSyscallInstruction(manda::bytecode::SyscallInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitUnsignedInstruction(manda::bytecode::UnsignedInstruction &ctx)
+{
+    // Do nothing.
+}
+
+void manda::bytecode::BytecodeVisitor::visitXorInstruction(manda::bytecode::XorInstruction &ctx)
 {
     // Do nothing.
 }
