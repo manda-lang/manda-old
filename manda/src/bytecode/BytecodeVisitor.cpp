@@ -6,6 +6,11 @@
 // license that can be found in the LICENSE file.
 #include <manda/bytecode/BytecodeVisitor.hpp>
 
+void manda::bytecode::BytecodeVisitor::visitAddInstruction(manda::bytecode::AddInstruction &ctx)
+{
+    // Do nothing.
+}
+
 void manda::bytecode::BytecodeVisitor::visitCodeSection(manda::bytecode::CodeSection &ctx)
 {
     for (auto &label : ctx.labels) {

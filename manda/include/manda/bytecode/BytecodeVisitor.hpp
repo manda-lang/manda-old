@@ -7,6 +7,7 @@
 #ifndef MANDA_BYTECODEVISITOR_HPP
 #define MANDA_BYTECODEVISITOR_HPP
 
+#include "AddInstruction.hpp"
 #include "CodeSection.hpp"
 #include "DataSection.hpp"
 #include "Kernel.hpp"
@@ -20,6 +21,8 @@ namespace manda
         class BytecodeVisitor
         {
         public:
+            virtual void visitAddInstruction(AddInstruction &ctx);
+
             virtual void visitCodeSection(CodeSection &ctx);
 
             virtual void visitDataSection(DataSection &ctx);
