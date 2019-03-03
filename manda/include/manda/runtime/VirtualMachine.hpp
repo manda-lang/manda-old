@@ -17,6 +17,9 @@ namespace manda
     {
         class VirtualMachine
         {
+        public:
+            std::unique_ptr<Thread> &spawnThread();
+
         private:
             std::vector<std::unique_ptr<Thread>> threads;
         };
