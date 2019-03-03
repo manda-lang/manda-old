@@ -4,4 +4,10 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
-#include <manda/runtime/runtime.hpp>
+#ifndef MANDA_RUNTIME_HPP
+#define MANDA_RUNTIME_HPP
+
+#include "Thread.hpp"
+#include "VirtualMachine.hpp"
+
+#endif //MANDA_RUNTIME_HPP
