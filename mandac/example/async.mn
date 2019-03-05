@@ -1,0 +1,13 @@
+fn main {
+    var channel = Thread.spawn<FibonacciThread>(13)
+}
+
+class FibonacciThread : Thread<Int> {
+    override run(channel: Channel, input: Int) {
+        if (input < 0) {
+            
+        } else {
+
+        }
+    }
+}
