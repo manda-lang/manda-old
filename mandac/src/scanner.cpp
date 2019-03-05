@@ -4,7 +4,6 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
-#include <iostream>
 #include <lexer.hpp>
 #include "scanner.hpp"
 
@@ -39,7 +38,7 @@ void mandac::Scanner::add(mandac::TokenType::Enum type, std::string text)
     column += text.length();
 }
 
-void mandac::Scanner::addError(char ch)
+void mandac::Scanner::addError(const std::string &text)
 {
     // TODO: Add to error buf
 }

@@ -26,7 +26,7 @@ namespace mandac
 
         void add(TokenType::Enum type, std::string text);
 
-        void addError(char ch);
+        void addError(const std::string &text);
 
         void newline();
 
