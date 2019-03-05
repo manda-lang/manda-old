@@ -33,6 +33,7 @@ namespace mandac
         void whitespace();
 
     private:
+        unsigned long line, column;
         std::vector<Token> tokens;
         void *yyscanner;
 

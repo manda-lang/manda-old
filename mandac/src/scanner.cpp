@@ -10,6 +10,8 @@
 
 mandac::Scanner::Scanner()
 {
+    line = 1;
+    column = 0;
     manda_flex_lex_init(&yyscanner);
 }
 
@@ -32,9 +34,9 @@ void mandac::Scanner::scan(const std::string &text)
 void mandac::Scanner::add(mandac::TokenType::Enum type, std::string text)
 {
     // TODO: Flush errors
-    // TODO: Add tokens
-    // TODO: Increment lines, etc.
-    std::cout << "Hey: " << text << std::endl;
+    Token token = {type, text, line, column};
+    tokens.push_back(token);
+    column += text.length();
 }
 
 void mandac::Scanner::addError(char ch)
@@ -44,10 +46,11 @@ void mandac::Scanner::addError(char ch)
 
 void mandac::Scanner::newline()
 {
-    // TODO: Advance by one line
+    line++;
+    column = 0;
 }
 
 void mandac::Scanner::whitespace()
 {
-    // TODO: Advance by one column
+    column++;
 }
