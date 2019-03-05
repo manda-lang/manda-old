@@ -15,7 +15,8 @@ namespace mandac
     {
         enum Enum
         {
-            lParen
+            arrow, colon, dot, lCurly, rCurly, lParen, rParen,
+            lBracket, rBracket, fn, with, id
         };
     }
 
