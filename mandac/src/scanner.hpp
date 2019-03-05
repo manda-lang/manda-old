@@ -20,6 +20,8 @@ namespace mandac
 
         ~Scanner();
 
+        const std::vector<mandac::Token> &getTokens() const;
+
         void scan(const std::string &text);
 
         void add(TokenType::Enum type, std::string text);
@@ -31,6 +33,7 @@ namespace mandac
         void whitespace();
 
     private:
+        std::vector<Token> tokens;
         void **yyscanner;
 
         int scan();

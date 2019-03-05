@@ -17,6 +17,11 @@ mandac::Scanner::~Scanner()
     manda_flex_lex_destroy(yyscanner);
 }
 
+const std::vector<mandac::Token> &mandac::Scanner::getTokens() const
+{
+    return tokens;
+}
+
 void mandac::Scanner::scan(const std::string &text)
 {
     manda_flex__scan_string(text.c_str(), yyscanner);
