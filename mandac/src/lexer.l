@@ -11,6 +11,8 @@
 using namespace mandac::TokenType;
 %}
 
+\n { newline(); }
+[\r\t ] { whitespace(); }
 \( { add(lParen, yytext); }
 
 %%
