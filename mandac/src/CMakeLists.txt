@@ -1,0 +1,1 @@
+add_library(mandac scanner.cpp scanner.hpp token.cpp token.hpp)
