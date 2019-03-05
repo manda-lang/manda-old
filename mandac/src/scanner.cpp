@@ -4,7 +4,24 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
+#include <lexer.hpp>
 #include "scanner.hpp"
+
+mandac::Scanner::Scanner()
+{
+    manda_flex_lex_init(yyscanner);
+}
+
+mandac::Scanner::~Scanner()
+{
+    manda_flex_lex_destroy(yyscanner);
+}
+
+void mandac::Scanner::scan(const std::string &text)
+{
+    manda_flex__scan_string(text.c_str(), yyscanner);
+    scan();
+}
 
 void mandac::Scanner::add(mandac::TokenType::Enum type, std::string text)
 {
