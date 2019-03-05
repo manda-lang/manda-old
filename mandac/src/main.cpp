@@ -13,7 +13,7 @@ int main()
     scanner.scan(stdin);
 
     for (auto &token : scanner.getTokens()) {
-        std::cout << token.sourceUrl << ":" << token.line << ":" << token.column << ": " << token.text << std::endl;
+        std::cout << token.sourceUrl << ":" << token.line << ":" << token.column << ":" << token.text << std::endl;
     }
 
     return 0;
