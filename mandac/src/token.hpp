@@ -22,7 +22,7 @@ namespace mandac
     struct Token
     {
         TokenType::Enum type;
-        std::string text;
+        std::string sourceUrl, text;
         unsigned long line, column;
     };
 }

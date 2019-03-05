@@ -16,13 +16,15 @@ namespace mandac
     class Scanner
     {
     public:
-        Scanner();
+        Scanner(const std::string &sourceUrl);
 
         ~Scanner();
 
         const std::vector<mandac::Token> &getTokens() const;
 
         void scan(const std::string &text);
+
+        void scan(FILE* file);
 
         void add(TokenType::Enum type, std::string text);
 
@@ -34,6 +36,7 @@ namespace mandac
 
     private:
         unsigned long line, column;
+        const std::string sourceUrl;
         std::vector<Token> tokens;
         void *yyscanner;
 

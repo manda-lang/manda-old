@@ -7,7 +7,7 @@
 #include <lexer.hpp>
 #include "scanner.hpp"
 
-mandac::Scanner::Scanner()
+mandac::Scanner::Scanner(const std::string &sourceUrl) : sourceUrl(sourceUrl)
 {
     line = 1;
     column = 0;
@@ -30,10 +30,16 @@ void mandac::Scanner::scan(const std::string &text)
     scan();
 }
 
+void mandac::Scanner::scan(FILE *file)
+{
+    manda_flex_set_in(file, yyscanner);
+    scan();
+}
+
 void mandac::Scanner::add(mandac::TokenType::Enum type, std::string text)
 {
     // TODO: Flush errors
-    Token token = {type, text, line, column};
+    Token token = {type, sourceUrl, text, line, column};
     tokens.push_back(token);
     column += text.length();
 }

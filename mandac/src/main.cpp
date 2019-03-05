@@ -9,11 +9,11 @@
 
 int main()
 {
-    mandac::Scanner scanner;
-    scanner.scan("(a");
+    mandac::Scanner scanner("stdin");
+    scanner.scan(stdin);
 
     for (auto &token : scanner.getTokens()) {
-        std::cout << token.line << ":" << token.column << ": " << token.text << std::endl;
+        std::cout << token.sourceUrl << ":" << token.line << ":" << token.column << ": " << token.text << std::endl;
     }
 
     return 0;
