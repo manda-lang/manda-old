@@ -4,12 +4,13 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
+#include <iostream>
 #include <lexer.hpp>
 #include "scanner.hpp"
 
 mandac::Scanner::Scanner()
 {
-    manda_flex_lex_init(yyscanner);
+    manda_flex_lex_init(&yyscanner);
 }
 
 mandac::Scanner::~Scanner()
@@ -33,6 +34,7 @@ void mandac::Scanner::add(mandac::TokenType::Enum type, std::string text)
     // TODO: Flush errors
     // TODO: Add tokens
     // TODO: Increment lines, etc.
+    std::cout << "Hey: " << text << std::endl;
 }
 
 void mandac::Scanner::addError(char ch)

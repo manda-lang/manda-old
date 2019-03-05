@@ -15,7 +15,7 @@ namespace mandac
     {
         enum Enum
         {
-
+            lParen
         };
     }
 

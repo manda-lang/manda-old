@@ -34,7 +34,7 @@ namespace mandac
 
     private:
         std::vector<Token> tokens;
-        void **yyscanner;
+        void *yyscanner;
 
         int scan();
     };
