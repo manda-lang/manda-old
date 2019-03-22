@@ -1,0 +1,9 @@
+let type_match x = 
+    | Int -> "It's an integer!"
+    | String -> String.length x
+    | _ -> "What is this???"
+
+let value_match x =
+  match type_match x as msg with
+    | "It's an integer!" -> 1
+    | 
