@@ -3,5 +3,5 @@ flex_target(MandaFlex lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp
         COMPILE_FLAGS -Pmanda_flex_
         DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/lexer.hpp)
 add_executable(mandac ${FLEX_MandaFlex_OUTPUTS}
-        scanner.cpp scanner.hpp token.cpp token.hpp main.cpp)
+        scanner.cpp scanner.hpp token.cpp token.hpp main.cpp parser.cpp parser.hpp)
 target_include_directories(mandac PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

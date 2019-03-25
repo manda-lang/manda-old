@@ -4,16 +4,9 @@
 //
 // Use of this source code is governed by a
 // license that can be found in the LICENSE file.
-#include <iostream>
-#include "scanner.hpp"
 #include "parser.hpp"
 
-int main()
+mandac::Parser::Parser(const std::vector<mandac::Token> &tokens) : tokens(tokens)
 {
-    mandac::Scanner scanner("stdin");
-    scanner.scan(stdin);
 
-    mandac::Parser parser(scanner.getTokens());
-
-    return 0;
 }
