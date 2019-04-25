@@ -15,10 +15,14 @@ namespace mandac
     class Parser
     {
     public:
-        Parser(const std::vector<Token>& tokens);
+        explicit Parser(const std::vector<Token>& tokens);
+        bool next(TokenType::Enum type);
+        bool done();
 
     private:
         const std::vector<Token>& tokens;
+        long index;
+        Token current;
     };
 }
 
