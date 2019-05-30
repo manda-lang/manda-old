@@ -1,9 +1,0 @@
-// Manda allows top-level function declarations.
-//
-// Symbols in a module are private by default. Use "public"
-// to export them.
-public main(args: Array<String>): void {
-    // Do something...
-}
-
-foo(a: Int, b: Int = 2) => a + b

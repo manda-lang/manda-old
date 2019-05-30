@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.0)
-project(manda)
-set(CMAKE_CXX_STANDARD 11)
-include_directories(manda/include)
-add_subdirectory(manda)
-add_subdirectory(mandac)

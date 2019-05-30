@@ -1,5 +1,0 @@
-let isEven n =
-  (n % 2) == 0
-
-let parity = isEven 34;
-println (Int.toString parity)

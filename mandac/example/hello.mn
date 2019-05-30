@@ -1,3 +1,0 @@
-with IO
-
-fn main() : void => stdout.writeln("Hello, Manda!")

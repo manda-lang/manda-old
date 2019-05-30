@@ -1,8 +1,0 @@
-abstract class IFoo {
-    // Abstract methods have no body, and are
-    // only allowed in abstract classes.
-    implementThis(): void
-
-    // However, all methods can be overridden, thanks
-    // to VMT.
-}

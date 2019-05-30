@@ -1,8 +1,0 @@
-with IO
-
-fn isEven(n: Int) : bool => (n % 2) == 0
-
-fn main() : void {
-    var parity = isEven(34)
-    stdout.writeln(parity.toString())
-}
