@@ -1,2 +1,1 @@
-var obj = {name: "world"}
-println("Hello, %0!" % obj.name)
+fn main() => print("Hello, world!")

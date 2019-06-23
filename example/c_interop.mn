@@ -1,3 +1,0 @@
-var myLib = dlopen("path/to/library")
-var doIt = dlsym(myLib, "doIt")
-doIt(32)
