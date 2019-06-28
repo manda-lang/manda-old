@@ -1,2 +1,3 @@
 (lang dune 1.1)
-(project manda)
+(name manda)
+(using menhir 2.0)
