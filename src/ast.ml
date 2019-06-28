@@ -5,6 +5,7 @@ type prog_ctx =
   } 
 and top_level_ctx =
   | TopLevelClassCtx of class_ctx
+  | TopLevelFunctionCtx of function_ctx
 and class_ctx =
   ClassCtx of
   {

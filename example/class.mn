@@ -1,11 +1,9 @@
-// Can also say: type Animal = class {}
 abstract class Animal {
   get species: String
 
   makeSound(): void
 }
 
-// Can also say: type Bird = class extends Animal {}
 class Bird extends Animal {
   // Final fields create a getter automatically,
   // so this class fits the Animal blueprint.

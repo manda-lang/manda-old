@@ -9,7 +9,7 @@
 %%
 
 prog:
-  | t=list(top_level)
+  | t=list(top_level); EOF
     { 
       Some (Ast.ProgCtx { top_level=t })
     }
@@ -18,12 +18,13 @@ prog:
 
 top_level:
   | c=class_ { Ast.TopLevelClassCtx c }
+  | f=function_ { Ast.TopLevelFunctionCtx f }
 ;
 
 class_:
+  a=boption(ABSTRACT);
   CLASS;
   n=ID;
-  a=boption(ABSTRACT);
   e=option(extends);
   i=implements;
   LCURLY;
@@ -44,7 +45,7 @@ class_:
 extends: EXTENDS; t=type_ { t };
 
 implements:
-  | IMPLEMENTS; t=list(type_) { t }
+  | IMPLEMENTS; t=separated_list(COMMA, type_) { t }
   | { [] }
 ;
 
@@ -54,9 +55,9 @@ member:
 ;
 
 field:
-  n=ID;
   m=list(method_modifier);
-  t=option(type_);
+  n=ID;
+  t=option(extends);
   b=option(stmt);
   {
     Ast.FieldCtx
@@ -90,7 +91,9 @@ method_modifier:
 function_:
   FN;
   n=ID;
-  p=list(param);
+  LPAREN;
+  p=separated_list(COMMA, param);
+  RPAREN;
   r=option(returns);
   b=option(stmt);
   {

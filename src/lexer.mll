@@ -23,8 +23,8 @@ let id = ['A'-'Z' 'a'-'z' '_']['A'-'Z' 'a'-'z' '0'-'9' '_']*
 
 rule read =
   parse
-  | white    { read lexbuf }
-  | newline  { read lexbuf }
+  | white { read lexbuf }
+  | newline { read lexbuf }
   | "=>" { ARROW }
   | ":" { COLON }
   | "," { COMMA }
@@ -45,4 +45,4 @@ rule read =
   | "set" { SET }
   | id { ID (lexbuf.lex_curr_p, (Lexing.lexeme lexbuf)) }
   | _ { raise (MandaError (lexbuf.lex_curr_p, Error, ("Unexpected char: " ^ Lexing.lexeme lexbuf))) }
-  | eof      { EOF }
+  | eof { EOF }
